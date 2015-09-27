@@ -1,0 +1,20 @@
+[
+  {
+    "nYear":"2015",
+    "nMonth":"07",
+    "nDate":"18",
+    "Events":[
+      {
+        "sEventName": "Eid-Ul-Fitr",
+        "sDisplayName": "",
+        "sDate":"18-07-2015",
+        "nRegional": "1",
+        "nReligion": "1",
+        "sEventInfo": "1",
+        "nIsholiday": "1",
+        "nIsNationWideHoliday": "1",
+        "nIsWorldWideHoliday": "1"
+      }
+	 ]
+  }
+]

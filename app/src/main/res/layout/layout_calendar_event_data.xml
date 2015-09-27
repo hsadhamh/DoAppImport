@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/calendar_event_data_holder"
+    android:background="@color/bg_white">
+
+    <LinearLayout
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|top">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/calendar_event_date_type_image"
+            android:src = "@drawable/ic_calendar_text_black_36dp"
+            android:layout_gravity="center"
+            android:focusable="false"
+            android:padding="5px" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_margin="2px"
+        android:gravity="center"
+        android:focusable="false"
+        android:id="@+id/calendar_event_info_holder"
+        android:padding="3px"
+        android:background="@color/bg_white">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="New Text"
+            android:layout_weight="1"
+            android:id="@+id/calendar_event_data_desc"
+            android:layout_gravity="center"
+            android:focusable="false"
+            android:gravity="center|start"
+            android:textColor="#ff202020"
+            android:textSize="18sp"
+            android:textStyle="bold|normal" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="New Text"
+            android:layout_weight="1"
+            android:id="@+id/calendar_event_data_desc2"
+            android:gravity="center_vertical"
+            android:textStyle="bold|italic"
+            android:textSize="14sp"
+            android:textColor="#ff505050"
+            android:focusable="false"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="35dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <factor.labs.indiancalendar.CalendarUI.RippleViewLib.RippleView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            ripple:rv_type="simpleRipple">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="false"
+                android:gravity="center"
+                android:id="@+id/calendar_event_data_info"
+                android:src = "@drawable/ic_information_outline_black_36dp"
+                android:background="@color/bg_white" />
+
+        </factor.labs.indiancalendar.CalendarUI.RippleViewLib.RippleView>
+
+    </LinearLayout>
+
+</LinearLayout>

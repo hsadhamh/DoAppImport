@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="?android:actionBarSize"
+    android:orientation="horizontal"
+    android:id="@+id/calendar_action_bar_holder"
+    android:background="@color/primary"
+    android:elevation="4dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <factor.labs.indiancalendar.CalendarUI.RippleViewLib.RippleView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ripple="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        ripple:rv_type="simpleRipple">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:id = "@+id/calendar_action_drawer"
+            android:background="@color/primary"
+            android:padding = "5px"
+            android:src="@drawable/ic_menu_white_36dp" />
+
+    </factor.labs.indiancalendar.CalendarUI.RippleViewLib.RippleView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id = "@+id/calendar_action_title"
+        android:text = "Indian Calendar"
+        android:textColor="#ffffffff"
+        android:layout_gravity="center"
+        android:layout_weight="8"
+        android:gravity="center"
+        android:textAlignment="gravity"
+        android:background="@color/primary"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:typeface="serif" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:id = "@+id/calendar_action_go_today"
+        android:background="@color/primary"
+        android:padding = "5px"
+        android:src="@drawable/calendar_home" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:id = "@+id/calendar_action_add_event"
+        android:background="@color/primary"
+        android:visibility="gone"
+        android:padding = "5px"
+        android:src="@drawable/ic_calendar_plus_white_36dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:id = "@+id/calendar_action_share_app"
+        android:background="@color/primary"
+        android:padding = "5px"
+        android:src="@drawable/ic_share_white_36dp" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:id = "@+id/calendar_action_menu"
+        android:background="@color/primary"
+        android:padding = "5px"
+        android:src="@drawable/ic_dots_vertical_white_36dp" />
+
+</LinearLayout>

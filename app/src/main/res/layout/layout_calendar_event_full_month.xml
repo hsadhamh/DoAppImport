@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_white"
+    android:id="@+id/calendar_event_full_holder">
+
+
+    <LinearLayout
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center|top"
+        android:padding="3dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="25"
+            android:id="@+id/calendar_event_full_date"
+            android:layout_gravity="center|start|top"
+            android:gravity="center|top"
+            android:singleLine="true"
+            android:textSize="25sp"
+            android:textStyle="bold|normal"
+            android:textColor="@color/primary_text" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center|top"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="5dp"
+        android:id="@+id/calendar_event_full_desc_holder">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/calendar_event_full_desc"
+            android:layout_gravity="center|"
+            android:gravity="start|top"
+            android:textColor="@color/primary_text"
+            android:textSize="18sp"
+            android:textStyle="bold|normal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Event description"
+            android:id="@+id/calendar_event_full_desc2"
+            android:layout_gravity="center"
+            android:gravity="start|top"
+            android:textColor="@color/secondary_text"
+            android:textSize="15sp"
+            android:textStyle="normal|italic"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        android:id="@+id/calendar_event_full_info"
+        android:src="@drawable/ic_information_outline_black_36dp"
+        android:layout_gravity="center"
+        android:padding="2dp" />
+
+</LinearLayout>

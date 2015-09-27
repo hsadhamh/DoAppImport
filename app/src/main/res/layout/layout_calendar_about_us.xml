@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:gravity="center"
+    android:background="@color/primary_light"
+    android:id="@+id/calendar_about_us_holder"
+    android:padding="2dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OUR TEAM"
+        android:gravity="center"
+        android:textSize="35sp"
+        android:textColor="@color/secondary_text"
+        android:padding="5dp" />
+
+    <factor.labs.indiancalendar.CalendarUI.CalendarCircularImageView.CircularImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/calendar_about_us_image_a"
+        android:src="@drawable/dexter"
+        android:layout_gravity="center_horizontal"
+        android:padding="2dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="A YASEEN"
+        android:id="@+id/calendar_about_us_name_a"
+        android:gravity = "center"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.15"
+        android:textStyle="bold|normal"
+        android:textSize="30sp"
+        android:textColor="@color/primary_text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/calendar_about_us_divider"
+        android:layout_weight="0.04"
+        android:layout_gravity="center" />
+
+    <factor.labs.indiancalendar.CalendarUI.CalendarCircularImageView.CircularImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/calendar_about_us_image_s"
+        android:gravity = "center"
+        android:src="@drawable/dexter"
+        android:layout_gravity="center_horizontal"
+
+        android:padding="2dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="S HASSAN"
+        android:id="@+id/calendar_about_us_name_s"
+        android:gravity = "center"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.15"
+        android:textStyle="bold|normal"
+        android:textSize="30sp"
+        android:textColor="@color/primary_text"/>
+
+</LinearLayout>

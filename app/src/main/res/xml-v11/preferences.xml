@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.common.prefs.MaterialListPreference
+        android:entries="@array/country_selection"
+        android:entryValues="@array/country_selection"
+        android:key="unused_key01"
+        android:layout="@layout/preference_custom"
+        android:persistent="true"
+        android:summary="@string/fl_list_country_select_desc"
+        android:title="@string/fl_list_country_select_title" />
+
+</PreferenceScreen>

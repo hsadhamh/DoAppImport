@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="loadmore_pressed">#F57C00</color>
+    <color name="loadmore_normal">#FF9800</color>
+
+
+    <color name="primary">#FF9800</color>
+    <color name="primary_dark">#F57C00</color>
+    <color name="primary_light">#FFE0B2</color>
+    <color name="primary_light_light">#FFF3E0</color>
+    <color name="accent">#4CAF50</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="secondary_text_light">#CCCCCC</color>
+    <color name="icons">#212121</color>
+    <color name="divider">#B6B6B6</color>
+    <color name="light_grey_bg">#F3F3F3</color>
+    <color name="bg_white">#FFFFFF</color>
+    <color name="event_schedule_bday">#2E7D32</color>
+
+    <color name="event_ring_color">#FDD835</color>
+
+    <color name="Orange500">#FF9800</color>
+    <color name="Orange50">#FFF3E0</color>
+    <color name="Orange100">#FFE0B2</color>
+    <color name="Orange200">#FFCC80</color>
+    <color name="Orange300">#FFB74D</color>
+    <color name="Orange400">#FFA726</color>
+    <color name="OrangeA500">#FF9800</color>
+    <color name="Orange600">#FB8C00</color>
+    <color name="Orange700">#F57C00</color>
+    <color name="Orange800">#EF6C00</color>
+    <color name="Orange900">#E65100</color>
+    <color name="OrangeA100">#FFD180</color>
+    <color name="OrangeA200">#FFAB40</color>
+    <color name="OrangeA400">#FF9100</color>
+    <color name="OrangeQA500">#FF6D00</color>
+    <color name="Black">#000000</color>
+    <color name="White">#FFFFFF</color>
+    <color name="Grey500">#9E9E9E</color>
+    <color name="Grey50">#FAFAFA</color>
+    <color name="Grey100">#F5F5F5</color>
+    <color name="Grey200">#EEEEEE</color>
+    <color name="Grey300">#E0E0E0</color>
+    <color name="Grey400">#BDBDBD</color>
+    <color name="GreyZ500">#9E9E9E</color>
+    <color name="Grey600">#757575</color>
+    <color name="Grey700">#616161</color>
+    <color name="Grey800">#424242</color>
+    <color name="Grey900">#212121</color>
+
+    <color name="cpv_default_color">#2196F3</color>
+    <color name="md_btn_selected">#33969696</color>
+    <color name="md_btn_selected_dark">#40CBCBCB</color>
+
+    <color name="md_divider_black">#10000000</color>
+    <color name="md_divider_white">#10FFFFFF</color>
+
+    <color name="md_material_blue_600">#1E88E5</color>
+    <color name="md_material_blue_800">#1565C0</color>
+
+    <color name="md_edittext_error">#DD2C00</color>
+    <color name="blur">#80FFFFFF</color>
+    <color name="bg_event_religious">#B9F6CA</color>
+
+    <color name="dim_color_img">#80000000</color>
+    <color name="drawer_item_text_default">#E0E0E0</color>
+    <color name="drawer_item_text_checked">@color/primary</color>
+    <color name="drop_shadow">#88333333</color>
+</resources>

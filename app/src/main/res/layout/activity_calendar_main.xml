@@ -1,0 +1,59 @@
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id = "@+id/calendar_slider_holder"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id = "@+id/Calendar_main_holder">
+
+        <include
+            android:id="@+id/id_cal_action_bar"
+            layout="@layout/layout_calendar_action_bar" />
+        <View
+            android:id="@+id/id_cal_shadow_view"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/drawable_toolbar_shadow" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <!-- Framelayout to display Fragments -->
+            <FrameLayout
+                android:id="@+id/calendar_frame_holder"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_above="@+id/adView"
+                android:background="@color/bg_white" />
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="bottom|center"
+                android:background="@color/bg_white"
+                android:visibility="gone"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-7462033170287511/3490401389" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/calendar_list_slider"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/layout_calendar_drawer_header_item"
+        app:menu="@menu/calendar_menu_drawer"/>
+
+</android.support.v4.widget.DrawerLayout>
