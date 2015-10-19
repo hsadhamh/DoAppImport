@@ -76,12 +76,6 @@ public class labsCalendarUtils {
     static int[] arrReligion = { 0, R.drawable.hindu, R.drawable.islam, R.drawable.christian,
             R.drawable.jew, R.drawable.sikh, R.drawable.buddist, R.drawable.orthodox};
 
-    static int[] arrayMonImgs = {R.drawable.mon1, R.drawable.mon2, R.drawable.mon3, R.drawable.mon4,
-            R.drawable.mon5, R.drawable.mon6, R.drawable.mon7, R.drawable.mon8,
-            R.drawable.mon9, R.drawable.mon10, R.drawable.mon11, R.drawable.mon12};
-
-    public static int getMonImg(int mn){ return arrayMonImgs[mn-1];}
-
     public static int getNumberOfDatesForMonth(int nMonth, int nYear) {
         if(nMonth <= 0 || nMonth > 12)
             nMonth = 1;
