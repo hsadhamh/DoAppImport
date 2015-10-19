@@ -103,7 +103,7 @@ public class MaterialEditTextPreference extends EditTextPreference {
 
     @Override
     protected void showDialog(Bundle state) {
-        Builder mBuilder = new MaterialDialog.Builder(getContext())
+        Builder mBuilder = new Builder(getContext())
                 .title(getDialogTitle())
                 .icon(getDialogIcon())
                 .positiveText(getPositiveButtonText())

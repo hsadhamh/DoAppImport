@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@color/Grey100">
+
+    <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="No Events "
+        android:id="@+id/id_cal_empty_events"
+        android:textSize="10sp"
+        android:textColor="@color/Grey500"
+        android:background="@android:color/transparent"
+        android:textStyle="normal"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_cal_hidden_object"
+        android:background="@android:color/transparent"
+        android:visibility="gone"/>
+
+</LinearLayout>

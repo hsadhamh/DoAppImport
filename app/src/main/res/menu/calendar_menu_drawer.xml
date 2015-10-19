@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/group_events" android:checkableBehavior="single">
-
         <item
             android:id="@+id/id_cal_menu_home"
             android:checked="false"
             android:icon="@drawable/ic_home_nav_bar"
             android:title="Home" />
-
-        <item
-            android:id="@+id/id_cal_menu_events_schedule"
-            android:checked="false"
-            android:icon="@drawable/ic_event_note_menu"
-            android:title="Events Schedule" />
-
-        <item
-            android:id="@+id/id_cal_menu_religious"
-            android:checked="false"
-            android:icon="@drawable/ic_event_note_menu"
-            android:title="Religious Events" />
-
     </group>
 
     <group android:id="@+id/group_general" android:checkableBehavior="single">
@@ -27,9 +13,7 @@
             android:id="@+id/id_cal_menu_about"
             android:checked="false"
             android:icon="@drawable/ic_dev_group"
-            android:title="Our Team" />
-
-
+            android:title="About Dev" />
         <item
             android:id="@+id/id_cal_menu_rate_app"
             android:checked="false"

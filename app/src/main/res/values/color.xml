@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <color name="loadmore_pressed">#F57C00</color>
-    <color name="loadmore_normal">#FF9800</color>
-
-
-    <color name="primary">#FF9800</color>
-    <color name="primary_dark">#F57C00</color>
-    <color name="primary_light">#FFE0B2</color>
-    <color name="primary_light_light">#FFF3E0</color>
-    <color name="accent">#4CAF50</color>
+    <color name="primary">#009688</color>
+    <color name="primary_dark">#00796B</color>
+    <color name="primary_light">#B2DFDB</color>
+    <color name="accent">#FF4081</color>
+    <color name="accent_light">#FF80AB</color>
+    <color name="accent_light_light">#F8BBD0</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
-    <color name="secondary_text_light">#CCCCCC</color>
-    <color name="icons">#212121</color>
+    <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
+
+
+    <color name="primary_light_light">#B2DFDB</color>
+    <color name="secondary_text_light">#CCCCCC</color>
+
     <color name="light_grey_bg">#F3F3F3</color>
     <color name="bg_white">#FFFFFF</color>
     <color name="event_schedule_bday">#2E7D32</color>
 
     <color name="event_ring_color">#FDD835</color>
+    <color name="event_ring_holiday">#F44336</color>
+	
+	<color name="white">#ffffffff</color>
+    <color name="circle_background">#fff2f2f2</color>
+    <color name="line_background">#ffcccccc</color>
+    <color name="done_text_color_normal">#ff333333</color>
+    <color name="done_text_color_disabled">#ffcccccc</color>
+    <color name="blue">#19A094</color>
+    <color name="darker_blue">#009688</color>
+    <color name="date_picker_text_normal">#ff999999</color>
+    <color name="calendar_header">#009688</color>
+    <color name="date_picker_view_animator">#fff2f2f2</color>
+
+    <color name="ampm_text_color">#8c8c8c</color>
+    <color name="numbers_text_color">#8c8c8c</color>
+
+    <color name="transparent_black">#7F000000</color>
 
     <color name="Orange500">#FF9800</color>
     <color name="Orange50">#FFF3E0</color>
@@ -44,6 +61,7 @@
     <color name="Grey200">#EEEEEE</color>
     <color name="Grey300">#E0E0E0</color>
     <color name="Grey400">#BDBDBD</color>
+    <color name="Grey450">#B8B8B8</color>
     <color name="GreyZ500">#9E9E9E</color>
     <color name="Grey600">#757575</color>
     <color name="Grey700">#616161</color>
@@ -68,4 +86,6 @@
     <color name="drawer_item_text_default">#E0E0E0</color>
     <color name="drawer_item_text_checked">@color/primary</color>
     <color name="drop_shadow">#88333333</color>
+
+    <color name="c_event_religious">#673AB7</color>
 </resources>

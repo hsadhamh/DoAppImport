@@ -1,6 +1,7 @@
 package factor.labs.indiancalendar.CalendarUtils;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 
 import java.util.Calendar;
@@ -26,8 +27,19 @@ public class labsCalendarUtils {
     private static int nCurrentShowingMonth = 0;
     private static int nCurrentShowingYear = 0;
 
+    private static Typeface moRobotoFont = null;
+
+    public static Typeface getTypeFace(){ return moRobotoFont; }
+    public static void setTypeFace(Context c){
+        moRobotoFont = Typeface.createFromAsset(c.getAssets(), "Roboto-Regular.ttf");
+    }
+
     public static int getCountryPref(){ return nCountryPref; }
     public static void setCountryPref(int n){ nCountryPref = n; }
+
+    private static int nShowPreference = 0; // 1 for religious : 2 for holidays
+    public static int getShowPreference() { return nShowPreference; }
+    public static void setShowPreference(int n) { nShowPreference = n; }
 
     public static void initializeBase() {
         nCurrentShowingMonth = getCurrentMonth();
@@ -37,6 +49,7 @@ public class labsCalendarUtils {
     public static void initDatabase(Context oCon){
         if(sqliteCRUD == null)
             sqliteCRUD = new CalendarSQLiteCRUD(oCon);
+        setTypeFace(oCon);
     }
 
     public static CalendarSQLiteCRUD getCalendarDBHandler() { return sqliteCRUD; }
@@ -62,6 +75,12 @@ public class labsCalendarUtils {
 
     static int[] arrReligion = { 0, R.drawable.hindu, R.drawable.islam, R.drawable.christian,
             R.drawable.jew, R.drawable.sikh, R.drawable.buddist, R.drawable.orthodox};
+
+    static int[] arrayMonImgs = {R.drawable.mon1, R.drawable.mon2, R.drawable.mon3, R.drawable.mon4,
+            R.drawable.mon5, R.drawable.mon6, R.drawable.mon7, R.drawable.mon8,
+            R.drawable.mon9, R.drawable.mon10, R.drawable.mon11, R.drawable.mon12};
+
+    public static int getMonImg(int mn){ return arrayMonImgs[mn-1];}
 
     public static int getNumberOfDatesForMonth(int nMonth, int nYear) {
         if(nMonth <= 0 || nMonth > 12)
@@ -100,20 +119,22 @@ public class labsCalendarUtils {
         return -1;
     }
 
-    public static int getWeekIndexForDate(int nDate, int nMonth, int nYear)
-    {
-        Date oDate = new Date(nYear, nMonth, nDate);
+    public static int getWeekIndexForDate(int nDate, int nMonth, int nYear){
         Calendar oCalendar = GregorianCalendar.getInstance(Locale.getDefault());
-        oCalendar.setTime(oDate);
+        oCalendar.set(nYear, nMonth - 1, nDate);
         int nWeekIndex = oCalendar.get(oCalendar.DAY_OF_WEEK);
         return nWeekIndex;
     }
 
-    public static String getWeekNameForDate(int nDate, int nMonth, int nYear)
-    {
+    public static String getWeekNameForDate(int nDate, int nMonth, int nYear){
         int nWeek = getWeekIndexForDate(nDate, nMonth, nYear);
         String sWeekName = arrayShortWeeksNames[nWeek -1];
         return sWeekName.trim();
+    }
+
+    public static String getWeekForDate(int nDate, int nMonth, int nYear){
+        int nWeek = getWeekIndexForDate(nDate, nMonth, nYear);
+        return getWeekName(nWeek);
     }
 
     public static String getMonthName(int month) {
@@ -162,11 +183,6 @@ public class labsCalendarUtils {
         Calendar oCalendar = Calendar.getInstance(Locale.getDefault());
         int nYear = oCalendar.get(oCalendar.YEAR);
         return nYear;
-    }
-
-    public static String[] getSliderMenuItems()
-    {
-        return arraySliderMenuItems;
     }
 
     public static CalendarMonthYearClass subtractMonthYear(CalendarMonthYearClass oObject, int offset) {

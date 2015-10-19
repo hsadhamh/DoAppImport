@@ -25,6 +25,8 @@ public class CalendarConstants {
 
     public final static String CALENDAR_EVENT_SHARED_PREF = "PREF_SHOW_EVENTS";
     public static final String CALENDAR_SHARED_PREF_COUNTRY = "COUNTRY";
+    //public final static String CALENDAR_EVENT_SHARED_PREF = "PREF_SHOW_EVENTS";
+    public static final String CALENDAR_SHARED_PREF_CATEGORY = "CATEGORY";
 
     public final static int CALENDAR_SHOW_EVENT_FILTER = 0; // All events
     public final static int CALENDAR_SHOW_EVENT_US = 1; // All events

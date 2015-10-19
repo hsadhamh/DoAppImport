@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
     android:id = "@+id/calendar_week_name_holder">
-    <TextView
+    <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="WeekName Display"
         android:id="@+id/calendar_week_name_display"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textColor="@color/secondary_text"
-        android:textSize="12sp"
+        android:textColor="@color/Grey100"
+        android:textSize="11sp"
         android:textStyle="normal" />
 </LinearLayout>

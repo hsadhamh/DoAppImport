@@ -7,4 +7,10 @@
         <item>United States</item>
     </string-array>
 
+    <string-array name="event_category">
+        <item>ALL</item>
+        <item>Religious Events</item>
+        <item>Holidays</item>
+    </string-array>
+
 </resources>

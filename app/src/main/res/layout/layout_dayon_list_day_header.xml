@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_rectangle_event_date">
+
+    <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+        android:id="@+id/id_cal_day_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="bottom|start"
+        android:text=" Day Name Header "
+        android:textSize="15sp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="2dp"
+        android:textColor="@color/primary_material_dark"
+        android:background="@android:color/transparent"
+        android:textStyle="normal"
+        android:alpha=".9"/>
+
+    <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+        android:id="@+id/id_cal_date_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center|start"
+        android:text=" Day Name Header "
+        android:textSize="18sp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="2dp"
+        android:textColor="@color/primary_material_dark"
+        android:background="@android:color/transparent"
+        android:textStyle="normal|bold"
+        android:alpha=".9"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_cal_hidden_object"
+        android:background="@android:color/transparent"
+        android:visibility="gone"/>
+
+</LinearLayout>

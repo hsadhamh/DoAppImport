@@ -20,13 +20,16 @@ public class CalendarDateClass {
 
     int mnWeekName;
     int mnWeekNumber;
+    int mnListOffset = 0;
 
     public boolean mbEventsFound = false;
 
     private boolean mbHasHolidayEvent = false;
     private boolean mbHasReligiousEvent = false;
 
+    private boolean mbSelectedDate = false;
     List<CalendarEventMaster> mListOfEvents = new ArrayList<CalendarEventMaster>();
+    List<CalendarEventMaster> mListOfEventsInDisplay = new ArrayList<CalendarEventMaster>();
 
     int mnIsPrevNextMonthDate = 0; // 0 -> current month; 1-> nextMonth; -1 -> PrevMonth
 
@@ -37,6 +40,8 @@ public class CalendarDateClass {
         msDate = ""+mnDate;
         mnIsPrevNextMonthDate = nPrevNextMonthDate;
     }
+
+    void setSelected(boolean mb) { mbSelectedDate = mb; }
 
     public int getDate()
     {
@@ -50,6 +55,9 @@ public class CalendarDateClass {
     {
         return mnYear;
     }
+
+    public void setListOffset(int n) { mnListOffset = n; }
+    public int getListOffset() { return mnListOffset; }
 
     public void setHolidayFlag() { mbHasHolidayEvent = true; }
     public void setReligiousFlag() { mbHasReligiousEvent = true; }
@@ -71,10 +79,11 @@ public class CalendarDateClass {
     {
         return mnWeekName;
     }
-    public boolean isCurrentMonthDate()
-    {
+    public boolean isCurrentMonthDate() {
         return mnIsPrevNextMonthDate == CalendarConstants.CALENDAR_CURRENT_MONTH_DATE;
     }
+
+    public boolean isDateSelected(){ return mbSelectedDate; }
 
     public boolean isPreviousMonthDate()
     {
@@ -119,6 +128,11 @@ public class CalendarDateClass {
     public List<CalendarEventMaster> getEventsForDay()
     {
         return mListOfEvents;
+    }
+
+    public List<CalendarEventMaster> getEventsForDayInDisplay()
+    {
+        return mListOfEventsInDisplay;
     }
 
 }

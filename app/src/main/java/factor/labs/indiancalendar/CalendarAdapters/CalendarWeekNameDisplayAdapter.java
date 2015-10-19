@@ -61,7 +61,8 @@ public class CalendarWeekNameDisplayAdapter extends BaseAdapter {
                 convertView.setTag(holderView);
             }
             holderView = (CalendarWeekNameDisplayHolder) convertView.getTag();
-            holderView.oTextView.setText(sWeekName);
+            String strWeekName = sWeekName+"  ";
+            holderView.oTextView.setText(strWeekName);
 
             Log.d(sTag, "Created view for week name : " + sWeekName);
 

@@ -8,5 +8,5 @@ import android.support.v4.app.FragmentManager;
  */
 public interface CalendarGetContextInterface {
     public Context getContextActivity();
-    public android.support.v4.app.FragmentManager getActivityFragmentManager();
+    public FragmentManager getActivityFragmentManager();
 }

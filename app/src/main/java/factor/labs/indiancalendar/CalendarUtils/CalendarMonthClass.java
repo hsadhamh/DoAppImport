@@ -1,6 +1,5 @@
 package factor.labs.indiancalendar.CalendarUtils;
 
-import android.content.res.AssetManager;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -10,8 +9,6 @@ import java.util.List;
 import java.util.Vector;
 
 import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
-import factor.labs.indiancalendar.CalendarEventHandlers.CalendarEventDateClass;
-import factor.labs.indiancalendar.CalendarJSONLib.CalendarJsonParser;
 
 /**
  * Created by hassanhussain on 7/20/2015.
@@ -19,6 +16,8 @@ import factor.labs.indiancalendar.CalendarJSONLib.CalendarJsonParser;
 public class CalendarMonthClass {
     int mnMonth, mnYear;
     int mnTotalDaysInMonthGrid;
+    int mnOffsetInList = 0;
+    int mnSizeInList = 0;
 
     boolean bEventsLoaded = false;
 
@@ -26,7 +25,8 @@ public class CalendarMonthClass {
 
     List<CalendarDateClass> mListOfDatesInMonthGrid = new Vector<CalendarDateClass>();
 
-    List<CalendarEventMaster> mListOfEventsForMonth = null;
+    List<CalendarEventMaster> mListOfEventsForMonth = new ArrayList<>();
+    List<Object> moListEventViewsToDisplay = new ArrayList<>();
 
     public CalendarMonthClass(int nMonth, int nYear){
         sTag = "CalendarMonthClass()";
@@ -39,9 +39,19 @@ public class CalendarMonthClass {
     public int getMonth(){ return mnMonth; }
     public int getYear(){ return mnYear; }
 
+    public boolean hasLoadEventDone() { return bEventsLoaded; }
+
+    public int getListOffset(){ return mnOffsetInList; }
+    public void setListOffset(int n){ mnOffsetInList = n; }
+
+    public int getListSize(){ return mnSizeInList; }
+    public void setListSize(int n){ mnSizeInList = n; }
+
     public void prepareCalendarMonthDates(){
         sTag = "CalendarMonthClass.prepareCalendarMonthDates";
         try {
+            mnTotalDaysInMonthGrid = 42;
+
             int nMonth = mnMonth, nYear = mnYear, nPrevYear = nYear;
             int nNextYear = nYear, nPrevMonth = nMonth - 1, nNextMonth = nMonth + 1;
 
@@ -76,10 +86,6 @@ public class CalendarMonthClass {
             Log.d(sTag, "Previous month days [" + nPrevNoMonthDays + "].");
             nNextMonthDays = ((nPrevNoMonthDays + nDaysOfCurrentMonth) % 7);
             Log.d(sTag, "Next month days [" + nNextMonthDays + "].");
-            if (nNextMonthDays > 0)
-                mnTotalDaysInMonthGrid = nPrevNoMonthDays + nDaysOfCurrentMonth + (7 - nNextMonthDays);
-            else
-                mnTotalDaysInMonthGrid = nPrevNoMonthDays + nDaysOfCurrentMonth;
 
             Log.d(sTag, "total month days [" + mnTotalDaysInMonthGrid + "].");
             // Previous month days.
@@ -90,14 +96,16 @@ public class CalendarMonthClass {
             //  Current month days
             for (int iter = 1; iter <= nDaysOfCurrentMonth; iter++) {
                 CalendarDateClass oDateObject = new CalendarDateClass(iter, mnMonth, mnYear, CalendarConstants.CALENDAR_CURRENT_MONTH_DATE);
+                if(iter == labsCalendarUtils.getTodaysDate() &&
+                        mnMonth == labsCalendarUtils.getCurrentMonth() &&
+                        mnYear == labsCalendarUtils.getCurrentYear())
+                    oDateObject.setSelected(true);
                 mListOfDatesInMonthGrid.add(oDateObject);
             }
             // next month days.
-            if (nNextMonthDays > 0) {
-                for (int iter = 1; iter <= (7 - nNextMonthDays); iter++) {
-                    CalendarDateClass oDateObject = new CalendarDateClass(iter, nNextMonth, nNextYear, CalendarConstants.CALENDAR_NEXT_MONTH_DATE);
-                    mListOfDatesInMonthGrid.add(oDateObject);
-                }
+            for (int iter = 1; iter <= (42 - (nPrevNoMonthDays + nDaysOfCurrentMonth)); iter++) {
+                CalendarDateClass oDateObject = new CalendarDateClass(iter, nNextMonth, nNextYear, CalendarConstants.CALENDAR_NEXT_MONTH_DATE);
+                mListOfDatesInMonthGrid.add(oDateObject);
             }
         }
         catch(Exception exec)
@@ -110,9 +118,14 @@ public class CalendarMonthClass {
     {
         sTag = "CalendarMonthClass.onPrepareListOfEventsForMonth";
         try {
-            mListOfEventsForMonth = labsCalendarUtils.getCalendarDBHandler().getHolidayReligiousEventsForMonth(mnMonth, mnYear);
-            if(mListOfEventsForMonth == null || mListOfEventsForMonth.size() == 0)
-                Log.w(sTag, "Total number of events returned for month ["+ mnMonth +"] Year [" + mnYear + "] is zero.");
+            List<CalendarEventMaster> listEvents = labsCalendarUtils.getCalendarDBHandler().getHolidayReligiousEventsForMonth(mnMonth, mnYear);
+            if(listEvents == null || listEvents.size() == 0) {
+                Log.w(sTag, "Total number of events returned for month [" + mnMonth + "] Year [" + mnYear + "] is zero.");
+            }
+            else {
+                mListOfEventsForMonth.clear();
+                mListOfEventsForMonth.addAll(listEvents);
+            }
         }catch(Exception exec) {
             Log.e(sTag, "Exception caught : " + exec.getMessage());
         }
@@ -120,13 +133,74 @@ public class CalendarMonthClass {
     }
 
     public List<CalendarEventMaster> getEventsForMonth(){
-        if(!bEventsLoaded)
+        if(!bEventsLoaded) {
             bEventsLoaded = onPrepareListOfEventsForMonth();
+        }
         return mListOfEventsForMonth;
     }
 
-    public List<CalendarDateClass> getDateForGrid()
+    public CalendarEventMonthListItem getHeaderItem()
     {
+        return new CalendarEventMonthListItem(getMonth(), getYear());
+    }
+
+    public List<Object> getEventsAndViewsForMonth(){
+        int nShowPref = labsCalendarUtils.getShowPreference();
+        if(!bEventsLoaded) {
+            bEventsLoaded = onPrepareListOfEventsForMonth();
+            //  Load views for ListView.
+            for (CalendarEventMaster oEventDate : mListOfEventsForMonth) {
+                CalendarDateClass oDate = getDateObject(oEventDate.getDate(), mnMonth);
+                if (oDate != null) {
+                    Log.d(sTag, "Set grid dates for month [" + mnMonth + "] date [" + oEventDate.getDate() + "].");
+                    oDate.addEventsForDay(oEventDate);
+                }
+            }
+        }
+
+        moListEventViewsToDisplay.clear();
+        //  add views now.
+        // -- first and fore most MONTH
+        for(CalendarDateClass oDate : mListOfDatesInMonthGrid){
+
+            if(oDate.isCurrentMonthDate()) {
+                moListEventViewsToDisplay.add(new CalendarEventDateListItem(oDate.getDate(), oDate.getMonth(), oDate.getYear(), moListEventViewsToDisplay.size()));
+                oDate.setListOffset(moListEventViewsToDisplay.size());
+                List<CalendarEventMaster> listEvents = oDate.getEventsForDay();
+
+                int nEventsFound = 0;
+                if (listEvents != null){
+                    oDate.getEventsForDayInDisplay().clear();
+                    for (CalendarEventMaster oEvent : listEvents) {
+                        CalendarEventListItem oE = new CalendarEventListItem(oEvent, moListEventViewsToDisplay.size());
+                        if(nShowPref == 1 && oEvent.isReligionEvent()){
+                            moListEventViewsToDisplay.add(oE);
+                            oDate.getEventsForDayInDisplay().add(oEvent);
+                        } // religious
+                        else if(nShowPref == 2 && oEvent.isHolidayEvent()){
+                            moListEventViewsToDisplay.add(oE);
+                            oDate.getEventsForDayInDisplay().add(oEvent);
+                        } // holidays
+                        else if(nShowPref == 0){
+                            moListEventViewsToDisplay.add(oE);
+                            oDate.getEventsForDayInDisplay().add(oEvent);
+                        } // all events
+                    }
+                }
+
+                if(oDate.getEventsForDayInDisplay().size() == 0){
+                    CalendarEmptyEventListItem oEmp =
+                            new CalendarEmptyEventListItem(oDate.getDate(), oDate.getMonth(),
+                                    oDate.getYear(), moListEventViewsToDisplay.size());
+                    moListEventViewsToDisplay.add(oEmp);
+                }
+            }
+        }
+        mnSizeInList = moListEventViewsToDisplay.size();
+        return moListEventViewsToDisplay;
+    }
+
+    public List<CalendarDateClass> getDateForGrid(){
         return mListOfDatesInMonthGrid;
     }
 

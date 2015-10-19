@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="60dp"
+    android:background="@color/Grey50">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/id_cal_event_item_holder"
+        android:background="@android:color/transparent">
+
+        <ImageView
+            android:layout_width="35dp"
+            android:minHeight="60dp"
+            android:layout_height="wrap_content"
+            android:id = "@+id/id_cal_event_category"
+            android:padding="5dp"
+            android:layout_gravity="center"
+            android:alpha=".4"
+            android:src="@drawable/abc_btn_radio_to_on_mtrl_015"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="60dp"
+            android:orientation="vertical"
+            android:id = "@+id/id_cal_event_detail_holder"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="5dp">
+
+            <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                android:id = "@+id/id_cal_event_detail_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="@color/Grey900"
+                android:gravity="center|start"
+                android:background="@android:color/transparent"
+                android:textStyle="bold"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text = "Event Name"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/id_cal_event_loc_holder"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="2dp"
+                    android:src = "@drawable/ic_map_marker_grey600_18dp"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id = "@+id/id_cal_event_detail_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/Grey700"
+                    android:gravity="center|start"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text = "Event Location"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="2dp"
+                    android:src = "@drawable/ic_clock_grey600_18dp"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id = "@+id/id_cal_event_detail_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/Grey600"
+                    android:gravity="center|start"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text = "Event Time"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/id_cal_hidden_object"
+            android:background="@android:color/transparent"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+</LinearLayout>
