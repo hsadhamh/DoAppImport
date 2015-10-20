@@ -135,12 +135,29 @@ public class CalendarMonthClass {
     public List<CalendarEventMaster> getEventsForMonth(){
         if(!bEventsLoaded) {
             bEventsLoaded = onPrepareListOfEventsForMonth();
+
+            for (CalendarEventMaster oEventDate : mListOfEventsForMonth) {
+                CalendarDateClass oDate = getDateObject(oEventDate.getDate(), mnMonth);
+                if (oDate != null) {
+                    boolean found = false;
+                    for(CalendarEventMaster event : oDate.getEventsForDay())
+                    {
+                        if(event.getEventID() == oEventDate.getEventID()) {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found) {
+                        Log.d(sTag, "Set grid dates for month [" + mnMonth + "] date [" + oEventDate.getDate() + "].");
+                        oDate.addEventsForDay(oEventDate);
+                    }
+                }
+            }
         }
         return mListOfEventsForMonth;
     }
 
-    public CalendarEventMonthListItem getHeaderItem()
-    {
+    public CalendarEventMonthListItem getHeaderItem(){
         return new CalendarEventMonthListItem(getMonth(), getYear());
     }
 
@@ -152,8 +169,19 @@ public class CalendarMonthClass {
             for (CalendarEventMaster oEventDate : mListOfEventsForMonth) {
                 CalendarDateClass oDate = getDateObject(oEventDate.getDate(), mnMonth);
                 if (oDate != null) {
-                    Log.d(sTag, "Set grid dates for month [" + mnMonth + "] date [" + oEventDate.getDate() + "].");
-                    oDate.addEventsForDay(oEventDate);
+                    boolean found = false;
+                    for(CalendarEventMaster event : oDate.getEventsForDay())
+                    {
+                        if(event.getEventID() == oEventDate.getEventID()) {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if(!found) {
+                        Log.d(sTag, "Set grid dates for month [" + mnMonth + "] date [" + oEventDate.getDate() + "].");
+                        oDate.addEventsForDay(oEventDate);
+                    }
                 }
             }
         }

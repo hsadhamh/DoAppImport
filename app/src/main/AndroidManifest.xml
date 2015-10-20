@@ -21,6 +21,7 @@
         </activity>
 
         <activity android:label="@string/app_name" android:name=".DayOnWeekViewActivity"/>
+        <activity android:label="@string/app_name" android:name=".DayOnYearViewActivity"/>
 
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

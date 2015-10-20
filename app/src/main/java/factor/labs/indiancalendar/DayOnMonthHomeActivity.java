@@ -916,7 +916,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     }
 
     void ShowTest(){
-        Intent myIntent = new Intent(DayOnMonthHomeActivity.this, DayOnWeekViewActivity.class);
+        Intent myIntent = new Intent(DayOnMonthHomeActivity.this, DayOnYearViewActivity.class);
         myIntent.putExtra("key", "test"); //Optional parameters
         DayOnMonthHomeActivity.this.startActivity(myIntent);
     }

@@ -33,8 +33,7 @@ public class DayOnMonthGridFragment extends Fragment {
 
     boolean mbViewCreated = false;
 
-    public static DayOnMonthGridFragment init(int mon, int yr, Activity oCallback)
-    {
+    public static DayOnMonthGridFragment init(int mon, int yr, Activity oCallback){
         DayOnMonthGridFragment oDayOn = new DayOnMonthGridFragment();
         oDayOn.setMonth(mon);
         oDayOn.setYear(yr);
