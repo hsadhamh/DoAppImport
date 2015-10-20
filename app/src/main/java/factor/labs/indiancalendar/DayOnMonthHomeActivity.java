@@ -350,6 +350,10 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                         new LoadFirstMonths().execute();
                         return true;
 
+                    case R.id.id_cal_menu_test:
+                        ShowTest();
+                        return true;
+
                     case R.id.id_cal_menu_rate_app:
                         RateThisApp.showRateDialog(DayOnMonthHomeActivity.this);
                         return true;
@@ -909,5 +913,11 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             updateListForMonth();
             doSetListAdapter(true);
         }
+    }
+
+    void ShowTest(){
+        Intent myIntent = new Intent(DayOnMonthHomeActivity.this, DayOnWeekViewActivity.class);
+        myIntent.putExtra("key", "test"); //Optional parameters
+        DayOnMonthHomeActivity.this.startActivity(myIntent);
     }
 }

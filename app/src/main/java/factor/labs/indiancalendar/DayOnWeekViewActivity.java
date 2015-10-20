@@ -6,11 +6,14 @@ package factor.labs.indiancalendar;
 
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import factor.labs.indiancalendar.CalendarUI.DayOnWeekView.*;
@@ -28,12 +31,29 @@ public class DayOnWeekViewActivity extends AppCompatActivity implements WeekView
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
+
     private WeekView mWeekView;
+    private Toolbar moActionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_dayon_week_view_activity );
+        setContentView(R.layout.layout_dayon_week_view_activity);
+
+        moActionBar = (Toolbar) findViewById(R.id.id_cal_action_bar);
+
+        setSupportActionBar(moActionBar);
+
+        moActionBar.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        moActionBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);

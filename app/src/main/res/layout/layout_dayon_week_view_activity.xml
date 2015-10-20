@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyActivity"
-    android:background="#fff">
+    android:background="#fff"
+    android:orientation="vertical">
 
-    <com.alamkanak.weekview.WeekView
+    <include
+        android:id="@+id/id_cal_action_bar"
+        layout="@layout/layout_calendar_action_bar" />
+
+    <factor.labs.indiancalendar.CalendarUI.DayOnWeekView.WeekView
         android:id="@+id/weekView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,4 +29,4 @@
         app:headerColumnBackground="#ffffffff"
         app:todayHeaderTextColor="@color/accent"/>
 
-</RelativeLayout>
+</LinearLayout>

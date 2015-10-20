@@ -15,6 +15,11 @@
             android:icon="@drawable/ic_dev_group"
             android:title="About Dev" />
         <item
+            android:id="@+id/id_cal_menu_test"
+            android:checked="false"
+            android:icon="@drawable/ic_dev_group"
+            android:title="test" />
+        <item
             android:id="@+id/id_cal_menu_rate_app"
             android:checked="false"
             android:icon="@drawable/ic_start_rate_nav"
