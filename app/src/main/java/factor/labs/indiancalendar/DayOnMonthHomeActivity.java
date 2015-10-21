@@ -353,6 +353,10 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                     case R.id.id_cal_menu_test:
                         ShowTest();
                         return true;
+                    case R.id.id_cal_menu_webservice:
+                        Intent webServiceIntent = new Intent(DayOnMonthHomeActivity.this, DayOnWebservicesActivity.class);
+                        DayOnMonthHomeActivity.this.startActivity(webServiceIntent);
+                        return true;
 
                     case R.id.id_cal_menu_rate_app:
                         RateThisApp.showRateDialog(DayOnMonthHomeActivity.this);
