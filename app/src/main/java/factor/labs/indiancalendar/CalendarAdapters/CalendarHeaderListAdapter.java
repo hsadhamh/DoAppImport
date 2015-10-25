@@ -12,17 +12,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
+import factor.labs.indiancalendar.CalendarInterfaces.IDayOnEventInfoClick;
 import factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.SectionAdapter;
-import factor.labs.indiancalendar.CalendarUtils.CalendarEmptyEventListItem;
-import factor.labs.indiancalendar.CalendarUtils.CalendarEventDateListItem;
-import factor.labs.indiancalendar.CalendarUtils.CalendarEventListItem;
-import factor.labs.indiancalendar.CalendarUtils.CalendarEventMonthListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEmptyEventListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEventDateListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEventListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
 import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListDate;
 import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListEmpty;
@@ -41,13 +41,17 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
     Map<Integer,Object> moHeaderObjects = new LinkedHashMap<>();
     Map<Integer,List<Object>> moRowObjects = new LinkedHashMap<>();
 
+    IDayOnEventInfoClick mCallback;
+
     public CalendarHeaderListAdapter(Context oCon,
                                      Map<Integer,Object> listheader,
-                                     Map<Integer,List<Object>> listRows) {
+                                     Map<Integer,List<Object>> listRows,
+                                     IDayOnEventInfoClick callback) {
         mContext = oCon;
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         moHeaderObjects.putAll(listheader);
         moRowObjects.putAll(listRows);
+        mCallback = callback;
     }
 
     Map<Integer,Object> getHeaderList() { return moHeaderObjects; }
@@ -195,6 +199,18 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
                         }
                         holder4.hidden.setTag(obj3);
                     }
+
+                    convertView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Object obj = v.getTag();
+                            if(obj instanceof DayOnEventListItem){
+                                CalendarEventMaster oEve = ((CalendarEventListItem)((DayOnEventListItem)obj).hidden.getTag()).oEventInfo;
+                                if(mCallback != null)
+                                    mCallback.ShowInfoDialog(oEve);
+                            }
+                        }
+                    });
                     break;
             }
         }

@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.Button;
 
+import factor.labs.indiancalendar.CalendarUtils.Typefaces;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
 
 /**
@@ -35,6 +36,6 @@ public class ExtendedButton extends Button {
     }
 
     public void setRobotoFont(){
-        setTypeface(labsCalendarUtils.getTypeFace());
+        setTypeface(Typefaces.getRobotoRegular(getContext()));
     }
 }

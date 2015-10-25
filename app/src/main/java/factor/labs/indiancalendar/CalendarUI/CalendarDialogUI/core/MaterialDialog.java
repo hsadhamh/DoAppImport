@@ -47,7 +47,7 @@ import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.internal.MDRo
 import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.internal.MDTintHelper;
 import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.internal.ThemeSingleton;
 import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.util.DialogUtils;
-import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.util.TypefaceHelper;
+import factor.labs.indiancalendar.CalendarUtils.Typefaces;
 import factor.labs.indiancalendar.R;
 
 import java.text.NumberFormat;
@@ -463,10 +463,6 @@ public class MaterialDialog extends DialogBase implements
             return itemColor;
         }
 
-        public final Typeface getRegularFont() {
-            return regularFont;
-        }
-
         public Builder(@NonNull Context context) {
             this.context = context;
             final int materialBlue = ContextCompat.getColor(context, R.color.md_material_blue_600);
@@ -505,15 +501,15 @@ public class MaterialDialog extends DialogBase implements
             if (this.mediumFont == null) {
                 try {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                        this.mediumFont = Typeface.create("sans-serif-medium", Typeface.NORMAL);
+                        this.mediumFont = Typefaces.getRobotoMedium(getContext());
                     else
-                        this.mediumFont = Typeface.create("sans-serif", Typeface.BOLD);
+                        this.mediumFont = Typefaces.getRobotoRegular(getContext());
                 } catch (Exception ignored) {
                 }
             }
             if (this.regularFont == null) {
                 try {
-                    this.regularFont = Typeface.create("sans-serif", Typeface.NORMAL);
+                    this.regularFont = Typefaces.getRobotoRegular(getContext());
                 } catch (Exception ignored) {
                 }
             }
@@ -607,8 +603,7 @@ public class MaterialDialog extends DialogBase implements
         }
 
         /**
-         * Sets the fonts used in the dialog, by file names. This also uses TypefaceHelper in order
-         * to avoid any un-needed allocations (it recycles typefaces for you).
+         * Sets the fonts used in the dialog, by file names.
          *
          * @param medium  The name of font in assets/fonts used on titles and action buttons (null uses device default). E.g. [your-project]/app/main/assets/fonts/[medium]
          * @param regular The name of font in assets/fonts used everywhere else, like content and list items (null uses device default). E.g. [your-project]/app/main/assets/fonts/[regular]
@@ -616,12 +611,12 @@ public class MaterialDialog extends DialogBase implements
          */
         public Builder typeface(@Nullable String medium, @Nullable String regular) {
             if (medium != null) {
-                this.mediumFont = TypefaceHelper.get(this.context, medium);
+                this.mediumFont = Typefaces.getRobotoMedium(this.context);
                 if (this.mediumFont == null)
                     throw new IllegalArgumentException("No font asset found for " + medium);
             }
             if (regular != null) {
-                this.regularFont = TypefaceHelper.get(this.context, regular);
+                this.regularFont = Typefaces.getRobotoRegular(this.context);
                 if (this.regularFont == null)
                     throw new IllegalArgumentException("No font asset found for " + regular);
             }

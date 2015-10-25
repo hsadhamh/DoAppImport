@@ -1,6 +1,7 @@
-package factor.labs.indiancalendar.CalendarUtils;
+package factor.labs.indiancalendar.CalendarObjects;
 
 import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
+import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
 
 /**
  * Created by hassanhussain on 10/8/2015.
@@ -12,7 +13,7 @@ public class CalendarEventListItem {
 
     public boolean visible = true;
 
-    CalendarEventListItem(CalendarEventMaster obj, int n){
+    public CalendarEventListItem(CalendarEventMaster obj, int n){
         date = obj.getDate();
         mon = obj.getMonth();
         yr = obj.getYear();

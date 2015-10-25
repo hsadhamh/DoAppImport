@@ -1,4 +1,4 @@
-package factor.labs.indiancalendar.CalendarWebServices;
+package factor.labs.indiancalendar.CalendarServices;
 
 /**
  * Created by Ahamed.Yaseen on 21-10-2015.
@@ -12,15 +12,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBController  extends SQLiteOpenHelper {
 

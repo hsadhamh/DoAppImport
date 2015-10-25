@@ -1,8 +1,11 @@
 package factor.labs.indiancalendar;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -37,8 +40,11 @@ import java.util.Queue;
 
 import factor.labs.indiancalendar.CalendarAdapters.CalendarHeaderListAdapter;
 import factor.labs.indiancalendar.CalendarAdapters.CalendarWeekNameDisplayAdapter;
+import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
 import factor.labs.indiancalendar.CalendarInterfaces.CalendarDateClickListenerInterface;
 import factor.labs.indiancalendar.CalendarInterfaces.DayOnHeaderClickListener;
+import factor.labs.indiancalendar.CalendarInterfaces.ICalendarService;
+import factor.labs.indiancalendar.CalendarInterfaces.IDayOnEventInfoClick;
 import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.MaterialDialog;
 import factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.HeaderListView;
 import factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.SectionAdapter;
@@ -49,21 +55,24 @@ import factor.labs.indiancalendar.CalendarUI.DayOnDatePicker.date.*;
 import factor.labs.indiancalendar.CalendarUI.DayOnFAB.FloatingActionButton;
 import factor.labs.indiancalendar.CalendarUI.DayOnFAB.FloatingActionMenu;
 import factor.labs.indiancalendar.CalendarUtils.CalendarDateClass;
-import factor.labs.indiancalendar.CalendarUtils.CalendarEmptyEventListItem;
-import factor.labs.indiancalendar.CalendarUtils.CalendarEventDateListItem;
-import factor.labs.indiancalendar.CalendarUtils.CalendarEventListItem;
-import factor.labs.indiancalendar.CalendarUtils.CalendarMonthYearClass;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEmptyEventListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEventDateListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEventListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarMonthYearClass;
 import factor.labs.indiancalendar.CalendarViewHolders.*;
 import factor.labs.indiancalendar.CalendarAdapters.DayonPentaMonthAdapter;
-import factor.labs.indiancalendar.CalendarUtils.CalendarEventMonthListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
+import factor.labs.indiancalendar.CalendarServices.DayOnAndroidService;
+import factor.labs.indiancalendar.DayOnActivities.DayOnPreferenceActivity;
 
 /**
  * Created by hassanhussain on 9/30/2015.
  */
 public class DayOnMonthHomeActivity extends AppCompatActivity implements
         DayOnHeaderClickListener,
-        CalendarDateClickListenerInterface {
+        CalendarDateClickListenerInterface,
+        IDayOnEventInfoClick {
 
     String sTag;
     int mnSelectedPage = 1;
@@ -107,6 +116,20 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     boolean mbPageSelectedInPage = false;
     boolean mbLockScroll = false;
 
+    ICalendarService mService = null;
+    ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mService = ((DayOnAndroidService.DayOnServiceBinder)service).getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            if(mService != null)
+                mService = null;
+        }
+    };
+
     class DayOnLoadMoreEventsObject{
         int UpOrDown;
         DayOnMonthGridFragment dayonObj;
@@ -132,6 +155,14 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         super.onResume();
         labsCalendarUtils.initDatabase(getApplicationContext());
         Log.d(sTag, "base initialize.");
+        Intent oIntent = new Intent(DayOnMonthHomeActivity.this, DayOnAndroidService.class);
+        oIntent.putExtra("TaskType", 0);
+        startService(oIntent);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
     }
 
     void addMobileAdModule(){
@@ -211,7 +242,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     }
 
     protected void onCreate(Bundle savedInstanceState) {
-        sTag = "DayOnMonthHomeActivity.onCreateView";
+        sTag = "DayOnMonthHomeActivity.onCreate";
         try
         {
             super.onCreate(savedInstanceState);
@@ -240,9 +271,8 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             mnLastDateSelected = labsCalendarUtils.getTodaysDate();
             moEventsList.setHeaderTouchListener(this);
             moPager.setOffscreenPageLimit(1);
-            //moPager.setAnimationType(CalendarViewPager.TransformType.SLIDE_OVER);
 
-            addMobileAdModule();
+            //addMobileAdModule();
 
             new LoadFirstMonths().execute();
         }
@@ -354,8 +384,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                         ShowTest();
                         return true;
                     case R.id.id_cal_menu_webservice:
-                        Intent webServiceIntent = new Intent(DayOnMonthHomeActivity.this, DayOnWebservicesActivity.class);
-                        DayOnMonthHomeActivity.this.startActivity(webServiceIntent);
+                        showPreferenceDialogs();
                         return true;
 
                     case R.id.id_cal_menu_rate_app:
@@ -493,7 +522,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         oList.setDivider(null);
         oList.setDividerHeight(0);
         moListAdapter = new CalendarHeaderListAdapter(getApplicationContext(),
-                moListHeaders, moListDayEvents);
+                moListHeaders, moListDayEvents, this);
         moEventsList.setAdapter(moListAdapter);
         moListAdapter.notifyDataSetChanged();
     }
@@ -924,4 +953,18 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         myIntent.putExtra("key", "test"); //Optional parameters
         DayOnMonthHomeActivity.this.startActivity(myIntent);
     }
+
+    @Override
+    public void ShowInfoDialog(CalendarEventMaster oEve){
+        new MaterialDialog.Builder(DayOnMonthHomeActivity.this)
+                .title(oEve.getInfoDescription())
+                .content(oEve.getInfoWiki())
+                .positiveText("Close")
+                .show();
+    }
+
+    public void showPreferenceDialogs() {
+        startActivity(new Intent(getApplicationContext(), DayOnPreferenceActivity.class));
+    }
+
 }

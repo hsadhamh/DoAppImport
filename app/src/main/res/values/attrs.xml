@@ -231,4 +231,6 @@
         <attr name="eventCornerRadius" format="dimension"/>
     </declare-styleable>
 
+    <attr name="mp_colorAccent"
+        format="reference|color"/>
 </resources>

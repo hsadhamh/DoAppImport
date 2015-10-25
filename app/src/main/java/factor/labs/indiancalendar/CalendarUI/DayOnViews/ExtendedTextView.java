@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import factor.labs.indiancalendar.CalendarUtils.Typefaces;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
 
 /**
@@ -36,6 +37,6 @@ public class ExtendedTextView extends TextView {
     }
 
     public void setRobotoFont(){
-        setTypeface(labsCalendarUtils.getTypeFace());
+        setTypeface(Typefaces.getRobotoRegular(getContext()));
     }
 }

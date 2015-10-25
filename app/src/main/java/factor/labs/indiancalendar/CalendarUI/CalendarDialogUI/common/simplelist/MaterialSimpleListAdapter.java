@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.MaterialDialog;
+import factor.labs.indiancalendar.CalendarUtils.Typefaces;
 import factor.labs.indiancalendar.R;
 import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.internal.MDAdapter;
 
@@ -53,7 +54,7 @@ public class MaterialSimpleListAdapter extends ArrayAdapter<MaterialSimpleListIt
             TextView tv = (TextView) view.findViewById(android.R.id.title);
             tv.setTextColor(dialog.getBuilder().getItemColor());
             tv.setText(item.getContent());
-            dialog.setTypeface(tv, dialog.getBuilder().getRegularFont());
+            dialog.setTypeface(tv, Typefaces.getRobotoRegular(getContext()));
         }
         return view;
     }

@@ -2,7 +2,6 @@ package factor.labs.indiancalendar.CalendarUI.CalendarHeaderList;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -18,7 +17,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import factor.labs.indiancalendar.CalendarInterfaces.DayOnHeaderClickListener;
-import factor.labs.indiancalendar.CalendarUtils.CalendarEventMonthListItem;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
 import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListHeader;
 import factor.labs.indiancalendar.R;

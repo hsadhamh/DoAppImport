@@ -32,7 +32,7 @@
             android:layout_gravity="center" />
     </FrameLayout>
 
-    <factor.labs.indiancalendar.CalendarUI.DayOnDatePicker.sleepbot.datetimepicker.time.RadialPickerLayout
+    <factor.labs.indiancalendar.CalendarUI.DayOnDatePicker.time.RadialPickerLayout
         android:id="@+id/time_picker"
         android:layout_height="@dimen/picker_dimen"
         android:layout_width="wrap_content"

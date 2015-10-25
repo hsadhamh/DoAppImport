@@ -60,4 +60,19 @@ public class CalendarEventMaster {
     public int getReligionID(){ return nReligionID; }
     public void setReligionID(int n){ nReligionID = n; }
 
+    private int nInfoID;
+    public int getInfoID() { return nInfoID; }
+    public void setInfoID(int nInfoID) { this.nInfoID = nInfoID; }
+
+    private String sInfoDescription;
+    public String getInfoDescription() { return sInfoDescription; }
+    public void setInfoDescription(String sInfoDescription) { this.sInfoDescription = sInfoDescription; }
+
+    private String sInfoWiki;
+    public String getInfoWiki() { return sInfoWiki; }
+    public void setInfoWiki(String sInfoWiki) { this.sInfoWiki = sInfoWiki; }
+
+    private String sWikiLinkPart;
+    public String getWikiLinkPart() { return sWikiLinkPart; }
+    public void setWikiLinkPart(String sWikiLinkPart) { this.sWikiLinkPart = sWikiLinkPart; }
 }

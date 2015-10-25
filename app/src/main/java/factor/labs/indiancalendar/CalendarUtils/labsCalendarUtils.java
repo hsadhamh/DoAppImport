@@ -5,12 +5,12 @@ import android.graphics.Typeface;
 import android.util.Log;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import factor.labs.indiancalendar.CalendarDbHelper.CalendarSQLiteCRUD;
 import factor.labs.indiancalendar.CalendarEventHandlers.CalendarEventsPrimaryHandler;
+import factor.labs.indiancalendar.CalendarObjects.CalendarMonthYearClass;
 import factor.labs.indiancalendar.R;
 
 /**
@@ -29,11 +29,6 @@ public class labsCalendarUtils {
 
     private static Typeface moRobotoFont = null;
 
-    public static Typeface getTypeFace(){ return moRobotoFont; }
-    public static void setTypeFace(Context c){
-        moRobotoFont = Typeface.createFromAsset(c.getAssets(), "Roboto-Regular.ttf");
-    }
-
     public static int getCountryPref(){ return nCountryPref; }
     public static void setCountryPref(int n){ nCountryPref = n; }
 
@@ -49,7 +44,8 @@ public class labsCalendarUtils {
     public static void initDatabase(Context oCon){
         if(sqliteCRUD == null)
             sqliteCRUD = new CalendarSQLiteCRUD(oCon);
-        setTypeFace(oCon);
+        Typefaces.getRobotoRegular(oCon);
+        Typefaces.getRobotoMedium(oCon);
     }
 
     public static CalendarSQLiteCRUD getCalendarDBHandler() { return sqliteCRUD; }
