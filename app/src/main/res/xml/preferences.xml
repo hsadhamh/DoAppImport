@@ -7,12 +7,12 @@
         <factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.common.prefs.CheckBoxPreference
             android:key="holiday_preference_enable"
             android:title="Enable alarms for holidays"
-            android:defaultValue="true" />
+            android:defaultValue="true"/>
 
         <factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.common.prefs.Preference
             android:key="SetAlarmHoliday"
             android:summary="06:00"
-            android:title="Alarm time set" />
+            android:title="Alarm time set"/>
 
     </factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.common.prefs.PreferenceCategory>
 
@@ -22,12 +22,12 @@
         <factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.common.prefs.CheckBoxPreference
             android:key="religious_preference_enable"
             android:title="Enable alarms for religious events"
-            android:defaultValue="true" />
+            android:defaultValue="true"/>
 
         <factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.common.prefs.Preference
             android:key="SetAlarmHoliday1"
             android:summary="06:00"
-            android:title="Alarm time set" />
+            android:title="Alarm time set"/>
 
     </factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.common.prefs.PreferenceCategory>
 

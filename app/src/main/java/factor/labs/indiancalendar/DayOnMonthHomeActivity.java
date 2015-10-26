@@ -964,7 +964,17 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     }
 
     public void showPreferenceDialogs() {
-        startActivity(new Intent(getApplicationContext(), DayOnPreferenceActivity.class));
+        startActivityForResult(new Intent(getApplicationContext(), DayOnPreferenceActivity.class), 9000);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(resultCode == RESULT_OK){
+            int n = data.getIntExtra("result", 0);
+            Toast.makeText(getApplicationContext(), "Got the result from preference : " + n, Toast.LENGTH_LONG).show();
+        }
+
     }
 
 }

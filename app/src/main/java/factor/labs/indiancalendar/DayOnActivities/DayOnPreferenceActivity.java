@@ -4,44 +4,67 @@ package factor.labs.indiancalendar.DayOnActivities;
  * Created by hassanhussain on 10/25/2015.
  */
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import factor.labs.indiancalendar.CalendarInterfaces.IDayOnPrefCallBack;
 import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.common.prefs.CheckBoxPreference;
+import factor.labs.indiancalendar.CalendarUI.DayOnDatePicker.time.RadialPickerLayout;
 import factor.labs.indiancalendar.CalendarUI.DayOnDatePicker.time.TimePickerDialog;
+import factor.labs.indiancalendar.CalendarUtils.CalendarConstants;
 import factor.labs.indiancalendar.R;
 
 @SuppressLint("NewApi")
 public class DayOnPreferenceActivity extends AppCompatActivity
-        implements IDayOnPrefCallBack {
+        implements IDayOnPrefCallBack{
 
     SettingsFragment settings = null;
 
-    @Override
-    public void onPreferenceSelection(int n) {
-        switch(n) {
-            case 1:
-                TimePickerDialog oTimePicker = new TimePickerDialog();
-                oTimePicker.setStartTime(6, 0);
-                oTimePicker.show(getSupportFragmentManager(), "Set Time");
-                break;
-            default:
-                break;
-        }
+    public void onPreferenceSelection(final int n) {
+        SharedPreferences prefs = getSharedPreferences(CalendarConstants.DAYON_SHARED_PREFERENCE_NAME, MODE_PRIVATE);
+        String sTime = "06:00";
+        if(n == 1)
+            sTime = prefs.getString(CalendarConstants.DAYON_TIME_REMINDER_HOLIDAY, "06:00");
+        else if(n == 2)
+            sTime = prefs.getString(CalendarConstants.DAYON_TIME_REMINDER_RELIGIOUS, "06:00");
+
+        String[] minHr = sTime.split(":");
+        int hr = Integer.parseInt(minHr[0]);
+        int min = Integer.parseInt(minHr[1]);
+
+        TimePickerDialog oTimePicker = new TimePickerDialog();
+        oTimePicker.setStartTime(hr, min);
+        oTimePicker.show(getSupportFragmentManager(), "Set Time");
+        oTimePicker.setOnTimeSetListener(new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                String sTimeFormat = String.format("%02d", hourOfDay) + ":" + String.format("%02d", minute);
+
+                SharedPreferences prefs = getSharedPreferences(CalendarConstants.DAYON_SHARED_PREFERENCE_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor edit = prefs.edit();
+                if(n == 1) {
+                    edit.putString(CalendarConstants.DAYON_TIME_REMINDER_HOLIDAY, sTimeFormat);
+                    settings.setTimeHolidayButton.setSummary(sTimeFormat);
+                }
+                else if(n == 2) {
+                    edit.putString(CalendarConstants.DAYON_TIME_REMINDER_RELIGIOUS, sTimeFormat);
+                    settings.setTimeReligiousButton.setSummary(sTimeFormat);
+                }
+                edit.apply();
+            }
+        });
+
     }
 
-    public static class SettingsFragment extends PreferenceFragment {
+    public static class SettingsFragment extends PreferenceFragment{
         IDayOnPrefCallBack moCallback = null;
 
         Preference setTimeHolidayButton = null;
@@ -49,10 +72,51 @@ public class DayOnPreferenceActivity extends AppCompatActivity
         Preference setTimeReligiousButton = null;
         CheckBoxPreference setTimeReligiousCheck = null;
 
+        SharedPreferences mPreferences = null; //
+        SharedPreferences.Editor mSharedPrefEditor = null;
+
+        boolean mEnableAlarmHoliday = true;
+        boolean mEnableAlarmReligious = true;
+        String mAlarmTimeHoliday = "";
+        String mAlarmTimeReligious = "";
+
         public static SettingsFragment init(IDayOnPrefCallBack oCallback){
             SettingsFragment fragment = new SettingsFragment();
             fragment.setCallBack(oCallback);
             return fragment;
+        }
+
+        public void onStart(){
+            super.onStart();
+            mPreferences = getActivity().getSharedPreferences(CalendarConstants.DAYON_SHARED_PREFERENCE_NAME, MODE_PRIVATE);
+            mEnableAlarmHoliday = mPreferences.getBoolean(CalendarConstants.DAYON_TIME_REMINDER_HOLIDAY_ENABLE, true);
+            mEnableAlarmReligious = mPreferences.getBoolean(CalendarConstants.DAYON_TIME_REMINDER_RELIGIOUS_ENABLE, true);
+            mAlarmTimeHoliday = mPreferences.getString(CalendarConstants.DAYON_TIME_REMINDER_HOLIDAY, "06:00");
+            mAlarmTimeReligious = mPreferences.getString(CalendarConstants.DAYON_TIME_REMINDER_RELIGIOUS, "06:00");
+
+            setTimeHolidayButton.setSummary(mAlarmTimeHoliday);
+            setTimeReligiousButton.setSummary(mAlarmTimeReligious);
+            setTimeHolidayCheck.setChecked(mEnableAlarmHoliday);
+            setTimeHolidayButton.setEnabled(mEnableAlarmHoliday);
+            setTimeReligiousCheck.setChecked(mEnableAlarmReligious);
+            setTimeReligiousButton.setEnabled(mEnableAlarmReligious);
+        }
+
+        public void onResume(){
+            super.onResume();
+
+        }
+
+        public void onPause(){
+            super.onResume();
+        }
+
+        public void onStop(){
+            super.onStop();
+            SharedPreferences.Editor edit = mPreferences.edit();
+            edit.putBoolean(CalendarConstants.DAYON_TIME_REMINDER_HOLIDAY_ENABLE, mEnableAlarmHoliday);
+            edit.putBoolean(CalendarConstants.DAYON_TIME_REMINDER_RELIGIOUS_ENABLE, mEnableAlarmReligious);
+            edit.apply();
         }
 
         public void setCallBack(IDayOnPrefCallBack oCallback){ moCallback = oCallback; }
@@ -62,9 +126,8 @@ public class DayOnPreferenceActivity extends AppCompatActivity
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
 
-            setTimeHolidayButton = (Preference)findPreference("SetAlarmHoliday");
-            setTimeReligiousButton = (Preference)findPreference("SetAlarmHoliday1");
-
+            setTimeHolidayButton = findPreference("SetAlarmHoliday");
+            setTimeReligiousButton = findPreference("SetAlarmHoliday1");
             setTimeHolidayCheck = (CheckBoxPreference) findPreference("holiday_preference_enable");
             setTimeReligiousCheck = (CheckBoxPreference) findPreference("religious_preference_enable");
 
@@ -82,7 +145,7 @@ public class DayOnPreferenceActivity extends AppCompatActivity
                 setTimeReligiousButton.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference arg0) {
-                        moCallback.onPreferenceSelection(1);
+                        moCallback.onPreferenceSelection(2);
                         return true;
                     }
                 });
@@ -93,10 +156,9 @@ public class DayOnPreferenceActivity extends AppCompatActivity
                 setTimeHolidayCheck.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference arg0) {
-                        if(((CheckBoxPreference) arg0).isChecked())
-                            setTimeHolidayButton.setEnabled(true);
-                        else
-                            setTimeHolidayButton.setEnabled(false);
+                        boolean bChecked = ((CheckBoxPreference) arg0).isChecked();
+                        setTimeHolidayButton.setEnabled(bChecked);
+                        mEnableAlarmHoliday = bChecked;
                         return true;
                     }
                 });
@@ -107,11 +169,9 @@ public class DayOnPreferenceActivity extends AppCompatActivity
                 setTimeReligiousCheck.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                     @Override
                     public boolean onPreferenceClick(Preference arg0) {
-                        if(((CheckBoxPreference) arg0).isChecked())
-                            //moCallback.onPreferenceSelection(2);
-                            setTimeReligiousButton.setEnabled(true);
-                        else
-                            setTimeReligiousButton.setEnabled(false);
+                        boolean bChecked = ((CheckBoxPreference) arg0).isChecked();
+                        setTimeReligiousButton.setEnabled(bChecked);
+                        mEnableAlarmReligious = bChecked;
                         return true;
                     }
                 });
@@ -152,5 +212,14 @@ public class DayOnPreferenceActivity extends AppCompatActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", 9000);
+        setResult(RESULT_OK,returnIntent);
+        finish();
+        super.onBackPressed();
     }
 }
