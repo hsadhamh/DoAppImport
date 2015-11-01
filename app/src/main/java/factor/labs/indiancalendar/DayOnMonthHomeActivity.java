@@ -16,6 +16,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,11 +57,13 @@ import factor.labs.indiancalendar.CalendarUI.CalendarViews.DayOnMonthGridFragmen
 import factor.labs.indiancalendar.CalendarUI.DayOnDatePicker.date.*;
 import factor.labs.indiancalendar.CalendarUI.DayOnFAB.FloatingActionButton;
 import factor.labs.indiancalendar.CalendarUI.DayOnFAB.FloatingActionMenu;
+import factor.labs.indiancalendar.CalendarUI.DayOnViews.DayOnTypeFaceSpan;
 import factor.labs.indiancalendar.CalendarUtils.CalendarDateClass;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEmptyEventListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventDateListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarMonthYearClass;
+import factor.labs.indiancalendar.CalendarUtils.Typefaces;
 import factor.labs.indiancalendar.CalendarViewHolders.*;
 import factor.labs.indiancalendar.CalendarAdapters.DayonPentaMonthAdapter;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
@@ -338,7 +342,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         setSupportActionBar(moActionBar);
 
         moActionBar.setNavigationIcon(R.drawable.ic_nav_menu_cal);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         moActionBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -372,6 +376,16 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         //Setting the first menu as selected
         moListSliderMenuItems.getMenu().getItem(0).setChecked(true);
         prevMenuItem = moListSliderMenuItems.getMenu().getItem(0);
+
+        //  set typeface for all menu items
+        for(int i =0; i < moListSliderMenuItems.getMenu().size(); i++){
+            MenuItem mi = moListSliderMenuItems.getMenu().getItem(i);
+
+            SpannableString mNewTitle = new SpannableString(mi.getTitle());
+            mNewTitle.setSpan(new DayOnTypeFaceSpan("", Typefaces.getRobotoRegular(getApplicationContext())),
+                    0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            mi.setTitle(mNewTitle);
+        }
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         moListSliderMenuItems.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
