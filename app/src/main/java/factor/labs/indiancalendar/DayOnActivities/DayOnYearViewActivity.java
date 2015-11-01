@@ -37,7 +37,7 @@ public class DayOnYearViewActivity extends AppCompatActivity{
         setSupportActionBar(moActionBar);
 
         moActionBar.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         moActionBar.setNavigationOnClickListener(new View.OnClickListener() {

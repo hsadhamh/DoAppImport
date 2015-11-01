@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -16,11 +17,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -55,11 +60,13 @@ import factor.labs.indiancalendar.CalendarUI.CalendarViews.DayOnMonthGridFragmen
 import factor.labs.indiancalendar.CalendarUI.DayOnDatePicker.date.*;
 import factor.labs.indiancalendar.CalendarUI.DayOnFAB.FloatingActionButton;
 import factor.labs.indiancalendar.CalendarUI.DayOnFAB.FloatingActionMenu;
+import factor.labs.indiancalendar.CalendarUI.DayOnViews.DayOnTypeFaceSpan;
 import factor.labs.indiancalendar.CalendarUtils.CalendarDateClass;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEmptyEventListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventDateListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarMonthYearClass;
+import factor.labs.indiancalendar.CalendarUtils.Typefaces;
 import factor.labs.indiancalendar.CalendarViewHolders.*;
 import factor.labs.indiancalendar.CalendarAdapters.DayonPentaMonthAdapter;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
@@ -69,6 +76,8 @@ import factor.labs.indiancalendar.DayOnActivities.CalendarReligiousViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnPreferenceActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnScheduleViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnYearViewActivity;
+import tourguide.tourguide.*;
+import uk.co.deanwild.materialshowcaseview.*;
 
 /**
  * Created by hassanhussain on 9/30/2015.
@@ -86,9 +95,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     int mLastFirstVisibleItem;
     int mnLastDateSelected;
     boolean mDrawerOpenState = false;
-
     MenuItem prevMenuItem;
-
     View moMainHolder = null;
     CalendarViewPager moPager = null;
     TextView moMonthName = null;
@@ -184,9 +191,12 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                 adView.setVisibility(View.VISIBLE);
 
                 float translationY = Math.min(0, adView.getTranslationY() - 150);
+
                 moFabMenu.setTranslationY(translationY);
+
             }
         });
+
 
 
         // Request for Ads
@@ -265,16 +275,28 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             setContentView(R.layout.layout_dayon_month_home);
 
             moMonthName = (TextView) findViewById(R.id.id_cal_txt_month);
+
             moPager = (CalendarViewPager) findViewById(R.id.id_cal_month_grid_pager);
+
             moEventsList = (HeaderListView) findViewById(R.id.id_cal_month_home_holder).findViewWithTag("header_list_tag");
             moGridHeaderHolder = (LinearLayout) findViewById(R.id.id_cal_grid_holder);
             moGridForWeekName = (GridView) findViewById(R.id.id_cal_week_names);
+
             moFabMenu = (FloatingActionMenu) findViewById(R.id.id_cal_fab_menu_actions);
+            //moFabMenu.setTranslationY(100);
+
             moFabRefreshBtn = (FloatingActionButton) findViewById(R.id.id_cal_goto_fab);
+
             moFabFilterBtn = (FloatingActionButton) findViewById(R.id.id_cal_filter_fab);
+
             moActionBar = (Toolbar) findViewById(R.id.id_cal_action_bar);
             moListSliderMenuItems = (NavigationView) findViewById(R.id.calendar_list_slider);
             moSliderMenuHolder = (DrawerLayout) findViewById(R.id.calendar_slider_holder);
+
+            //FloatingActionButton b1=(FloatingActionButton)findViewById(R.id.fab_expand_menu_button);
+
+
+
 
             // Set custom criteria
             RateThisApp.init(new RateThisApp.Config(3, 5));
@@ -282,15 +304,35 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             setToolBarActions();
             setFabActions();
 
+
             mnCurrentMonthInView = labsCalendarUtils.getCurrentMonth();
             mnCurrentYearInView = labsCalendarUtils.getCurrentYear();
             mnLastDateSelected = labsCalendarUtils.getTodaysDate();
             moEventsList.setHeaderTouchListener(this);
             moPager.setOffscreenPageLimit(1);
 
-            //addMobileAdModule();
+            addMobileAdModule();
 
             new LoadFirstMonths().execute();
+
+            // sequence example
+            ShowcaseConfig config = new ShowcaseConfig();
+            config.setDelay(500); // half second between each showcase view
+
+            MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this,"SHOWCASE_ID");
+
+            sequence.setConfig(config);
+
+            sequence.addSequenceItem(moGridHeaderHolder,
+                    "Swipe up to get full list events", "GOT IT");
+
+           sequence.addSequenceItem(moFabMenu.getMenuIconView(), "Filter out events to select this option", "GOT IT");
+            sequence.addSequenceItem(moEventsList, "Click the event to get details of the event", "GOT IT");
+
+
+
+
+            sequence.start();
 
         }
         catch(Exception ex){
@@ -306,39 +348,56 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     }
 
     public void setFabActions() {
-        moFabMenu.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
-            @Override
-            public void onMenuToggle(boolean opened) {
-                moFabMenu.getMenuIconView().
-                        setImageDrawable(
-                                opened ?
-                                        ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_plus_white_24dp)
-                                        : ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_dots_horizontal_white_24dp));
-            }
-        });
+                moFabMenu.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
 
-        moFabFilterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowPopupMenu();
-                moFabMenu.toggle(true);
-            }
-        });
+                    @Override
+                    public void onMenuToggle(boolean opened) {
+                        moFabMenu.getMenuIconView().
+                                setImageDrawable(
+                                        opened ?
+                                                ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_plus_white_24dp)
+                                                : ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_dots_horizontal_white_24dp));
 
-        moFabRefreshBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ShowDatePicker();
-                moFabMenu.toggle(true);
-            }
-        });
+                    }
+
+
+                });
+
+                moFabFilterBtn.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        //mTourGuideHandler.cleanUp();
+
+
+                        ShowPopupMenu();
+                        moFabMenu.toggle(true);
+
+
+                    }
+
+                });
+
+                moFabRefreshBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ShowDatePicker();
+                        moFabMenu.toggle(true);
+                    }
+                });
+
+
+
+
+
+
     }
 
     public void setToolBarActions(){
         setSupportActionBar(moActionBar);
 
         moActionBar.setNavigationIcon(R.drawable.ic_nav_menu_cal);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         moActionBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -372,6 +431,16 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         //Setting the first menu as selected
         moListSliderMenuItems.getMenu().getItem(0).setChecked(true);
         prevMenuItem = moListSliderMenuItems.getMenu().getItem(0);
+
+        //  set typeface for all menu items
+        for(int i =0; i < moListSliderMenuItems.getMenu().size(); i++){
+            MenuItem mi = moListSliderMenuItems.getMenu().getItem(i);
+
+            SpannableString mNewTitle = new SpannableString(mi.getTitle());
+            mNewTitle.setSpan(new DayOnTypeFaceSpan("", Typefaces.getRobotoRegular(getApplicationContext())),
+                    0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            mi.setTitle(mNewTitle);
+        }
 
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         moListSliderMenuItems.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

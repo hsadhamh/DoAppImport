@@ -8,7 +8,7 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:gravity="bottom">
 
-    <TextView
+    <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Indian Calendar"
