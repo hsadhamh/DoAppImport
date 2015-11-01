@@ -65,6 +65,7 @@ import factor.labs.indiancalendar.CalendarAdapters.DayonPentaMonthAdapter;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
 import factor.labs.indiancalendar.CalendarServices.DayOnAndroidService;
+import factor.labs.indiancalendar.DayOnActivities.CalendarReligiousViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnPreferenceActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnScheduleViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnYearViewActivity;
@@ -413,11 +414,11 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                         return true;
 
                     case R.id.id_cal_menu_holiday:
-                        ShowTestHolidays();
+                        ShowHolidays();
                         return true;
 
                     case R.id.id_cal_menu_religious:
-                        ShowTestReligious();
+                        ShowReligiousEvents();
                         return true;
 
                     case R.id.id_cal_menu_settings:
@@ -991,11 +992,13 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         DayOnMonthHomeActivity.this.startActivity(myIntent);
     }
 
-    void ShowTestReligious(){
-
+    void ShowReligiousEvents(){
+        Intent myIntent = new Intent(DayOnMonthHomeActivity.this, CalendarReligiousViewActivity.class);
+        myIntent.putExtra("key", "test"); //Optional parameters
+        DayOnMonthHomeActivity.this.startActivity(myIntent);
     }
 
-    void ShowTestHolidays(){
+    void ShowHolidays(){
         Intent myIntent = new Intent(DayOnMonthHomeActivity.this, DayOnScheduleViewActivity.class);
         myIntent.putExtra("key", "test"); //Optional parameters
         DayOnMonthHomeActivity.this.startActivity(myIntent);

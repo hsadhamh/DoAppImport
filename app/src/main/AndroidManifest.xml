@@ -45,6 +45,10 @@
             android:label="@string/app_name" />
 
         <activity
+            android:name=".DayOnActivities.CalendarReligiousViewActivity"
+            android:label="@string/app_name" />
+
+        <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 

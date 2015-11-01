@@ -5,24 +5,26 @@
             android:id="@+id/id_cal_menu_home"
             android:checked="false"
             android:icon="@drawable/ic_home_nav_bar"
-            android:title="Home" />
+            android:title="Home"
+            />
 
         <item
             android:id="@+id/id_cal_menu_year"
             android:checked="false"
-            android:icon="@drawable/ic_dev_group"
-            android:title="Year View" />
+            android:icon="@drawable/ic_event_note_menu"
+            android:title="Year View"
+            android:visible="false"/>
 
         <item
             android:id="@+id/id_cal_menu_holiday"
             android:checked="false"
-            android:icon="@drawable/ic_dev_group"
+            android:icon="@drawable/ic_event_note_menu"
             android:title="Holidays" />
 
         <item
             android:id="@+id/id_cal_menu_religious"
             android:checked="false"
-            android:icon="@drawable/ic_dev_group"
+            android:icon="@drawable/ic_event_note_menu"
             android:title="Religious Events" />
     </group>
 
@@ -32,7 +34,8 @@
             android:id="@+id/id_cal_menu_settings"
             android:checked="false"
             android:icon="@drawable/ic_setting_light"
-            android:title="Preferences" />
+            android:title="Preferences"
+            android:visible="false"/>
 
         <item
             android:id="@+id/id_cal_menu_rate_app"
