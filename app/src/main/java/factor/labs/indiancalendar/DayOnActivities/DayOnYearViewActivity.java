@@ -11,7 +11,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import factor.labs.indiancalendar.CalendarAdapters.DayOnPagerAdapter;
+import factor.labs.indiancalendar.CalendarAdapters.DayOnViewPagerAdapter;
 import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.MaterialDialog;
 import factor.labs.indiancalendar.CalendarUI.CalendarViews.DayOnYearGridFragment;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
@@ -25,7 +25,7 @@ public class DayOnYearViewActivity extends AppCompatActivity{
     ViewPager moPager = null;
     Toolbar moActionBar = null;
 
-    DayOnPagerAdapter moAdapter = null;
+    DayOnViewPagerAdapter moAdapter = null;
     List<Fragment> moListFragment = new ArrayList<>();
 
     @Override
@@ -66,7 +66,7 @@ public class DayOnYearViewActivity extends AppCompatActivity{
     }
 
     void setPagerProperties(){
-        moAdapter = new DayOnPagerAdapter(getSupportFragmentManager(), moListFragment);
+        moAdapter = new DayOnViewPagerAdapter(getSupportFragmentManager(), moListFragment);
         moPager.setAdapter(moAdapter);
         moAdapter.notifyDataSetChanged();
 
