@@ -155,11 +155,8 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
     @Override
     protected void onResume() {
-        Log.e("onResume", "Resume activity");
-        sTag = "CalendarMainActivity.onResume";
         super.onResume();
         labsCalendarUtils.initDatabase(getApplicationContext());
-        Log.d(sTag, "base initialize.");
 
         /*Intent oIntent = new Intent(DayOnMonthHomeActivity.this, DayOnAndroidService.class);
         oIntent.putExtra("TaskType", 0);
@@ -170,7 +167,6 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     @Override
     protected void onPause(){
         super.onPause();
-        Log.e("onPause", "Paused activity");
     }
 
     void addMobileAdModule(){
@@ -226,24 +222,16 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
     @Override
     protected void onDestroy(){
-        Log.e(sTag, "Destroyed activity");
         super.onDestroy();
     }
 
     @Override
     protected void onStart() {
-        sTag = "CalendarMainActivity.onStart";
-
-        Log.e(sTag, "Started activity");
-
         super.onStart();
         // Monitor launch times and interval from installation
         RateThisApp.onStart(this);
         // Show a dialog if criteria is satisfied
         RateThisApp.showRateDialogIfNeeded(this);
-        Log.d(sTag, "Show rate us view, if needed.");
-
-
     }
 
     @Override
