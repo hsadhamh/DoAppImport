@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -14,10 +15,11 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import factor.labs.indiancalendar.CalendarInterfaces.ICalendarService;
+import factor.labs.indiancalendar.CalendarUtils.CalendarConstants;
 import factor.labs.indiancalendar.DayOnMonthHomeActivity;
 import factor.labs.indiancalendar.R;
 
@@ -99,6 +101,19 @@ public class DayOnAndroidService extends Service implements ICalendarService {
         ShowNotification(9001, "Sync Alert", sShowMsg);
     }
 
+    @Override
+    public void OnSharedPreferenceChange() {
+        SharedPreferences prefs = getSharedPreferences(CalendarConstants.DAYON_SHARED_PREFERENCE_NAME, MODE_PRIVATE);
+        boolean enableHoliday = prefs.getBoolean(CalendarConstants.DAYON_TIME_REMINDER_HOLIDAY_ENABLE, true);
+        boolean enableReligious = prefs.getBoolean(CalendarConstants.DAYON_TIME_REMINDER_RELIGIOUS_ENABLE, true);
+        String timeHoliday = prefs.getString(CalendarConstants.DAYON_TIME_REMINDER_HOLIDAY, "06:00");
+        String timeReligious = prefs.getString(CalendarConstants.DAYON_TIME_REMINDER_RELIGIOUS, "06:00");
+
+        Toast.makeText(getApplicationContext(), "Shared Preference changes : " + enableHoliday + " : " + timeHoliday
+                        + " : " + enableReligious + " : " + timeReligious,
+                Toast.LENGTH_SHORT).show();
+    }
+
     public void ShowNotification(int notificationID, String sTitle, String sText){
         Intent resultIntent = new Intent(this, DayOnMonthHomeActivity.class);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -141,7 +156,7 @@ public class DayOnAndroidService extends Service implements ICalendarService {
 
         private String getDateTime() {
             // get date time in custom format
-            SimpleDateFormat sdf = new SimpleDateFormat("[yyyy/MM/dd - HH:mm:ss]");
+            SimpleDateFormat sdf = new SimpleDateFormat("[yyyy/MM/dd - HH:mm:ss]", Locale.getDefault());
             return sdf.format(new Date());
         }
 

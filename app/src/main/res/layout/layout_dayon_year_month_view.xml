@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_rectangle_month_grid">
 
     <TextView
         android:id="@+id/id_cal_month_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="@color/Black"
+        android:text="test"/>
 
-    <GridView
+    <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
         android:id="@+id/id_cal_month_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="7"/>
+        android:layout_height="wrap_content"
+        android:numColumns="7"
+        android:layout_weight="1"/>
 
 </LinearLayout>

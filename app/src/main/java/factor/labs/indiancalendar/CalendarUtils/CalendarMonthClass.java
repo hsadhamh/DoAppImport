@@ -154,6 +154,8 @@ public class CalendarMonthClass {
                     if(!found) {
                         Log.d(sTag, "Set grid dates for month [" + mnMonth + "] date [" + oEventDate.getDate() + "].");
                         oDate.addEventsForDay(oEventDate);
+                        if(oEventDate.isHolidayEvent()) oDate.setHolidayFlag();
+                        if(oEventDate.isReligionEvent()) oDate.setReligiousFlag();
                     }
                 }
             }
@@ -174,8 +176,7 @@ public class CalendarMonthClass {
                 CalendarDateClass oDate = getDateObject(oEventDate.getDate(), mnMonth);
                 if (oDate != null) {
                     boolean found = false;
-                    for(CalendarEventMaster event : oDate.getEventsForDay())
-                    {
+                    for(CalendarEventMaster event : oDate.getEventsForDay()) {
                         if(event.getEventID() == oEventDate.getEventID()) {
                             found = true;
                             break;
@@ -185,6 +186,8 @@ public class CalendarMonthClass {
                     if(!found) {
                         Log.d(sTag, "Set grid dates for month [" + mnMonth + "] date [" + oEventDate.getDate() + "].");
                         oDate.addEventsForDay(oEventDate);
+                        if(oEventDate.isHolidayEvent()) oDate.setHolidayFlag();
+                        if(oEventDate.isReligionEvent()) oDate.setReligiousFlag();
                     }
                 }
             }

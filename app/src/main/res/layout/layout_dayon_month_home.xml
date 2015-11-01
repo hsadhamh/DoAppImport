@@ -66,6 +66,7 @@
 
                 <factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.HeaderListView
                     android:id = "@+id/id_cal_list_date_events"
+                    android:tag="header_list_tag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

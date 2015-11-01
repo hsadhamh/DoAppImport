@@ -89,6 +89,7 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
 
     @Override
     public int getRowItemViewType(int section, int position) {
+
         Object oTemp = getRowItem(section, position);
         if(oTemp != null)
         {
@@ -113,9 +114,9 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
                         convertView = mInflater.inflate(R.layout.layout_dayon_list_day_header, parent, false);
 
                         DayOnEventListDate dateHolder = new DayOnEventListDate();
-                        dateHolder.txtDateName = (TextView)convertView.findViewById(R.id.id_cal_date_view);
-                        dateHolder.txtDayName = (TextView)convertView.findViewById(R.id.id_cal_day_name);
-                        dateHolder.hidden = (TextView)convertView.findViewById(R.id.id_cal_hidden_object);
+                        dateHolder.txtDateName = (TextView)convertView.findViewById(R.id.id_cal_date_month_view);
+                        dateHolder.txtDayName = (TextView)convertView.findViewById(R.id.id_cal_day_name_view);
+                        dateHolder.hidden = (TextView)convertView.findViewById(R.id.id_cal_hidden_object_day);
                         convertView.setTag(dateHolder);
                     }
                     CalendarEventDateListItem obj1 = (CalendarEventDateListItem) getRowItem(section, row);
@@ -142,7 +143,7 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
 
                         DayOnEventListEmpty emptyHolder = new DayOnEventListEmpty();
                         emptyHolder.txt = (TextView)convertView.findViewById(R.id.id_cal_empty_events);
-                        emptyHolder.hidden = (TextView)convertView.findViewById(R.id.id_cal_hidden_object);
+                        emptyHolder.hidden = (TextView)convertView.findViewById(R.id.id_cal_hidden_object_empty);
                         convertView.setTag(emptyHolder);
                     }
                     CalendarEmptyEventListItem obj2 = (CalendarEmptyEventListItem) getRowItem(section, row);
@@ -157,7 +158,7 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
 
                         DayOnEventListItem eventHolder = new DayOnEventListItem();
                         eventHolder.img = (ImageView)convertView.findViewById(R.id.id_cal_event_category);
-                        eventHolder.hidden = (TextView)convertView.findViewById(R.id.id_cal_hidden_object);
+                        eventHolder.hidden = (TextView)convertView.findViewById(R.id.id_cal_hidden_object_event);
                         eventHolder.txtEventLocation = (TextView)convertView.findViewById(R.id.id_cal_event_detail_location);
                         eventHolder.txtEventName = (TextView)convertView.findViewById(R.id.id_cal_event_detail_name);
                         eventHolder.txtEventTime = (TextView) convertView.findViewById(R.id.id_cal_event_detail_time);
@@ -236,7 +237,7 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
 
                 DayOnEventListHeader mholder = new DayOnEventListHeader();
                 mholder.txtMonthName = (TextView)convertView.findViewById(R.id.id_cal_month_name_header);
-                mholder.hidden = (TextView)convertView.findViewById(R.id.id_cal_hidden_object);
+                mholder.hidden = (TextView)convertView.findViewById(R.id.id_cal_hidden_object_month);
                 mholder.txtDayName = (TextView)convertView.findViewById(R.id.id_cal_day_name_header);
                 convertView.setTag(mholder);
             }

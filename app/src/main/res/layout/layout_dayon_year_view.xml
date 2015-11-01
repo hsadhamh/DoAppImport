@@ -1,12 +1,516 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:grid="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <GridView
-        android:id="@+id/id_cal_grid_year"
+    <android.support.v7.widget.GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3" />
+        android:layout_gravity="fill|center"
+        grid:columnCount="1"
+        grid:rowCount="4"
+        android:id="@+id/id_cal_year_grid_holder">
 
-</LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            grid:layout_columnWeight="1"
+            grid:layout_rowWeight="1"
+            android:padding="3dp"
+            grid:layout_gravity="fill">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding = "2dp"
+                android:background="@drawable/shape_rectangle_month_grid">
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id="@+id/id_cal_month_name1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:gravity="center"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_week_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_month_view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2dp"
+                android:background="@drawable/shape_rectangle_month_grid">
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id="@+id/id_cal_month_name2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:text=""/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_week_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_month_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2dp"
+                android:background="@drawable/shape_rectangle_month_grid">
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id="@+id/id_cal_month_name3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:text=""/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_week_view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_month_view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            grid:layout_columnWeight="1"
+            grid:layout_rowWeight="1"
+            grid:layout_gravity="fill"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="3dp">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2dp"
+                android:background="@drawable/shape_rectangle_month_grid">
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id="@+id/id_cal_month_name4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:text=""/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_week_view4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_month_view4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2dp"
+                android:background="@drawable/shape_rectangle_month_grid">
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id="@+id/id_cal_month_name5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:text=""/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_week_view5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_month_view5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2dp"
+                android:background="@drawable/shape_rectangle_month_grid">
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id="@+id/id_cal_month_name6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:text=""/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_week_view6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_month_view6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            grid:layout_columnWeight="1"
+            grid:layout_rowWeight="1"
+            grid:layout_gravity="fill"
+            android:gravity="center"
+            android:padding="3dp">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2dp"
+                android:background="@drawable/shape_rectangle_month_grid">
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id="@+id/id_cal_month_name7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:text=""/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_week_view7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_month_view7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2dp"
+                android:background="@drawable/shape_rectangle_month_grid">
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id="@+id/id_cal_month_name8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:text=""/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_week_view8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_month_view8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2dp"
+                android:background="@drawable/shape_rectangle_month_grid">
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id="@+id/id_cal_month_name9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:text=""/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_week_view9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_month_view9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            grid:layout_columnWeight="1"
+            grid:layout_rowWeight="1"
+            grid:layout_gravity="fill"
+            android:gravity="center"
+            android:padding="3dp">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2dp"
+                android:background="@drawable/shape_rectangle_month_grid">
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id="@+id/id_cal_month_name10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:text=""/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_week_view10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_month_view10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2dp"
+                android:background="@drawable/shape_rectangle_month_grid">
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id="@+id/id_cal_month_name11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:text=""/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_week_view11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_month_view11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical" android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="2dp"
+                android:background="@drawable/shape_rectangle_month_grid">
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
+                    android:id="@+id/id_cal_month_name12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Black"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:padding="2dp"
+                    android:text=""/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_week_view12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+                <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedGridView
+                    android:id="@+id/id_cal_month_view12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:numColumns="7"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.GridLayout>
+
+</ScrollView>

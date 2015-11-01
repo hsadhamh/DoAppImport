@@ -6,29 +6,40 @@
             android:checked="false"
             android:icon="@drawable/ic_home_nav_bar"
             android:title="Home" />
+
+        <item
+            android:id="@+id/id_cal_menu_year"
+            android:checked="false"
+            android:icon="@drawable/ic_dev_group"
+            android:title="Year View" />
+
+        <item
+            android:id="@+id/id_cal_menu_holiday"
+            android:checked="false"
+            android:icon="@drawable/ic_dev_group"
+            android:title="Holidays" />
+
+        <item
+            android:id="@+id/id_cal_menu_religious"
+            android:checked="false"
+            android:icon="@drawable/ic_dev_group"
+            android:title="Religious Events" />
     </group>
 
     <group android:id="@+id/group_general" android:checkableBehavior="single">
+
         <item
-            android:id="@+id/id_cal_menu_about"
+            android:id="@+id/id_cal_menu_settings"
             android:checked="false"
-            android:icon="@drawable/ic_dev_group"
-            android:title="About Dev" />
-        <item
-            android:id="@+id/id_cal_menu_test"
-            android:checked="false"
-            android:icon="@drawable/ic_dev_group"
-            android:title="test" />
-        <item
-            android:id="@+id/id_cal_menu_webservice"
-            android:checked="false"
-            android:icon="@drawable/ic_dev_group"
-            android:title="web services" />
+            android:icon="@drawable/ic_setting_light"
+            android:title="Preferences" />
+
         <item
             android:id="@+id/id_cal_menu_rate_app"
             android:checked="false"
             android:icon="@drawable/ic_start_rate_nav"
             android:title="Rate Us" />
+
         <item
             android:id="@+id/id_cal_menu_share_app"
             android:checked="false"

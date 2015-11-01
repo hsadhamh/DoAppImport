@@ -108,15 +108,16 @@ public class DayOnPreferenceActivity extends AppCompatActivity
         }
 
         public void onPause(){
-            super.onResume();
-        }
-
-        public void onStop(){
-            super.onStop();
             SharedPreferences.Editor edit = mPreferences.edit();
             edit.putBoolean(CalendarConstants.DAYON_TIME_REMINDER_HOLIDAY_ENABLE, mEnableAlarmHoliday);
             edit.putBoolean(CalendarConstants.DAYON_TIME_REMINDER_RELIGIOUS_ENABLE, mEnableAlarmReligious);
             edit.apply();
+            super.onPause();
+        }
+
+        public void onStop(){
+            super.onStop();
+
         }
 
         public void setCallBack(IDayOnPrefCallBack oCallback){ moCallback = oCallback; }
@@ -219,7 +220,6 @@ public class DayOnPreferenceActivity extends AppCompatActivity
         Intent returnIntent = new Intent();
         returnIntent.putExtra("result", 9000);
         setResult(RESULT_OK,returnIntent);
-        finish();
         super.onBackPressed();
     }
 }

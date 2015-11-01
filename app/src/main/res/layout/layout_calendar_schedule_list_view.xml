@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/bg_white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <factor.labs.indiancalendar.CalendarUI.CalendarCircleLoading.CircleProgressBar
+        android:id = "@+id/calendar_event_load_progress"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_gravity="center"
+        app:mlpb_progress_color="@color/accent"
+        app:mlpb_enable_circle_background="false"
+        android:padding="5dp"
+        app:mlpb_progress_stoke_width="5dp"
+        app:mlpb_show_arrow="true"
+        app:mlpb_arrow_height="5dp"
+        app:mlpb_arrow_width="10dp"
+        app:mlpb_progress_text_visibility="invisible"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@null"
+        android:id = "@+id/calendar_schedule_event_list"
+
+        android:visibility="gone"/>
+</LinearLayout>

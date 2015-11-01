@@ -25,4 +25,12 @@ public class CalendarConstants {
     public final static int CALENDAR_SHOW_EVENT_FILTER = 0; // All events
     public final static int CALENDAR_SHOW_EVENT_US = 1; // All events
     public final static int CALENDAR_SHOW_EVENT_IN = 2; // All events
+
+    public final static int CALENDAR_SCHEDULE_MONTH_TYPE = 256;
+    public final static int CALENDAR_SCHEDULE_DAY_TYPE = 512;
+    public final static int CALENDAR_SCHEDULE_EMPTY_EVENT = 1024;
+    public final static int CALENDAR_SCHEDULE_LOAD_UP = 2048;
+    public final static int CALENDAR_SCHEDULE_LOAD_DOWN = 4096;
+
+    public final static int CALENDAR_SCHEDULE_MONTH_EVENTS_LOAD_THRESHOLD = 6;
 }

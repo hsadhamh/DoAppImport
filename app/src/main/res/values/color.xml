@@ -14,6 +14,7 @@
 
     <color name="primary_light_light">#B2DFDB</color>
     <color name="secondary_text_light">#CCCCCC</color>
+    <color name="primary_light_light_light">#e0f2f0</color>
 
     <color name="light_grey_bg">#F3F3F3</color>
     <color name="bg_white">#FFFFFF</color>
@@ -95,5 +96,8 @@
     <color name="event_color_04">#f8b552</color>
     <color name="toolbar">#efefef</color>
     <color name="toolbar_text">#8f000000</color>
+
+    <color name="loadmore_pressed">#F57C00</color>
+    <color name="loadmore_normal">#FF9800</color>
 
 </resources>

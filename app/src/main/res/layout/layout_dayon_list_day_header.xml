@@ -5,7 +5,7 @@
     android:background="@drawable/shape_rectangle_event_date">
 
     <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
-        android:id="@+id/id_cal_day_name"
+        android:id="@+id/id_cal_day_name_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -22,7 +22,7 @@
         android:alpha=".9"/>
 
     <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
-        android:id="@+id/id_cal_date_view"
+        android:id="@+id/id_cal_date_month_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -40,7 +40,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/id_cal_hidden_object"
+        android:id="@+id/id_cal_hidden_object_day"
         android:background="@android:color/transparent"
         android:visibility="gone"/>
 

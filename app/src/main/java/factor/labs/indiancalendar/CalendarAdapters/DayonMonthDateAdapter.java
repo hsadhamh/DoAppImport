@@ -146,10 +146,6 @@ public class DayonMonthDateAdapter extends BaseAdapter {
                 ((LinearLayout) oHolder.oVw).removeAllViews();
                 ((LinearLayout) oHolder.oVw).addView(iv);
             }
-
-            if(oDate.hasHolidayFlagSet()&& oDate.isCurrentMonthDate())
-                oHolder.oTextView.setTextColor(Color.RED);
-
             return convertView;
         }
         catch(Exception exec)

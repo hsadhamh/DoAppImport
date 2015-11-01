@@ -1,6 +1,7 @@
 package factor.labs.indiancalendar;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
@@ -43,7 +44,7 @@ import factor.labs.indiancalendar.CalendarAdapters.CalendarWeekNameDisplayAdapte
 import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
 import factor.labs.indiancalendar.CalendarInterfaces.CalendarDateClickListenerInterface;
 import factor.labs.indiancalendar.CalendarInterfaces.DayOnHeaderClickListener;
-import factor.labs.indiancalendar.CalendarInterfaces.ICalendarService;
+import factor.labs.indiancalendar.CalendarServices.ICalendarService;
 import factor.labs.indiancalendar.CalendarInterfaces.IDayOnEventInfoClick;
 import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.MaterialDialog;
 import factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.HeaderListView;
@@ -65,6 +66,8 @@ import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
 import factor.labs.indiancalendar.CalendarServices.DayOnAndroidService;
 import factor.labs.indiancalendar.DayOnActivities.DayOnPreferenceActivity;
+import factor.labs.indiancalendar.DayOnActivities.DayOnScheduleViewActivity;
+import factor.labs.indiancalendar.DayOnActivities.DayOnYearViewActivity;
 
 /**
  * Created by hassanhussain on 9/30/2015.
@@ -116,7 +119,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     boolean mbPageSelectedInPage = false;
     boolean mbLockScroll = false;
 
-    ICalendarService mService = null;
+    /*ICalendarService mService = null;
     ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -128,7 +131,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             if(mService != null)
                 mService = null;
         }
-    };
+    };*/
 
     class DayOnLoadMoreEventsObject{
         int UpOrDown;
@@ -151,18 +154,22 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
     @Override
     protected void onResume() {
+        Log.e("onResume", "Resume activity");
         sTag = "CalendarMainActivity.onResume";
         super.onResume();
         labsCalendarUtils.initDatabase(getApplicationContext());
         Log.d(sTag, "base initialize.");
-        Intent oIntent = new Intent(DayOnMonthHomeActivity.this, DayOnAndroidService.class);
+
+        /*Intent oIntent = new Intent(DayOnMonthHomeActivity.this, DayOnAndroidService.class);
         oIntent.putExtra("TaskType", 0);
-        startService(oIntent);
+        bindService(oIntent, mServiceConnection, Context.BIND_AUTO_CREATE);*/
+
     }
 
     @Override
     protected void onPause(){
         super.onPause();
+        Log.e("onPause", "Paused activity");
     }
 
     void addMobileAdModule(){
@@ -207,8 +214,26 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle o){
+        // do mothing
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle o){
+        // do mothing
+    }
+
+    @Override
+    protected void onDestroy(){
+        Log.e(sTag, "Destroyed activity");
+        super.onDestroy();
+    }
+
+    @Override
     protected void onStart() {
         sTag = "CalendarMainActivity.onStart";
+
+        Log.e(sTag, "Started activity");
 
         super.onStart();
         // Monitor launch times and interval from installation
@@ -216,6 +241,8 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         // Show a dialog if criteria is satisfied
         RateThisApp.showRateDialogIfNeeded(this);
         Log.d(sTag, "Show rate us view, if needed.");
+
+
     }
 
     @Override
@@ -250,7 +277,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
             moMonthName = (TextView) findViewById(R.id.id_cal_txt_month);
             moPager = (CalendarViewPager) findViewById(R.id.id_cal_month_grid_pager);
-            moEventsList = (HeaderListView) findViewById(R.id.id_cal_list_date_events);
+            moEventsList = (HeaderListView) findViewById(R.id.id_cal_month_home_holder).findViewWithTag("header_list_tag");
             moGridHeaderHolder = (LinearLayout) findViewById(R.id.id_cal_grid_holder);
             moGridForWeekName = (GridView) findViewById(R.id.id_cal_week_names);
             moFabMenu = (FloatingActionMenu) findViewById(R.id.id_cal_fab_menu_actions);
@@ -275,6 +302,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             //addMobileAdModule();
 
             new LoadFirstMonths().execute();
+
         }
         catch(Exception ex){
             Log.e(sTag," Exception : " + ex.getMessage());
@@ -380,10 +408,19 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                         new LoadFirstMonths().execute();
                         return true;
 
-                    case R.id.id_cal_menu_test:
+                    case R.id.id_cal_menu_year:
                         ShowTest();
                         return true;
-                    case R.id.id_cal_menu_webservice:
+
+                    case R.id.id_cal_menu_holiday:
+                        ShowTestHolidays();
+                        return true;
+
+                    case R.id.id_cal_menu_religious:
+                        ShowTestReligious();
+                        return true;
+
+                    case R.id.id_cal_menu_settings:
                         showPreferenceDialogs();
                         return true;
 
@@ -954,6 +991,16 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         DayOnMonthHomeActivity.this.startActivity(myIntent);
     }
 
+    void ShowTestReligious(){
+
+    }
+
+    void ShowTestHolidays(){
+        Intent myIntent = new Intent(DayOnMonthHomeActivity.this, DayOnScheduleViewActivity.class);
+        myIntent.putExtra("key", "test"); //Optional parameters
+        DayOnMonthHomeActivity.this.startActivity(myIntent);
+    }
+
     @Override
     public void ShowInfoDialog(CalendarEventMaster oEve){
         new MaterialDialog.Builder(DayOnMonthHomeActivity.this)
@@ -973,6 +1020,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         if(resultCode == RESULT_OK){
             int n = data.getIntExtra("result", 0);
             Toast.makeText(getApplicationContext(), "Got the result from preference : " + n, Toast.LENGTH_LONG).show();
+            //mService.OnSharedPreferenceChange();
         }
 
     }
