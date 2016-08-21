@@ -206,7 +206,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         adView.loadAd(adRequest);
 
         // Load ads into Interstitial Ads
-        interstitial.loadAd(adRequest);
+        //interstitial.loadAd(adRequest);
 
         // Prepare an Interstitial Ad Listener
         interstitial.setAdListener(new AdListener() {
