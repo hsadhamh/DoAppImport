@@ -95,7 +95,6 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     int mnLastDateSelected;
     boolean mDrawerOpenState = false;
     MenuItem prevMenuItem;
-    View moMainHolder = null;
     CalendarViewPager moPager = null;
     TextView moMonthName = null;
     HeaderListView moEventsList = null;
@@ -129,9 +128,10 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
     int mShouldShowInterstitial = 1;
     int mDoShowAdOnMonthChange = 1;
-    Date mLastShownAdTime = Calendar.getInstance().getTime();
+    Date mLastShownAdTime = null;
     long MAX_DURATION = 15*60*1000;
     final Object mSyncLock = new Object();
+    boolean mStartType = false;
     private ScheduledExecutorService mScheduleExec;
     Runnable mRun = new Runnable() {
         public void run() {
@@ -1071,7 +1071,11 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         }
     }
 
-    private boolean DidTimeOutElapseForAd(){ return ((Calendar.getInstance().getTime().getTime() - mLastShownAdTime.getTime()) >= MAX_DURATION); }
+    private boolean DidTimeOutElapseForAd(){
+        if(mLastShownAdTime != null)
+            return ((Calendar.getInstance().getTime().getTime() - mLastShownAdTime.getTime()) >= MAX_DURATION);
+        return true;
+    }
 
     private void doLoadAd(int type){
         switch(type) {
@@ -1097,7 +1101,10 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             case 2:
                 if(DidTimeOutElapseForAd()) {
                     synchronized (mSyncLock) {
-                        interstitial.loadAd(mAdRequest);
+                        if(mStartType) {
+                            interstitial.loadAd(mAdRequest);
+                        }
+                        mStartType = true;
                     }
                 }
                 break;
@@ -1105,7 +1112,6 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     }
 
     private class ShouldLoadAd extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected Void doInBackground(Void... params) {
             doLoadAd(2);
