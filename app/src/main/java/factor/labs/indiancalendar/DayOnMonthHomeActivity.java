@@ -189,7 +189,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         // Request for Ads
         mAdRequest = new AdRequest
                 .Builder()
-                .addTestDevice("F3D0EE493657AD2952233060D190BFBF")
+                //.addTestDevice("F3D0EE493657AD2952233060D190BFBF")
                 .build();
         // Prepare an Interstitial Ad Listener
         interstitial.setAdListener(new AdListener() {

@@ -73,7 +73,7 @@
                     android:background="@color/bg_white"
                     android:visibility="gone"
                     android:layout_below="@id/id_cal_grid_holder"
-                    ads:adSize="SMART_BANNER"
+                    ads:adSize="BANNER"
                     ads:adUnitId="ca-app-pub-7462033170287511/3490401389" />
 
                 <factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.HeaderListView
