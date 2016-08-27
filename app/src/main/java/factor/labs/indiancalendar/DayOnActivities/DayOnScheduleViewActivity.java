@@ -12,9 +12,11 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import factor.labs.indiancalendar.CalendarUI.CalendarViews.CalendarReligiousScheduleEvent;
 import factor.labs.indiancalendar.CalendarUI.CalendarViews.CalendarScheduleViewFragment;
@@ -110,6 +112,36 @@ public class DayOnScheduleViewActivity extends AppCompatActivity{
                         labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), moContext, 0);
             return null;
         }
+    }
+
+    public void onBackPressed(){
+        loadAd();
+        finish();
+        super.onBackPressed();
+    }
+
+    public void loadAd(){
+        // Prepare the Interstitial Ad
+        final InterstitialAd interstitial = new InterstitialAd(DayOnScheduleViewActivity.this);
+        // Insert the Ad Unit ID
+        interstitial.setAdUnitId("ca-app-pub-7462033170287511/4051707386");
+        // Request for Ads
+        AdRequest mAdRequest = new AdRequest
+                .Builder()
+                .addTestDevice("F3D0EE493657AD2952233060D190BFBF")
+                .build();
+        // Prepare an Interstitial Ad Listener
+        interstitial.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+                // Call displayInterstitial() function
+                // If Ads are loaded, show Interstitial else show nothing.
+                if (interstitial.isLoaded()) {
+                    interstitial.show();
+                }
+            }
+        });
+
+        interstitial.loadAd(mAdRequest);
     }
 }
 
