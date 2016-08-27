@@ -197,7 +197,7 @@ public class CalendarMonthClass {
         moListEventViewsToDisplay.clear();
 
         List<Object> tempList = new ArrayList<>();
-        int start = 3, nextAdd = 12;
+        int start = 3, nextAdd = 21;
         //  add views now.
         // -- first and fore most MONTH
         for(CalendarDateClass oDate : mListOfDatesInMonthGrid){

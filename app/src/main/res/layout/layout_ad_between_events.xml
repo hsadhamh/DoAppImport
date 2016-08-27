@@ -3,17 +3,16 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="60dp"
+    android:visibility="gone"
     android:background="@color/Grey100">
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="fill_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="bottom|center"
         android:background="@android:color/transparent"
-        android:visibility="gone"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-7462033170287511/3490401389" />
 

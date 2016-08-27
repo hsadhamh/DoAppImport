@@ -248,17 +248,22 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
                     if(adObj != null) {
                         final DayOnEventListAd Holder1 = (DayOnEventListAd) convertView.getTag();
                         Holder1.hidden.setTag(adObj);
+                        final View finalConvertView = convertView;
                         Holder1.ads.setAdListener(new AdListener() {
                             @Override
                             public void onAdLoaded() {
                                 super.onAdLoaded();
-                                Holder1.ads.setVisibility(View.VISIBLE);
+                                //Holder1.ads.setVisibility(View.VISIBLE);
+                                finalConvertView.setVisibility(View.VISIBLE);
                             }
                         });
                         // Request for Ads
-                        AdRequest adRequest = new AdRequest.Builder().build();
+                        AdRequest adRequest = new AdRequest
+                                .Builder()
+                                .addTestDevice("F3D0EE493657AD2952233060D190BFBF")
+                                .build();
                         // Load ads into Banner Ads
-                        Holder1.ads.loadAd(adRequest);
+                        //Holder1.ads.loadAd(adRequest);
                     }
                     break;
             }

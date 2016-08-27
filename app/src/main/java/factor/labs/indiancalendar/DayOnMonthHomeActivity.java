@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
@@ -37,8 +38,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 import factor.labs.indiancalendar.CalendarAdapters.CalendarHeaderListAdapter;
 import factor.labs.indiancalendar.CalendarAdapters.CalendarWeekNameDisplayAdapter;
@@ -75,8 +74,6 @@ import factor.labs.indiancalendar.DayOnActivities.CalendarReligiousViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnPreferenceActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnScheduleViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnYearViewActivity;
-
-import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
  * Created by hassanhussain on 9/30/2015.
@@ -126,12 +123,14 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     boolean mbPageSelectedInPage = false;
     boolean mbLockScroll = false;
 
+    AdView mAds;
     int mShouldShowInterstitial = 1;
     int mDoShowAdOnMonthChange = 1;
     Date mLastShownAdTime = null;
-    long MAX_DURATION = 15*60*1000;
+    long MAX_DURATION = 20*60*1000;
     final Object mSyncLock = new Object();
-    boolean mStartType = false;
+    boolean mbLoadBannerAdDone = false;
+    /*boolean mStartType = false;
     private ScheduledExecutorService mScheduleExec;
     Runnable mRun = new Runnable() {
         public void run() {
@@ -146,7 +145,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                 Log.e("Timer Exception", e.getMessage());
             }
         }
-    };
+    };*/
 
     class DayOnLoadMoreEventsObject{
         int UpOrDown;
@@ -171,15 +170,15 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         labsCalendarUtils.initDatabase(getApplicationContext());
-        mScheduleExec = Executors.newScheduledThreadPool(5);
-        mScheduleExec.scheduleAtFixedRate(mRun, 0, 10, MINUTES);
+        /*mScheduleExec = Executors.newScheduledThreadPool(5);
+        mScheduleExec.scheduleAtFixedRate(mRun, 0, 10, MINUTES);*/
     }
 
     @Override
     protected void onPause(){
         super.onPause();
-        mScheduleExec.shutdown();
-        mStartType = false;
+        /*mScheduleExec.shutdown();
+        mStartType = false;*/
     }
 
     void addMobileAdModule(){
@@ -188,7 +187,10 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         // Insert the Ad Unit ID
         interstitial.setAdUnitId("ca-app-pub-7462033170287511/4051707386");
         // Request for Ads
-        mAdRequest = new AdRequest.Builder().build();
+        mAdRequest = new AdRequest
+                .Builder()
+                .addTestDevice("F3D0EE493657AD2952233060D190BFBF")
+                .build();
         // Prepare an Interstitial Ad Listener
         interstitial.setAdListener(new AdListener() {
             public void onAdLoaded() {
@@ -200,6 +202,18 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                 }
             }
         });
+
+        mAds = (AdView)findViewById(R.id.adView);
+        mAds.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                mAds.setVisibility(View.VISIBLE);
+                mbLoadBannerAdDone = true;
+            }
+        });
+        // Load ads into Banner Ads
+        mAds.loadAd(mAdRequest);
     }
 
     @Override
@@ -746,13 +760,18 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         moEventsList.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    if(mbLoadBannerAdDone)
+                        mAds.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 int offset = 0;
                 SectionAdapter adap = moEventsList.getAdapter();
-
+                if(mbLoadBannerAdDone)
+                    mAds.setVisibility(View.GONE);
                 if (adap != null && !mbLockScroll) {
                     View firstVisibleView = adap.getView(firstVisibleItem, null, moEventsList);
                     View secondVisibleView = adap.getView(firstVisibleItem + 1, null, moEventsList);
@@ -1081,7 +1100,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     private void doLoadAd(int type){
         switch(type) {
             case 0:
-                if ((((++mShouldShowInterstitial) % 4) == 0)
+                if ((((++mShouldShowInterstitial) % 10) == 0)
                         && (DidTimeOutElapseForAd())) {
                     synchronized (mSyncLock) {
                         interstitial.loadAd(mAdRequest);
@@ -1090,7 +1109,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                 break;
 
             case 1:
-                if ((((++mDoShowAdOnMonthChange) % 4) == 0)
+                if ((((++mDoShowAdOnMonthChange) % 10) == 0)
                         && (DidTimeOutElapseForAd()))
                 {
                     synchronized (mSyncLock) {
@@ -1102,21 +1121,21 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             case 2:
                 if(DidTimeOutElapseForAd()) {
                     synchronized (mSyncLock) {
-                        if(mStartType) {
+                        /*if(mStartType) {
                             interstitial.loadAd(mAdRequest);
                         }
-                        mStartType = true;
+                        mStartType = true;*/
                     }
                 }
                 break;
         }
     }
 
-    private class ShouldLoadAd extends AsyncTask<Void, Void, Void> {
+    /*private class ShouldLoadAd extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             doLoadAd(2);
             return null;
         }
-    }
+    }*/
 }
