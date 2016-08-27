@@ -179,6 +179,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     protected void onPause(){
         super.onPause();
         mScheduleExec.shutdown();
+        mStartType = false;
     }
 
     void addMobileAdModule(){
