@@ -10,6 +10,7 @@ import java.util.Vector;
 
 import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEmptyEventListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEventAdListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventDateListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
@@ -194,44 +195,72 @@ public class CalendarMonthClass {
         }
 
         moListEventViewsToDisplay.clear();
+
+        List<Object> tempList = new ArrayList<>();
+        int start = 3, nextAdd = 12;
         //  add views now.
         // -- first and fore most MONTH
         for(CalendarDateClass oDate : mListOfDatesInMonthGrid){
 
             if(oDate.isCurrentMonthDate()) {
-                moListEventViewsToDisplay.add(new CalendarEventDateListItem(oDate.getDate(), oDate.getMonth(), oDate.getYear(), moListEventViewsToDisplay.size()));
-                oDate.setListOffset(moListEventViewsToDisplay.size());
+                if(start == tempList.size()) {
+                    tempList.add(new
+                            CalendarEventAdListItem(oDate.getDate(),
+                            oDate.getMonth(), oDate.getYear(), tempList.size()));
+                    start = (start + nextAdd);
+                }
+
+                tempList.add(new CalendarEventDateListItem(oDate.getDate(), oDate.getMonth(), oDate.getYear(), tempList.size()));
+                oDate.setListOffset(tempList.size());
                 List<CalendarEventMaster> listEvents = oDate.getEventsForDay();
 
                 int nEventsFound = 0;
                 if (listEvents != null){
                     oDate.getEventsForDayInDisplay().clear();
                     for (CalendarEventMaster oEvent : listEvents) {
-                        CalendarEventListItem oE = new CalendarEventListItem(oEvent, moListEventViewsToDisplay.size());
+
+                        if(start == tempList.size()) {
+                            tempList.add(new
+                                    CalendarEventAdListItem(oDate.getDate(),
+                                    oDate.getMonth(), oDate.getYear(), tempList.size()));
+                            start = (start + nextAdd);
+                        }
+
+                        CalendarEventListItem oE = new CalendarEventListItem(oEvent, tempList.size());
                         if(nShowPref == 1 && oEvent.isReligionEvent()){
-                            moListEventViewsToDisplay.add(oE);
+                            tempList.add(oE);
                             oDate.getEventsForDayInDisplay().add(oEvent);
                         } // religious
                         else if(nShowPref == 2 && oEvent.isHolidayEvent()){
-                            moListEventViewsToDisplay.add(oE);
+                            tempList.add(oE);
                             oDate.getEventsForDayInDisplay().add(oEvent);
                         } // holidays
                         else if(nShowPref == 0){
-                            moListEventViewsToDisplay.add(oE);
+                            tempList.add(oE);
                             oDate.getEventsForDayInDisplay().add(oEvent);
                         } // all events
                     }
                 }
 
                 if(oDate.getEventsForDayInDisplay().size() == 0){
+
+                    if(start == tempList.size()) {
+                        tempList.add(new
+                                CalendarEventAdListItem(oDate.getDate(),
+                                oDate.getMonth(), oDate.getYear(), tempList.size()));
+                        start = (start + nextAdd);
+                    }
+
                     CalendarEmptyEventListItem oEmp =
                             new CalendarEmptyEventListItem(oDate.getDate(), oDate.getMonth(),
-                                    oDate.getYear(), moListEventViewsToDisplay.size());
-                    moListEventViewsToDisplay.add(oEmp);
+                                    oDate.getYear(), tempList.size());
+                    tempList.add(oEmp);
                 }
             }
         }
-        mnSizeInList = moListEventViewsToDisplay.size();
+        mnSizeInList = tempList.size();
+        if(mnSizeInList > 0)
+            moListEventViewsToDisplay.addAll(tempList);
         return moListEventViewsToDisplay;
     }
 

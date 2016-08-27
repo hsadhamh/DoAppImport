@@ -110,16 +110,18 @@
             </factor.labs.indiancalendar.CalendarUI.DayOnFAB.FloatingActionMenu>
         </RelativeLayout>
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="fill_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_height="wrap_content"
-            android:gravity="bottom|center"
-            android:background="@color/bg_white"
-            android:visibility="gone"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-7462033170287511/3490401389" />
+        <!--
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="fill_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_height="wrap_content"
+                android:gravity="bottom|center"
+                android:background="@color/bg_white"
+                android:visibility="gone"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-7462033170287511/3490401389" />
+         -->
 
     </RelativeLayout>
     <android.support.design.widget.NavigationView

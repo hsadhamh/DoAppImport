@@ -12,18 +12,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
 import factor.labs.indiancalendar.CalendarInterfaces.IDayOnEventInfoClick;
-import factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.SectionAdapter;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEmptyEventListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEventAdListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventDateListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
+import factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.SectionAdapter;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
+import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListAd;
 import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListDate;
 import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListEmpty;
 import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListHeader;
@@ -84,7 +90,7 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
 
     @Override
     public int getRowViewTypeCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -99,6 +105,8 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
                 return 1;
             else if(oTemp instanceof CalendarEventListItem)
                 return 2;
+            else if(oTemp instanceof CalendarEventAdListItem)
+                return 3;
         }
         return 0;
     }
@@ -107,9 +115,13 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
     public View getRowView(int section, int row, View convertView, ViewGroup parent) {
         try
         {
-            switch (getRowItemViewType(section, row))
+            int switch_no = getRowItemViewType(section, row);
+            switch (switch_no)
             {
                 case 0:
+                    if(!(convertView != null && convertView.getTag() instanceof DayOnEventListDate))
+                        convertView = null;
+
                     if (convertView == null) {
                         convertView = mInflater.inflate(R.layout.layout_dayon_list_day_header, parent, false);
 
@@ -138,6 +150,9 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
                     }
                     break;
                 case 1:
+                    if(!(convertView != null && convertView.getTag() instanceof DayOnEventListEmpty))
+                        convertView = null;
+
                     if (convertView == null) {
                         convertView = mInflater.inflate(R.layout.layout_dayon_list_event_empty, parent, false);
 
@@ -153,6 +168,9 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
                     }
                     break;
                 case 2:
+                    if(!(convertView != null && convertView.getTag() instanceof DayOnEventListItem))
+                        convertView = null;
+
                     if (convertView == null) {
                         convertView = mInflater.inflate(R.layout.layout_dayon_list_event, parent, false);
 
@@ -212,6 +230,36 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
                             }
                         }
                     });
+                    break;
+                case 3:
+                    if(!(convertView != null && convertView.getTag() instanceof DayOnEventListAd))
+                        convertView = null;
+
+                    DayOnEventListAd Holder = null;
+                    if (convertView == null) {
+                        convertView = mInflater.inflate(R.layout.layout_ad_between_events, parent, false);
+
+                        Holder = new DayOnEventListAd();
+                        Holder.ads = (AdView)convertView.findViewById(R.id.adView);
+                        Holder.hidden = (TextView)convertView.findViewById(R.id.hidden_txt);
+                        convertView.setTag(Holder);
+                    }
+                    CalendarEventAdListItem adObj = (CalendarEventAdListItem) getRowItem(section, row);
+                    if(adObj != null) {
+                        final DayOnEventListAd Holder1 = (DayOnEventListAd) convertView.getTag();
+                        Holder1.hidden.setTag(adObj);
+                        Holder1.ads.setAdListener(new AdListener() {
+                            @Override
+                            public void onAdLoaded() {
+                                super.onAdLoaded();
+                                Holder1.ads.setVisibility(View.VISIBLE);
+                            }
+                        });
+                        // Request for Ads
+                        AdRequest adRequest = new AdRequest.Builder().build();
+                        // Load ads into Banner Ads
+                        Holder1.ads.loadAd(adRequest);
+                    }
                     break;
             }
         }

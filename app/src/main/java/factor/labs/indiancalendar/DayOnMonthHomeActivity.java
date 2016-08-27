@@ -1,13 +1,8 @@
 package factor.labs.indiancalendar;
 
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -20,12 +15,10 @@ import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -34,50 +27,56 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import factor.labs.indiancalendar.CalendarAdapters.CalendarHeaderListAdapter;
 import factor.labs.indiancalendar.CalendarAdapters.CalendarWeekNameDisplayAdapter;
+import factor.labs.indiancalendar.CalendarAdapters.DayonPentaMonthAdapter;
 import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
 import factor.labs.indiancalendar.CalendarInterfaces.CalendarDateClickListenerInterface;
 import factor.labs.indiancalendar.CalendarInterfaces.DayOnHeaderClickListener;
-import factor.labs.indiancalendar.CalendarServices.ICalendarService;
 import factor.labs.indiancalendar.CalendarInterfaces.IDayOnEventInfoClick;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEmptyEventListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEventAdListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEventDateListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEventListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
+import factor.labs.indiancalendar.CalendarObjects.CalendarMonthYearClass;
 import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.MaterialDialog;
 import factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.HeaderListView;
 import factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.SectionAdapter;
 import factor.labs.indiancalendar.CalendarUI.CalendarRateUsLib.RateThisApp;
 import factor.labs.indiancalendar.CalendarUI.CalendarViews.CalendarViewPager;
 import factor.labs.indiancalendar.CalendarUI.CalendarViews.DayOnMonthGridFragment;
-import factor.labs.indiancalendar.CalendarUI.DayOnDatePicker.date.*;
+import factor.labs.indiancalendar.CalendarUI.DayOnDatePicker.date.DatePickerDialog;
 import factor.labs.indiancalendar.CalendarUI.DayOnFAB.FloatingActionButton;
 import factor.labs.indiancalendar.CalendarUI.DayOnFAB.FloatingActionMenu;
 import factor.labs.indiancalendar.CalendarUI.DayOnViews.DayOnTypeFaceSpan;
 import factor.labs.indiancalendar.CalendarUtils.CalendarDateClass;
-import factor.labs.indiancalendar.CalendarObjects.CalendarEmptyEventListItem;
-import factor.labs.indiancalendar.CalendarObjects.CalendarEventDateListItem;
-import factor.labs.indiancalendar.CalendarObjects.CalendarEventListItem;
-import factor.labs.indiancalendar.CalendarObjects.CalendarMonthYearClass;
 import factor.labs.indiancalendar.CalendarUtils.Typefaces;
-import factor.labs.indiancalendar.CalendarViewHolders.*;
-import factor.labs.indiancalendar.CalendarAdapters.DayonPentaMonthAdapter;
-import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
-import factor.labs.indiancalendar.CalendarServices.DayOnAndroidService;
+import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListAd;
+import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListDate;
+import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListEmpty;
+import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListHeader;
+import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListItem;
 import factor.labs.indiancalendar.DayOnActivities.CalendarReligiousViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnPreferenceActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnScheduleViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnYearViewActivity;
-import tourguide.tourguide.*;
-import uk.co.deanwild.materialshowcaseview.*;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
  * Created by hassanhussain on 9/30/2015.
@@ -116,6 +115,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
     CalendarDateClass moCurrentDateClass = null;
     private InterstitialAd interstitial;
+    private AdRequest mAdRequest;
 
     List<Fragment> moListMonthFragments = new ArrayList<>(3);
     Map<Integer,Object> moListHeaders = new LinkedHashMap<>();
@@ -127,19 +127,26 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     boolean mbPageSelectedInPage = false;
     boolean mbLockScroll = false;
 
-    /*ICalendarService mService = null;
-    ServiceConnection mServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mService = ((DayOnAndroidService.DayOnServiceBinder)service).getService();
+    int mShouldShowInterstitial = 1;
+    int mDoShowAdOnMonthChange = 1;
+    Date mLastShownAdTime = Calendar.getInstance().getTime();
+    long MAX_DURATION = 15*60*1000;
+    final Object mSyncLock = new Object();
+    private ScheduledExecutorService mScheduleExec;
+    Runnable mRun = new Runnable() {
+        public void run() {
+            try {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        // update your UI component here.
+                        new ShouldLoadAd().execute();
+                    }
+                });
+            } catch (Exception e) {
+                Log.e("Timer Exception", e.getMessage());
+            }
         }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            if(mService != null)
-                mService = null;
-        }
-    };*/
+    };
 
     class DayOnLoadMoreEventsObject{
         int UpOrDown;
@@ -164,16 +171,14 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         labsCalendarUtils.initDatabase(getApplicationContext());
-
-        /*Intent oIntent = new Intent(DayOnMonthHomeActivity.this, DayOnAndroidService.class);
-        oIntent.putExtra("TaskType", 0);
-        bindService(oIntent, mServiceConnection, Context.BIND_AUTO_CREATE);*/
-
+        mScheduleExec = Executors.newScheduledThreadPool(5);
+        mScheduleExec.scheduleAtFixedRate(mRun, 0, 10, MINUTES);
     }
 
     @Override
     protected void onPause(){
         super.onPause();
+        mScheduleExec.shutdown();
     }
 
     void addMobileAdModule(){
@@ -181,33 +186,8 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         interstitial = new InterstitialAd(DayOnMonthHomeActivity.this);
         // Insert the Ad Unit ID
         interstitial.setAdUnitId("ca-app-pub-7462033170287511/4051707386");
-
-        //Locate the Banner Ad in activity_main.xml
-        final AdView adView = (AdView) this.findViewById(R.id.adView);
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                adView.setVisibility(View.VISIBLE);
-
-                float translationY = Math.min(0, adView.getTranslationY() - 150);
-
-                moFabMenu.setTranslationY(translationY);
-
-            }
-        });
-
-
-
         // Request for Ads
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        // Load ads into Banner Ads
-        adView.loadAd(adRequest);
-
-        // Load ads into Interstitial Ads
-        //interstitial.loadAd(adRequest);
-
+        mAdRequest = new AdRequest.Builder().build();
         // Prepare an Interstitial Ad Listener
         interstitial.setAdListener(new AdListener() {
             public void onAdLoaded() {
@@ -215,6 +195,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                 // If Ads are loaded, show Interstitial else show nothing.
                 if (interstitial.isLoaded()) {
                     interstitial.show();
+                    mLastShownAdTime = Calendar.getInstance().getTime();
                 }
             }
         });
@@ -293,11 +274,6 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             moListSliderMenuItems = (NavigationView) findViewById(R.id.calendar_list_slider);
             moSliderMenuHolder = (DrawerLayout) findViewById(R.id.calendar_slider_holder);
 
-            //FloatingActionButton b1=(FloatingActionButton)findViewById(R.id.fab_expand_menu_button);
-
-
-
-
             // Set custom criteria
             RateThisApp.init(new RateThisApp.Config(3, 5));
 
@@ -316,6 +292,8 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             new LoadFirstMonths().execute();
 
             // sequence example
+            /*
+            // Removing showcase on request
             ShowcaseConfig config = new ShowcaseConfig();
             config.setDelay(500); // half second between each showcase view
 
@@ -328,11 +306,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
            sequence.addSequenceItem(moFabMenu.getMenuIconView(), "Filter out events to select this option", "GOT IT");
             sequence.addSequenceItem(moEventsList, "Click the event to get details of the event", "GOT IT");
-
-
-
-
-            sequence.start();
+            sequence.start();*/
 
         }
         catch(Exception ex){
@@ -367,9 +341,6 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
                     @Override
                     public void onClick(View v) {
-                        //mTourGuideHandler.cleanUp();
-
-
                         ShowPopupMenu();
                         moFabMenu.toggle(true);
 
@@ -385,19 +356,14 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                         moFabMenu.toggle(true);
                     }
                 });
-
-
-
-
-
-
     }
 
     public void setToolBarActions(){
         setSupportActionBar(moActionBar);
 
         moActionBar.setNavigationIcon(R.drawable.ic_nav_menu_cal);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         moActionBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -567,8 +533,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     public void setPagerSelectListener(){
         moPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
@@ -584,12 +549,14 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                         Log.d(sTag, "Month view adapter : swiped right!!");
                         addPreviousMonthOnRightSwipe();
                         updateListForMonth();
+
                     } else if (mnSelectedPage == 2) {
                         Log.d(sTag, "Month view adapter : swiped left!!");
                         addNextMonthOnLeftSwipe();
                         updateListForMonth();
                     }
                     mbPageSelectedInPage = true;
+                    doLoadAd(1);
                     if (!mbAsyncRunning)
                         new LoadMonthEvents().execute(1);
                 }
@@ -839,6 +806,19 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                                 }
                             }
                         }
+                        else if (obj1 instanceof DayOnEventListAd) {
+                            DayOnEventListAd castObj = (DayOnEventListAd) obj1;
+                            if (castObj.hidden != null) {
+                                CalendarEventAdListItem objList = (CalendarEventAdListItem) castObj.hidden.getTag();
+                                if (objList != null) {
+                                    date = objList.date;
+                                    mon = objList.mon;
+                                    yr = objList.yr;
+                                    offset = objList.offset;
+                                }
+                            }
+                        }
+
                         moEventsList.setDayTitleToHeader(date, mon, yr);
                         if (!mbLockScroll) {
                             int n = CompareMonthYear(mon, yr);
@@ -847,11 +827,13 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                                 mnSelectedOffsetList = offset;
                                 addPreviousMonthOnRightSwipe();
                                 startAsyncTask(1);
+                                doLoadAd(1);
                             } else if (n == 1) {
                                 setMonthName();
                                 mnSelectedOffsetList = offset;
                                 addNextMonthOnLeftSwipe();
                                 startAsyncTask(1);
+                                doLoadAd(1);
                             }
 
                             if (date != mnLastDateSelected) {
@@ -866,8 +848,6 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                 }
             }
         });
-
-
     }
 
     void refreshMonthGrid(int date){
@@ -1067,6 +1047,15 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                 .title(oEve.getInfoDescription())
                 .content(oEve.getInfoWiki())
                 .positiveText("Close")
+                .autoDismiss(false)
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        doLoadAd(0);
+                        super.onPositive(dialog);
+                        dialog.dismiss();
+                    }
+                })
                 .show();
     }
 
@@ -1076,13 +1065,51 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if(resultCode == RESULT_OK){
             int n = data.getIntExtra("result", 0);
             Toast.makeText(getApplicationContext(), "Got the result from preference : " + n, Toast.LENGTH_LONG).show();
-            //mService.OnSharedPreferenceChange();
         }
-
     }
 
+    private boolean DidTimeOutElapseForAd(){ return ((Calendar.getInstance().getTime().getTime() - mLastShownAdTime.getTime()) >= MAX_DURATION); }
+
+    private void doLoadAd(int type){
+        switch(type) {
+            case 0:
+                if ((((++mShouldShowInterstitial) % 4) == 0)
+                        && (DidTimeOutElapseForAd())) {
+                    synchronized (mSyncLock) {
+                        interstitial.loadAd(mAdRequest);
+                    }
+                }
+                break;
+
+            case 1:
+                if ((((++mDoShowAdOnMonthChange) % 4) == 0)
+                        && (DidTimeOutElapseForAd()))
+                {
+                    synchronized (mSyncLock) {
+                        interstitial.loadAd(mAdRequest);
+                    }
+                }
+                break;
+
+            case 2:
+                if(DidTimeOutElapseForAd()) {
+                    synchronized (mSyncLock) {
+                        interstitial.loadAd(mAdRequest);
+                    }
+                }
+                break;
+        }
+    }
+
+    private class ShouldLoadAd extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            doLoadAd(2);
+            return null;
+        }
+    }
 }
