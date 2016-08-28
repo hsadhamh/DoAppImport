@@ -129,7 +129,7 @@
             android:gravity="bottom|center"
             android:background="@color/bg_white"
             android:visibility="gone"
-            ads:adSize="BANNER"
+            ads:adSize="SMART_BANNER"
             ads:adUnitId="ca-app-pub-7462033170287511/3490401389" />
 
     </RelativeLayout>

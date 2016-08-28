@@ -13,7 +13,7 @@
 
         <ImageView
             android:layout_width="35dp"
-            android:minHeight="60dp"
+            android:minHeight="80dp"
             android:layout_height="wrap_content"
             android:id = "@+id/id_cal_event_category"
             android:padding="5dp"
@@ -24,7 +24,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="60dp"
+            android:minHeight="80dp"
             android:orientation="vertical"
             android:id = "@+id/id_cal_event_detail_holder"
             android:background="@android:color/transparent"

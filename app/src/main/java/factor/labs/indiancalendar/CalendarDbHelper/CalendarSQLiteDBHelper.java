@@ -1,7 +1,6 @@
 package factor.labs.indiancalendar.CalendarDbHelper;
 
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -54,7 +53,7 @@ public class CalendarSQLiteDBHelper extends SQLiteOpenHelper{
     //  copy DB file
     private void copyDataBase() throws IOException {
         Log.d("copyDataBase", "Copying db");
-        InputStream externalDbStream = context.getAssets().open("calendar.db");
+        InputStream externalDbStream = context.getAssets().open("calendar_old.db");
         String outFileName = DB_PATH + DB_NAME;
         OutputStream localDbStream = new FileOutputStream(outFileName);
 
