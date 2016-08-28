@@ -203,12 +203,12 @@ public class CalendarMonthClass {
         for(CalendarDateClass oDate : mListOfDatesInMonthGrid){
 
             if(oDate.isCurrentMonthDate()) {
-                if(start == tempList.size()) {
+                /*if(start == tempList.size()) {
                     tempList.add(new
                             CalendarEventAdListItem(oDate.getDate(),
                             oDate.getMonth(), oDate.getYear(), tempList.size()));
                     start = (start + nextAdd);
-                }
+                }*/
 
                 tempList.add(new CalendarEventDateListItem(oDate.getDate(), oDate.getMonth(), oDate.getYear(), tempList.size()));
                 oDate.setListOffset(tempList.size());
@@ -219,12 +219,12 @@ public class CalendarMonthClass {
                     oDate.getEventsForDayInDisplay().clear();
                     for (CalendarEventMaster oEvent : listEvents) {
 
-                        if(start == tempList.size()) {
+                        /*if(start == tempList.size()) {
                             tempList.add(new
                                     CalendarEventAdListItem(oDate.getDate(),
                                     oDate.getMonth(), oDate.getYear(), tempList.size()));
                             start = (start + nextAdd);
-                        }
+                        }*/
 
                         CalendarEventListItem oE = new CalendarEventListItem(oEvent, tempList.size());
                         if(nShowPref == 1 && oEvent.isReligionEvent()){
