@@ -209,7 +209,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             public void onAdLoaded() {
                 mAds.setVisibility(View.VISIBLE);
                 mbLoadBannerAdDone = true;
-                moFabMenu.setTranslationY(-100.0f);
+                moFabMenu.setTranslationY(-110.0f);
                 super.onAdLoaded();
             }
         });
@@ -338,40 +338,41 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     }
 
     public void setFabActions() {
-                moFabMenu.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+        moFabMenu.setTranslationY(30.0f);
+        moFabMenu.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
 
-                    @Override
-                    public void onMenuToggle(boolean opened) {
-                        moFabMenu.getMenuIconView().
-                                setImageDrawable(
-                                        opened ?
-                                                ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_plus_white_24dp)
-                                                : ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_dots_horizontal_white_24dp));
+            @Override
+            public void onMenuToggle(boolean opened) {
+                moFabMenu.getMenuIconView().
+                        setImageDrawable(
+                                opened ?
+                                        ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_plus_white_24dp)
+                                        : ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_dots_horizontal_white_24dp));
 
-                    }
-
-
-                });
-
-                moFabFilterBtn.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        ShowPopupMenu();
-                        moFabMenu.toggle(true);
+            }
 
 
-                    }
+        });
 
-                });
+        moFabFilterBtn.setOnClickListener(new View.OnClickListener() {
 
-                moFabRefreshBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ShowDatePicker();
-                        moFabMenu.toggle(true);
-                    }
-                });
+            @Override
+            public void onClick(View v) {
+                ShowPopupMenu();
+                moFabMenu.toggle(true);
+
+
+            }
+
+        });
+
+        moFabRefreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShowDatePicker();
+                moFabMenu.toggle(true);
+            }
+        });
     }
 
     public void setToolBarActions(){
@@ -765,7 +766,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
                     if(mbLoadBannerAdDone) {
                         mAds.setVisibility(View.VISIBLE);
-                        moFabMenu.setTranslationY(-100.0f);
+                        moFabMenu.setTranslationY(-110.0f);
                     }
                 }
             }
@@ -777,7 +778,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
                 if(mbLoadBannerAdDone) {
                     mAds.setVisibility(View.GONE);
-                    moFabMenu.setTranslationY(100.0f);
+                    moFabMenu.setTranslationY(30.0f);
                 }
 
                 if (adap != null && !mbLockScroll) {
