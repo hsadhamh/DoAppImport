@@ -17,10 +17,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/id_cal_month_home_holder">
+                android:id="@+id/id_cal_month_home_holder"
+                android:orientation="vertical">
                 <include
                     android:id="@+id/id_cal_action_bar"
                     layout="@layout/layout_calendar_action_bar" />
@@ -33,7 +34,6 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:paddingBottom="2dp"
-                    android:layout_below="@id/id_cal_action_bar"
                     android:background="@color/primary">
 
                     <factor.labs.indiancalendar.CalendarUI.DayOnViews.ExtendedTextView
@@ -64,25 +64,23 @@
                         class="factor.labs.indiancalendar.CalendarUI.CalendarViews.CalendarViewPager"
                         android:id="@+id/id_cal_month_grid_pager"/>
                 </LinearLayout>
-
+            <!--
                 <com.google.android.gms.ads.AdView
                     android:id="@+id/adView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="bottom|center"
-                    android:background="@color/bg_white"
-                    android:visibility="gone"
-                    android:layout_below="@id/id_cal_grid_holder"
+                    android:background="@color/Grey100"
+                    android:visibility="visible"
                     ads:adSize="BANNER"
                     ads:adUnitId="ca-app-pub-7462033170287511/3490401389" />
-
+            -->
                 <factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.HeaderListView
                     android:id = "@+id/id_cal_list_date_events"
                     android:tag="header_list_tag"
-                    android:layout_below="@id/adView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </RelativeLayout>
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <factor.labs.indiancalendar.CalendarUI.DayOnFAB.FloatingActionMenu
                 android:id="@+id/id_cal_fab_menu_actions"
@@ -123,18 +121,16 @@
             </factor.labs.indiancalendar.CalendarUI.DayOnFAB.FloatingActionMenu>
         </RelativeLayout>
 
-        <!--
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adView"
-                android:layout_width="fill_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_height="wrap_content"
-                android:gravity="bottom|center"
-                android:background="@color/bg_white"
-                android:visibility="gone"
-                ads:adSize="BANNER"
-                ads:adUnitId="ca-app-pub-7462033170287511/3490401389" />
-         -->
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="fill_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|center"
+            android:background="@color/bg_white"
+            android:visibility="gone"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-7462033170287511/3490401389" />
 
     </RelativeLayout>
     <android.support.design.widget.NavigationView

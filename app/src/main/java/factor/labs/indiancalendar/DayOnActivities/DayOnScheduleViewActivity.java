@@ -141,7 +141,7 @@ public class DayOnScheduleViewActivity extends AppCompatActivity{
             }
         });
 
-        interstitial.loadAd(mAdRequest);
+        //interstitial.loadAd(mAdRequest);
     }
 }
 

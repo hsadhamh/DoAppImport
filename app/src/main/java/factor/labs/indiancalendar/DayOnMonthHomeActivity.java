@@ -187,8 +187,8 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         // Insert the Ad Unit ID
         interstitial.setAdUnitId("ca-app-pub-7462033170287511/4051707386");
         // Request for Ads
-        mAdRequest = new AdRequest
-                .Builder()
+        mAdRequest = new
+                AdRequest.Builder()
                 .addTestDevice("F3D0EE493657AD2952233060D190BFBF")
                 .build();
         // Prepare an Interstitial Ad Listener
@@ -207,9 +207,10 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         mAds.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
-                super.onAdLoaded();
                 mAds.setVisibility(View.VISIBLE);
                 mbLoadBannerAdDone = true;
+                moFabMenu.setTranslationY(-100.0f);
+                super.onAdLoaded();
             }
         });
         // Load ads into Banner Ads
@@ -761,8 +762,11 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-                    if(mbLoadBannerAdDone)
+
+                    if(mbLoadBannerAdDone) {
                         mAds.setVisibility(View.VISIBLE);
+                        moFabMenu.setTranslationY(-100.0f);
+                    }
                 }
             }
 
@@ -770,8 +774,12 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 int offset = 0;
                 SectionAdapter adap = moEventsList.getAdapter();
-                if(mbLoadBannerAdDone)
+
+                if(mbLoadBannerAdDone) {
                     mAds.setVisibility(View.GONE);
+                    moFabMenu.setTranslationY(100.0f);
+                }
+
                 if (adap != null && !mbLockScroll) {
                     View firstVisibleView = adap.getView(firstVisibleItem, null, moEventsList);
                     View secondVisibleView = adap.getView(firstVisibleItem + 1, null, moEventsList);
