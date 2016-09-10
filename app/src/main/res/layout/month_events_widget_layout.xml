@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@color/primary"
+        android:id="@+id/id_header_container">
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:text="&lt;"
+            android:background="@color/primary"
+            android:textColor="@color/bg_white"
+            android:id="@+id/id_wbtn_prev" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="December 2018"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/id_wtxt_month_name"
+            android:textColor="@color/bg_white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:text="&gt;"
+            android:background="@color/primary"
+            android:textColor="@color/bg_white"
+            android:id="@+id/id_wbtn_next" />
+
+    </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/id_list_events_month"
+        android:padding="5dp" />
+
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:gravity="center"
+        android:text="No Events"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+</LinearLayout>

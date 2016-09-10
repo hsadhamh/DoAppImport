@@ -50,6 +50,13 @@ public class labsCalendarUtils {
 
     public static CalendarSQLiteCRUD getCalendarDBHandler() { return sqliteCRUD; }
 
+    public static CalendarSQLiteCRUD getCalendarDBHandler(Context con) {
+        if(sqliteCRUD == null)
+            sqliteCRUD = new CalendarSQLiteCRUD(con);
+        return sqliteCRUD;
+
+    }
+
     static int[] arrayNumberOfdays = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     static String[] arrayNamesOfMonth = {"January", "February", "March", "April", "May", "June",

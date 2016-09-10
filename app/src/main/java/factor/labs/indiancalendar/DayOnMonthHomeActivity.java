@@ -130,22 +130,6 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     long MAX_DURATION = 20*60*1000;
     final Object mSyncLock = new Object();
     boolean mbLoadBannerAdDone = false;
-    /*boolean mStartType = false;
-    private ScheduledExecutorService mScheduleExec;
-    Runnable mRun = new Runnable() {
-        public void run() {
-            try {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        // update your UI component here.
-                        new ShouldLoadAd().execute();
-                    }
-                });
-            } catch (Exception e) {
-                Log.e("Timer Exception", e.getMessage());
-            }
-        }
-    };*/
 
     class DayOnLoadMoreEventsObject{
         int UpOrDown;
@@ -214,7 +198,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             }
         });
         // Load ads into Banner Ads
-        mAds.loadAd(mAdRequest);
+        //mAds.loadAd(mAdRequest);
     }
 
     @Override
