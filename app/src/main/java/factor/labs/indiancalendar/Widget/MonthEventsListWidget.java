@@ -12,6 +12,7 @@ import android.widget.RemoteViews;
 
 import factor.labs.indiancalendar.CalendarObjects.CalendarMonthYearClass;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
+import factor.labs.indiancalendar.DayOnMonthHomeActivity;
 import factor.labs.indiancalendar.R;
 
 /**
@@ -28,7 +29,7 @@ public class MonthEventsListWidget extends AppWidgetProvider {
     public static final String CUR_MONTH = "com.factor.CUR_MONTH";
     public static final String CUR_YEAR = "com.factor.CUR_YEAR";
     public static final String GET_EVENTS = "com.factor.GET_EVENTS";
-
+    public static final String START_ACTIVITY = "com.factor.START_ACTIVITY";
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
@@ -61,6 +62,17 @@ public class MonthEventsListWidget extends AppWidgetProvider {
         }
         else if(intent.getAction().equals(CURRENT_CLICK)){
             Log.d("widget", "start activity");
+            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
+            int month = intent.getIntExtra(CUR_MONTH, labsCalendarUtils.getCurrentMonth());
+            int year = intent.getIntExtra(CUR_YEAR, labsCalendarUtils.getCurrentYear());
+
+            Intent svcIntent = new Intent(context, DayOnMonthHomeActivity.class);
+            svcIntent.putExtra(CUR_MONTH, month);
+            svcIntent.putExtra(CUR_YEAR, year);
+            svcIntent.setAction(START_ACTIVITY);
+            svcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(svcIntent);
         }
         else if(intent.getAction().equals(NEXT_CLICK)){
             Log.d("widget", "refresh next month");

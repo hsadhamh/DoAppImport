@@ -74,6 +74,7 @@ import factor.labs.indiancalendar.DayOnActivities.CalendarReligiousViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnPreferenceActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnScheduleViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnYearViewActivity;
+import factor.labs.indiancalendar.Widget.MonthEventsListWidget;
 
 /**
  * Created by hassanhussain on 9/30/2015.
@@ -255,6 +256,8 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             super.onCreate(savedInstanceState);
             setContentView(R.layout.layout_dayon_month_home);
 
+
+
             moMonthName = (TextView) findViewById(R.id.id_cal_txt_month);
 
             moPager = (CalendarViewPager) findViewById(R.id.id_cal_month_grid_pager);
@@ -288,6 +291,15 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             moPager.setOffscreenPageLimit(1);
 
             addMobileAdModule();
+
+            if(getIntent() != null){
+                Intent incomingIntent = getIntent();
+                if(incomingIntent.getAction().equals(MonthEventsListWidget.START_ACTIVITY)) {
+                    mnCurrentMonthInView = incomingIntent.getIntExtra(MonthEventsListWidget.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
+                    mnCurrentYearInView = incomingIntent.getIntExtra(MonthEventsListWidget.CUR_YEAR, labsCalendarUtils.getCurrentYear());
+                    mnLastDateSelected = 1;
+                }
+            }
 
             new LoadFirstMonths().execute();
 
