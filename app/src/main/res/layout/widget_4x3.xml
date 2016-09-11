@@ -12,11 +12,6 @@
 
     <include layout="@layout/widget_navbar_4x3" />
 
-    <GridView
-        android:id="@+id/id_widget_gridview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:numColumns="7" />
+    <include layout="@layout/widget_weekdays_4x3" />
+
 </LinearLayout>

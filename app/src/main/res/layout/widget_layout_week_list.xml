@@ -9,8 +9,12 @@
         android:text=" "
         android:id="@+id/calendar_week_name_display1"
         android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@color/Grey100"
-        android:textSize="11sp"
+        android:layout_marginLeft="4dp"
+        android:paddingRight="7dp"
+        android:gravity="right"
+        android:layout_weight="1"
+        android:layout_marginTop="6dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/dates_4x3"
         android:textStyle="normal" />
 </LinearLayout>

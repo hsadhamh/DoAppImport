@@ -102,5 +102,6 @@
 
     <!--for widget glossy look -->
     <color name="background_widget">#71000000</color>
+    <color name="lightgray">#FFDBDBDB</color>
 
 </resources>

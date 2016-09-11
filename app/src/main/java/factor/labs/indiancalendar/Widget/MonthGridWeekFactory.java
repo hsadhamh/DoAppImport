@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -45,14 +46,16 @@ public class MonthGridWeekFactory implements RemoteViewsService.RemoteViewsFacto
 
     @Override
     public int getCount() {
-        return (weekNames.length + mMonthClass.getDateForGrid().size());
+        return (weekNames.length +mMonthClass.getDateForGrid().size() );
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_layout_week_list);
-        if(position >= 0 && position <= 6)
+        if(position >= 0 && position <= 6){
             rv.setTextViewText(R.id.calendar_week_name_display1, weekNames[position]);
+            rv.setFloat(R.id.calendar_week_name_display1,"setTextSize",11);
+        }
         else
         {
             CalendarDateClass date = mMonthClass.getDateForGrid().get(position - 7);
@@ -60,6 +63,7 @@ public class MonthGridWeekFactory implements RemoteViewsService.RemoteViewsFacto
 
             // Next, set a fill-intent, which will be used to fill in the pending intent template
             // that is set on the collection view in StackWidgetProvider.
+
             Bundle extras = new Bundle();
             extras.putInt(MonthGridWidgetProvider.EXTRA_WORD, position);
             Intent fillInIntent = new Intent();
