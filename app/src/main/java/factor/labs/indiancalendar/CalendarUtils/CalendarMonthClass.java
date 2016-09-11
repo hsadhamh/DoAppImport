@@ -1,5 +1,6 @@
 package factor.labs.indiancalendar.CalendarUtils;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -10,7 +11,6 @@ import java.util.Vector;
 
 import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEmptyEventListItem;
-import factor.labs.indiancalendar.CalendarObjects.CalendarEventAdListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventDateListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
@@ -33,12 +33,17 @@ public class CalendarMonthClass {
     List<CalendarEventMaster> mListOfEventsForMonth = new ArrayList<>();
     List<Object> moListEventViewsToDisplay = new ArrayList<>();
 
+    public void setmContext(Context mContext) { this.mContext = mContext; }
+
+    Context mContext;
+
     public CalendarMonthClass(int nMonth, int nYear){
         sTag = "CalendarMonthClass()";
         mnMonth = nMonth;
         mnYear = nYear;
         Log.d(sTag, "Month : " + mnMonth + " Year : " +mnYear);
         bEventsLoaded = false;
+        mContext = null;
     }
 
     public int getMonth(){ return mnMonth; }
@@ -123,7 +128,11 @@ public class CalendarMonthClass {
     {
         sTag = "CalendarMonthClass.onPrepareListOfEventsForMonth";
         try {
-            List<CalendarEventMaster> listEvents = labsCalendarUtils.getCalendarDBHandler().getHolidayReligiousEventsForMonth(mnMonth, mnYear);
+            List<CalendarEventMaster> listEvents = null;
+            if(mContext == null)
+                listEvents = labsCalendarUtils.getCalendarDBHandler().getHolidayReligiousEventsForMonth(mnMonth, mnYear);
+            else
+                listEvents = labsCalendarUtils.getCalendarDBHandler(mContext).getHolidayReligiousEventsForMonth(mnMonth, mnYear);
             if(listEvents == null || listEvents.size() == 0) {
                 Log.w(sTag, "Total number of events returned for month [" + mnMonth + "] Year [" + mnYear + "] is zero.");
             }

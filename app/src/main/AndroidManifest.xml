@@ -58,7 +58,7 @@
             android:name=".CalendarServices.DayOnBroadCastReceiver"
             android:enabled="true"
             android:exported="true" />
-        <receiver android:name=".CalendarWidgetProvider" >
+        <receiver android:name=".Widget.MonthGridWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -66,7 +66,7 @@
                 android:resource="@xml/calendar_widget_info" />
         </receiver>
 
-        <receiver android:name=".Widget.MonthEventsListWidget" >
+        <receiver android:name=".Widget.EventsListWidgetProvider" >
             <intent-filter>
                 <!-- This widget provider receives broadcast with following action
     name or simply onUpdate of AppWidgetProvider is called -->
@@ -77,9 +77,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/mon_eve_list_widget_info" />
         </receiver>
-        <service
-            android:name=".WidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <service
             android:name=".Widget.MonthEventsWidgetService"

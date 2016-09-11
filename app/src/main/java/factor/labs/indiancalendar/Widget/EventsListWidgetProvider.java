@@ -18,7 +18,7 @@ import factor.labs.indiancalendar.R;
 /**
  * Created by hassanhussain on 9/8/2016.
  */
-public class MonthEventsListWidget extends AppWidgetProvider {
+public class EventsListWidgetProvider extends AppWidgetProvider {
 
     public static final String TOAST_ACTION = "com.example.android.stackwidget.TOAST_ACTION";
     public static final String EXTRA_ITEM = "com.example.android.stackwidget.EXTRA_ITEM";
@@ -30,6 +30,9 @@ public class MonthEventsListWidget extends AppWidgetProvider {
     public static final String CUR_YEAR = "com.factor.CUR_YEAR";
     public static final String GET_EVENTS = "com.factor.GET_EVENTS";
     public static final String START_ACTIVITY = "com.factor.START_ACTIVITY";
+    public static final String WIDGET_TYPE = "com.factor.WIDGET_TYPE";
+    public static final String MONTH_GRID_GET_DATES = "com.factor.MONTH_GRID_GET_DATES";
+
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
@@ -139,7 +142,7 @@ public class MonthEventsListWidget extends AppWidgetProvider {
         // of the collection view.
         rv.setEmptyView(R.id.id_list_events_month, R.id.empty_view);
 
-        Intent nextMonIntent = new Intent(context, MonthEventsListWidget.class);
+        Intent nextMonIntent = new Intent(context, EventsListWidgetProvider.class);
         nextMonIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         CalendarMonthYearClass obj = new CalendarMonthYearClass(month, year);
         CalendarMonthYearClass retObj = labsCalendarUtils.addMonthYear(obj, 1);
@@ -149,7 +152,7 @@ public class MonthEventsListWidget extends AppWidgetProvider {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, nextMonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         rv.setOnClickPendingIntent(R.id.id_wbtn_next, pendingIntent);
 
-        Intent prevMonIntent = new Intent(context, MonthEventsListWidget.class);
+        Intent prevMonIntent = new Intent(context, EventsListWidgetProvider.class);
         prevMonIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         CalendarMonthYearClass obj1 = new CalendarMonthYearClass(month, year);
         CalendarMonthYearClass retObj1 = labsCalendarUtils.subtractMonthYear(obj1, 1);
@@ -160,7 +163,7 @@ public class MonthEventsListWidget extends AppWidgetProvider {
         rv.setOnClickPendingIntent(R.id.id_wbtn_prev, pendingIntent1);
 
 
-        Intent curMonIntent = new Intent(context, MonthEventsListWidget.class);
+        Intent curMonIntent = new Intent(context, EventsListWidgetProvider.class);
         curMonIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         curMonIntent.putExtra(CUR_MONTH,  month);
         curMonIntent.putExtra(CUR_YEAR, year);
@@ -172,7 +175,7 @@ public class MonthEventsListWidget extends AppWidgetProvider {
         // cannot setup their own pending intents, instead, the collection as a whole can
         // setup a pending intent template, and the individual items can set a fillInIntent
         // to create unique before on an item to item basis.
-        Intent toastIntent = new Intent(context, MonthEventsListWidget.class);
+        Intent toastIntent = new Intent(context, EventsListWidgetProvider.class);
         toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         toastIntent.putExtra(CUR_MONTH, month);
         toastIntent.putExtra(CUR_YEAR, year);

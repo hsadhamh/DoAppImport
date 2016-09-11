@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
+import factor.labs.indiancalendar.CalendarUtils.CalendarMonthClass;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
 
 public class MonthsEventsFetchService extends IntentService {
 
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     public static ArrayList<CalendarEventMaster> listItemList;
+    public static CalendarMonthClass monthClass;
     int month, year;
 
     /**
@@ -35,14 +37,24 @@ public class MonthsEventsFetchService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        if(intent.getAction().equals(MonthEventsListWidget.GET_EVENTS)){
+        if(intent.getAction().equals(EventsListWidgetProvider.GET_EVENTS)){
             appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
             int currentMonth = labsCalendarUtils.getCurrentMonth();
             int currentYear = labsCalendarUtils.getCurrentYear();
-            month = intent.getIntExtra(MonthEventsListWidget.CUR_MONTH, currentMonth);
-            year = intent.getIntExtra(MonthEventsListWidget.CUR_YEAR, currentYear);
+            month = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, currentMonth);
+            year = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, currentYear);
             fetchDataFromDb(month, year);
+        }
+        else if(intent.getAction().equals(EventsListWidgetProvider.MONTH_GRID_GET_DATES)){
+            appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
+            int currentMonth = labsCalendarUtils.getCurrentMonth();
+            int currentYear = labsCalendarUtils.getCurrentYear();
+            month = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, currentMonth);
+            year = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, currentYear);
+
+            fetchDateForMonth(month, year);
         }
         this.stopSelf();
     }
@@ -64,12 +76,33 @@ public class MonthsEventsFetchService extends IntentService {
         populateWidget();
     }
 
+    private void fetchDateForMonth(int mon, int yr) {
+        try {
+            monthClass = new CalendarMonthClass(mon, yr);
+            monthClass.setmContext(getApplicationContext());
+            monthClass.prepareCalendarMonthDates();
+            monthClass.getEventsForMonth();
+        }catch(Exception exec) {
+            Log.e(this.getClass().toString(), "Exception caught : " + exec.getMessage());
+        }
+        populateMonthGridWidget();
+    }
+
     private void populateWidget() {
-        Intent widgetUpdateIntent = new Intent(this.getApplicationContext(), MonthEventsListWidget.class);
-        widgetUpdateIntent.setAction(MonthEventsListWidget.DATA_UPDATED);
+        Intent widgetUpdateIntent = new Intent(this.getApplicationContext(), EventsListWidgetProvider.class);
+        widgetUpdateIntent.setAction(EventsListWidgetProvider.DATA_UPDATED);
         widgetUpdateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        widgetUpdateIntent.putExtra(MonthEventsListWidget.CUR_MONTH, month);
-        widgetUpdateIntent.putExtra(MonthEventsListWidget.CUR_YEAR, year);
+        widgetUpdateIntent.putExtra(EventsListWidgetProvider.CUR_MONTH, month);
+        widgetUpdateIntent.putExtra(EventsListWidgetProvider.CUR_YEAR, year);
+        sendBroadcast(widgetUpdateIntent);
+    }
+
+    private void populateMonthGridWidget(){
+        Intent widgetUpdateIntent = new Intent(this.getApplicationContext(), MonthGridWidgetProvider.class);
+        widgetUpdateIntent.setAction(EventsListWidgetProvider.DATA_UPDATED);
+        widgetUpdateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        widgetUpdateIntent.putExtra(EventsListWidgetProvider.CUR_MONTH, month);
+        widgetUpdateIntent.putExtra(EventsListWidgetProvider.CUR_YEAR, year);
         sendBroadcast(widgetUpdateIntent);
     }
 }

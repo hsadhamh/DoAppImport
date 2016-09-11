@@ -28,17 +28,17 @@ import factor.labs.indiancalendar.R;
  * time.
  * For that use Database or other techniquest
  */
-public class MonthEventsDataProvider implements RemoteViewsFactory {
+public class MonthEventsListFactory implements RemoteViewsFactory {
     private static final int mCount = 10;
     private List<CalendarEventMaster> mWidgetItems = new ArrayList<>();
     private Context mContext;
     private int mAppWidgetId, mMonth, mYear;
 
-    public MonthEventsDataProvider(Context context, Intent intent) {
+    public MonthEventsListFactory(Context context, Intent intent) {
         mContext = context;
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        mMonth = intent.getIntExtra(MonthEventsListWidget.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
-        mYear = intent.getIntExtra(MonthEventsListWidget.CUR_YEAR, labsCalendarUtils.getCurrentYear());
+        mMonth = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
+        mYear = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, labsCalendarUtils.getCurrentYear());
     }
 
     public void onCreate() {
@@ -81,7 +81,7 @@ public class MonthEventsDataProvider implements RemoteViewsFactory {
         // Next, we set a fill-intent which will be used to fill-in the pending intent template
         // which is set on the collection view in StackWidgetProvider.
         Bundle extras = new Bundle();
-        extras.putInt(MonthEventsListWidget.EXTRA_ITEM, position);
+        extras.putInt(EventsListWidgetProvider.EXTRA_ITEM, position);
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
         rv.setOnClickFillInIntent(R.id.calendar_schedule_event_info_holder, fillInIntent);

@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/widget_width_4x3"
     android:layout_height="@dimen/widget_height_4x3"
     android:padding="@dimen/widget_padding">
+
     <include
+        android:id="@+id/id_layout_grid_view"
         layout="@layout/widget_4x3" />
 
-</FrameLayout>
+    <TextView
+        android:layout_below="@id/id_layout_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/empty_view"
+        android:text="Empty View."/>
+
+</RelativeLayout>

@@ -74,7 +74,7 @@ import factor.labs.indiancalendar.DayOnActivities.CalendarReligiousViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnPreferenceActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnScheduleViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnYearViewActivity;
-import factor.labs.indiancalendar.Widget.MonthEventsListWidget;
+import factor.labs.indiancalendar.Widget.EventsListWidgetProvider;
 
 /**
  * Created by hassanhussain on 9/30/2015.
@@ -294,9 +294,9 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
             if(getIntent() != null){
                 Intent incomingIntent = getIntent();
-                if(incomingIntent.getAction().equals(MonthEventsListWidget.START_ACTIVITY)) {
-                    mnCurrentMonthInView = incomingIntent.getIntExtra(MonthEventsListWidget.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
-                    mnCurrentYearInView = incomingIntent.getIntExtra(MonthEventsListWidget.CUR_YEAR, labsCalendarUtils.getCurrentYear());
+                if(incomingIntent.getAction().equals(EventsListWidgetProvider.START_ACTIVITY)) {
+                    mnCurrentMonthInView = incomingIntent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
+                    mnCurrentYearInView = incomingIntent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, labsCalendarUtils.getCurrentYear());
                     mnLastDateSelected = 1;
                 }
             }
