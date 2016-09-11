@@ -19,7 +19,7 @@ import factor.labs.indiancalendar.R;
  */
 public class MonthGridWeekFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    String[] weekNames = {"Sun", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat"};
+    String[] weekNames = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
     private Context mContext = null;
     private int mAppWidgetId, mMonth, mYear;

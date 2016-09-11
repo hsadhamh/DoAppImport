@@ -3,6 +3,7 @@ package factor.labs.indiancalendar.Widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -94,8 +95,11 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
             int year = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, labsCalendarUtils.getCurrentYear());
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             RemoteViews remoteViews = updateAppWidget(context, appWidgetId, month, year);
-            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
-            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.id_widget_gridview);
+            int appWidgetIds[] = appWidgetManager.getAppWidgetIds(
+                    new ComponentName(context, MonthGridWidgetProvider.class));
+            appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
+           // appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.id_widget_gridview);
+
         }
         else if(intent.getAction().equals(NAV_CLICK_CURR)){
             Log.d("widget", "start activity");
