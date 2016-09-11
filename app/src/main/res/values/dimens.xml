@@ -96,5 +96,37 @@
 
     <dimen name="corner_radius">4dp</dimen>
     <dimen name="layer_padding">3dp</dimen>
+
+
+    <!--For Widget-->
+    <!-- Min widget sizes in appwidget-provider (pre-ICS formula) -->
+    <dimen name="widget_minwidth_3x2">220dp</dimen>
+    <dimen name="widget_minheight_3x2">146dp</dimen>
+    <dimen name="widget_minwidth_4x3">294dp</dimen>
+    <dimen name="widget_minheight_4x3">220dp</dimen>
+    <!-- Widget sizes -->
+    <dimen name="widget_width_3x2">198dp</dimen>
+    <dimen name="widget_height_3x2">190dp</dimen>
+    <dimen name="widget_width_4x3">272dp</dimen>
+    <dimen name="widget_height_4x3">264dp</dimen>
+    <!-- Widget padding -->
+    <dimen name="widget_padding">8dp</dimen>
+    <dimen name="calendar_paddingLR_3x2">6dp</dimen>
+    <dimen name="calendar_paddingB_3x2">9dp</dimen>
+    <dimen name="calendar_paddingLR_4x3">6dp</dimen>
+    <dimen name="calendar_paddingB_4x3">12dp</dimen>
+    <!-- Widget text sizes -->
+    <dimen name="month_year_3x2">16sp</dimen>
+    <dimen name="days_week_3x2">10sp</dimen>
+    <dimen name="dates_3x2">12sp</dimen>
+    <dimen name="month_year_4x3">22sp</dimen>
+    <dimen name="days_week_4x3">14sp</dimen>
+    <dimen name="dates_4x3">18sp</dimen>
+    <!-- Instructions sizes -->
+    <dimen name="instr_textsize_1">18sp</dimen>
+    <dimen name="instr_textsize_2">14sp</dimen>
+    <dimen name="instr_btnwidth">90dp</dimen>
+    <dimen name="instr_svsize">250dp</dimen>
+    <dimen name="instr_steppadding">6dp</dimen>
 	
 </resources>

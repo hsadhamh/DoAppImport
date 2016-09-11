@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/calendar_paddingB_4x3"
+    android:paddingLeft="@dimen/calendar_paddingLR_4x3"
+    android:paddingRight="@dimen/calendar_paddingLR_4x3"
+    android:weightSum="66">
+
+    <include layout="@layout/widget_navbar_4x3" />
+
+    <GridView
+        android:id="@+id/id_widget_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:numColumns="7" />
+</LinearLayout>

@@ -100,4 +100,7 @@
     <color name="loadmore_pressed">#F57C00</color>
     <color name="loadmore_normal">#FF9800</color>
 
+    <!--for widget glossy look -->
+    <color name="background_widget">#71000000</color>
+
 </resources>
