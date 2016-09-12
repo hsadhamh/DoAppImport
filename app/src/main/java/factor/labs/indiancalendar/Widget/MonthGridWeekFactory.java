@@ -59,38 +59,39 @@ public class MonthGridWeekFactory implements RemoteViewsService.RemoteViewsFacto
         else
         {
             CalendarDateClass date = mMonthClass.getDateForGrid().get(position - 7);
+            /*
             if((date.getEventsForDay().size() > 0) && date.isCurrentMonthDate())
                 rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_layout_day_events);
+            */
 
-            if(rv != null) {
-                rv.setTextViewText(R.id.calendar_week_name_display1, "" + date.getDate());
-                if (date.isNextMonthDate() || date.isPreviousMonthDate())
-                    rv.setTextColor(R.id.calendar_week_name_display1, Color.GRAY);
+            if((date.getEventsForDay().size() > 0) && date.isCurrentMonthDate())
+                // RGB(250, 128, 114)
+                rv.setTextColor(R.id.calendar_week_name_display1, Color.rgb(255, 64, 133));
 
-                // Next, set a fill-intent, which will be used to fill in the pending intent template
-                // that is set on the collection view in StackWidgetProvider.
 
-                Bundle extras = new Bundle();
-                extras.putInt(MonthGridWidgetProvider.EXTRA_WORD, position);
-                Intent fillInIntent = new Intent();
-                fillInIntent.putExtras(extras);
-                // Make it possible to distinguish the individual on-click
-                // action of a given item
-                rv.setOnClickFillInIntent(R.id.calendar_week_name_display1, fillInIntent);
-            }
+            rv.setTextViewText(R.id.calendar_week_name_display1, "" + date.getDate());
+            if (date.isNextMonthDate() || date.isPreviousMonthDate())
+                rv.setTextColor(R.id.calendar_week_name_display1, Color.GRAY);
+
+            // Next, set a fill-intent, which will be used to fill in the pending intent template
+            // that is set on the collection view in StackWidgetProvider.
+
+            Bundle extras = new Bundle();
+            extras.putInt(MonthGridWidgetProvider.EXTRA_WORD, position);
+            Intent fillInIntent = new Intent();
+            fillInIntent.putExtras(extras);
+            // Make it possible to distinguish the individual on-click
+            // action of a given item
+            rv.setOnClickFillInIntent(R.id.calendar_week_name_display1, fillInIntent);
         }
         return rv;
     }
 
     @Override
-    public RemoteViews getLoadingView() {
-        return null;
-    }
+    public RemoteViews getLoadingView() { return null; }
 
     @Override
-    public int getViewTypeCount() {
-        return 1;
-    }
+    public int getViewTypeCount() { return 1; }
 
     @Override
     public long getItemId(int position) {
