@@ -3,6 +3,7 @@ package factor.labs.indiancalendar.Widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -44,10 +45,10 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        Log.d("eve-widget-debug", "On Update");
         /* Start the service */
         for(int n : appWidgetIds){
-            startServiceToUpdate(context, n,
-                    labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
+            startServiceToUpdate(context, n, labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
@@ -104,7 +105,8 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        super.onReceive(context, intent);
+        Log.d("eve-widget-debug", "On Receive : " + ((intent != null)? intent.getAction() : ""));
         if(intent.getAction().equals(DATA_UPDATED)){
             UpdateDataToWidget(context, intent);
         }
@@ -117,7 +119,6 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
         else if(intent.getAction().equals(PREV_CLICK)){
             startServiceToUpdateWidget(context, intent, true);
         }
-        super.onReceive(context, intent);
     }
 
     public void startServiceToUpdateWidget(Context context, Intent intent, boolean addMonYr){
@@ -157,8 +158,9 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
         int year = intent.getIntExtra(CUR_YEAR, labsCalendarUtils.getCurrentYear());
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        int appWidgetIds[] = appWidgetManager.getAppWidgetIds(new ComponentName(context, EventsListWidgetProvider.class));
         RemoteViews remoteViews = updateAppWidget(context, appWidgetId, month, year);
-        appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+        appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
     }
 
     public PendingIntent getPendingIntent(Context context, int appWidgetId, int month, int year, int action){

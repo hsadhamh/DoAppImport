@@ -3,8 +3,8 @@ package factor.labs.indiancalendar.Widget;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -27,7 +27,7 @@ public class MonthGridWeekFactory implements RemoteViewsService.RemoteViewsFacto
 
     @Override
     public void onCreate() {
-        mMonthClass = MonthsEventsFetchService.monthClass;
+        mMonthClass = MonthDateEventsFetchService.monthClass;
     }
 
     public MonthGridWeekFactory(Context context, Intent intent) {
@@ -54,23 +54,30 @@ public class MonthGridWeekFactory implements RemoteViewsService.RemoteViewsFacto
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_layout_week_list);
         if(position >= 0 && position <= 6){
             rv.setTextViewText(R.id.calendar_week_name_display1, weekNames[position]);
-            rv.setFloat(R.id.calendar_week_name_display1,"setTextSize",11);
+            rv.setFloat(R.id.calendar_week_name_display1, "setTextSize", 11.0f);
         }
         else
         {
             CalendarDateClass date = mMonthClass.getDateForGrid().get(position - 7);
-            rv.setTextViewText(R.id.calendar_week_name_display1, ""+date.getDate());
+            if((date.getEventsForDay().size() > 0) && date.isCurrentMonthDate())
+                rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_layout_day_events);
 
-            // Next, set a fill-intent, which will be used to fill in the pending intent template
-            // that is set on the collection view in StackWidgetProvider.
+            if(rv != null) {
+                rv.setTextViewText(R.id.calendar_week_name_display1, "" + date.getDate());
+                if (date.isNextMonthDate() || date.isPreviousMonthDate())
+                    rv.setTextColor(R.id.calendar_week_name_display1, Color.GRAY);
 
-            Bundle extras = new Bundle();
-            extras.putInt(MonthGridWidgetProvider.EXTRA_WORD, position);
-            Intent fillInIntent = new Intent();
-            fillInIntent.putExtras(extras);
-            // Make it possible to distinguish the individual on-click
-            // action of a given item
-            rv.setOnClickFillInIntent(R.id.calendar_week_name_display1, fillInIntent);
+                // Next, set a fill-intent, which will be used to fill in the pending intent template
+                // that is set on the collection view in StackWidgetProvider.
+
+                Bundle extras = new Bundle();
+                extras.putInt(MonthGridWidgetProvider.EXTRA_WORD, position);
+                Intent fillInIntent = new Intent();
+                fillInIntent.putExtras(extras);
+                // Make it possible to distinguish the individual on-click
+                // action of a given item
+                rv.setOnClickFillInIntent(R.id.calendar_week_name_display1, fillInIntent);
+            }
         }
         return rv;
     }
@@ -94,6 +101,5 @@ public class MonthGridWeekFactory implements RemoteViewsService.RemoteViewsFacto
     public boolean hasStableIds() {
         return true;
     }
-
 
 }

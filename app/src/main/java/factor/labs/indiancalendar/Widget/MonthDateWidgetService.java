@@ -6,9 +6,9 @@ package factor.labs.indiancalendar.Widget;
 import android.content.Intent;
 import android.widget.RemoteViewsService;
 
-public class MonthEventsWidgetService extends RemoteViewsService {
+public class MonthDateWidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return (new MonthEventsListFactory(this.getApplicationContext(), intent));
+        return (new MonthGridWeekFactory(this.getApplicationContext(), intent));
     }
 }

@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/calendar_week_name_holder"
-    android:background="@drawable/widget_bg_new">
+    android:background="@drawable/widget_bg_events">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

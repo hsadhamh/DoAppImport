@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-
 import factor.labs.indiancalendar.CalendarObjects.CalendarMonthYearClass;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
 import factor.labs.indiancalendar.DayOnMonthHomeActivity;
@@ -29,10 +28,10 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        Log.d("grid-widget-debug", "On Update");
         /* Start the service */
         for(int n : appWidgetIds){
-            startServiceToUpdate(context, n,
-                    labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
+            startServiceToUpdate(context, n, labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
@@ -40,14 +39,13 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
     public RemoteViews updateAppWidget(Context context, int appWidgetId, int month, int year){
         Bundle bundle = getBundle(appWidgetId, month, year);
 
-        Intent svcIntent = new Intent(context, MonthEventsWidgetService.class);
+        Intent svcIntent = new Intent(context, MonthDateWidgetService.class);
         svcIntent.putExtras(bundle);
         svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
-        svcIntent.putExtra(EventsListWidgetProvider.WIDGET_TYPE, 1);
 
         RemoteViews rvWidgetMain = new RemoteViews(context.getPackageName(), R.layout.widget_main_4x3);
         rvWidgetMain.setTextViewText(R.id.monthyear, labsCalendarUtils.getMonthName(month) + " " + year);
-        //setting adapter to listview of the widget
+        //  setting adapter to list-view of the widget
         rvWidgetMain.setRemoteAdapter(R.id.id_widget_gridview, svcIntent);
         rvWidgetMain.setEmptyView(R.id.id_widget_gridview, R.id.empty_view);
 
@@ -69,22 +67,20 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        Log.d("grid-widget-debug", "On Receive : " + ((intent != null)? intent.getAction() : ""));
         if(intent.getAction().equals(EventsListWidgetProvider.DATA_UPDATED)){
             UpdateDataToWidget(context, intent);
         }
         else if(intent.getAction().equals(NAV_CLICK_CURR)){
-            Log.d("widget", "start activity");
             startActivityOnClick(context, intent);
         }
         else if(intent.getAction().equals(NAV_CLICK_NEXT)){
-            Log.d("widget", "refresh next month");
             startServiceToUpdateWidget(context, intent, true);
         }
         else if(intent.getAction().equals(NAV_CLICK_PREV)){
-            Log.d("widget", "refresh prev month");
             startServiceToUpdateWidget(context, intent, true);
         }
-        super.onReceive(context, intent);
     }
 
     public Bundle getBundle(int appWidgetId, int month, int year){
@@ -104,7 +100,7 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
     }
 
     public void startServiceToUpdate(Context context, int appWidgetId, int month, int year, boolean addMonYr){
-        Intent svcIntent = new Intent(context, MonthsEventsFetchService.class);
+        Intent svcIntent = new Intent(context, MonthDateEventsFetchService.class);
         svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         if(addMonYr) {
             svcIntent.putExtra(EventsListWidgetProvider.CUR_MONTH, month);
@@ -138,13 +134,11 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
     }
 
     public PendingIntent getPendingIntent(Context context, int appWidgetId, int month, int year, int action){
-        Intent monIntent = new Intent(context, EventsListWidgetProvider.class);
+        Intent monIntent = new Intent(context, MonthGridWidgetProvider.class);
         monIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         monIntent.putExtra(EventsListWidgetProvider.CUR_MONTH,  month);
         monIntent.putExtra(EventsListWidgetProvider.CUR_YEAR, year);
-
-        switch(action)
-        {
+        switch(action){
             case 0:
                 monIntent.setAction(MonthGridWidgetProvider.NAV_CLICK_CURR);
                 break;

@@ -57,6 +57,7 @@
     <color name="Black">#000000</color>
     <color name="White">#FFFFFF</color>
     <color name="Grey500">#9E9E9E</color>
+    <color name="Grey10">#FEFEFE</color>
     <color name="Grey50">#FAFAFA</color>
     <color name="Grey100">#F5F5F5</color>
     <color name="Grey200">#EEEEEE</color>

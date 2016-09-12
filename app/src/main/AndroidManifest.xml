@@ -52,12 +52,11 @@
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
-
-
         <receiver
             android:name=".CalendarServices.DayOnBroadCastReceiver"
             android:enabled="true"
             android:exported="true" />
+
         <receiver android:name=".Widget.MonthGridWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -68,11 +67,8 @@
 
         <receiver android:name=".Widget.EventsListWidgetProvider" >
             <intent-filter>
-                <!-- This widget provider receives broadcast with following action
-    name or simply onUpdate of AppWidgetProvider is called -->
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-            <!-- linking up xml file of appwidget-provider to AppWidgetProvider -->
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/mon_eve_list_widget_info" />
@@ -82,11 +78,11 @@
             android:name=".Widget.MonthEventsWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
         <service
-            android:name=".Widget.MonthsEventsFetchService" />
-        <service
-            android:name=".CalendarServices.DayOnAndroidService"
-            android:enabled="true"
-            android:exported="true" />
+            android:name=".Widget.MonthDateWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <service android:name=".Widget.MonthDateEventsFetchService" />
+        <service android:name=".Widget.MonthsEventsFetchService" />
+        <service android:name=".CalendarServices.DayOnAndroidService" android:enabled="true" android:exported="true" />
     </application>
 
 </manifest>
