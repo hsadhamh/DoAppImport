@@ -31,19 +31,14 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         /* Start the service */
         for(int n : appWidgetIds){
-            Intent svcIntent = new Intent(context, MonthsEventsFetchService.class);
-            svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, n);
-            svcIntent.setAction(EventsListWidgetProvider.MONTH_GRID_GET_DATES);
-            context.startService(svcIntent);
+            startServiceToUpdate(context, n,
+                    labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     public RemoteViews updateAppWidget(Context context, int appWidgetId, int month, int year){
-        Bundle bundle = new Bundle();
-        bundle.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        bundle.putInt(EventsListWidgetProvider.CUR_MONTH, month);
-        bundle.putInt(EventsListWidgetProvider.CUR_YEAR, year);
+        Bundle bundle = getBundle(appWidgetId, month, year);
 
         Intent svcIntent = new Intent(context, MonthEventsWidgetService.class);
         svcIntent.putExtras(bundle);
@@ -56,28 +51,17 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
         rvWidgetMain.setRemoteAdapter(R.id.id_widget_gridview, svcIntent);
         rvWidgetMain.setEmptyView(R.id.id_widget_gridview, R.id.empty_view);
 
-        Intent prevIntent = new Intent(context, MonthGridWidgetProvider.class);
         CalendarMonthYearClass obj = new CalendarMonthYearClass(month, year);
-        CalendarMonthYearClass retObj = labsCalendarUtils.subtractMonthYear(obj, 1);
-        prevIntent.putExtra(EventsListWidgetProvider.CUR_MONTH,  retObj.getMonth());
-        prevIntent.putExtra(EventsListWidgetProvider.CUR_YEAR, retObj.getYear());
-        prevIntent.setAction(MonthGridWidgetProvider.NAV_CLICK_PREV);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        rvWidgetMain.setOnClickPendingIntent(R.id.prevmonth, pendingIntent);
 
-        Intent nextIntent = new Intent(context, MonthGridWidgetProvider.class);
-        CalendarMonthYearClass obj1 = new CalendarMonthYearClass(month, year);
-        CalendarMonthYearClass retObj1 = labsCalendarUtils.addMonthYear(obj1, 1);
-        nextIntent.putExtra(EventsListWidgetProvider.CUR_MONTH,  retObj1.getMonth());
-        nextIntent.putExtra(EventsListWidgetProvider.CUR_YEAR, retObj1.getYear());
-        nextIntent.setAction(MonthGridWidgetProvider.NAV_CLICK_NEXT);
-        PendingIntent pendingIntent1 = PendingIntent.getBroadcast(context, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        CalendarMonthYearClass retObj = labsCalendarUtils.subtractMonthYear(obj, 1);
+        PendingIntent prevPendingIntent = getPendingIntent(context, appWidgetId, retObj.getMonth(), retObj.getYear(), 1);
+        rvWidgetMain.setOnClickPendingIntent(R.id.prevmonth, prevPendingIntent);
+
+        retObj = labsCalendarUtils.addMonthYear(obj, 1);
+        PendingIntent pendingIntent1 = getPendingIntent(context, appWidgetId, retObj.getMonth(), retObj.getYear(), 2);
         rvWidgetMain.setOnClickPendingIntent(R.id.nextmonth, pendingIntent1);
 
-        Intent toastIntent = new Intent(context, MonthGridWidgetProvider.class);
-        toastIntent.putExtras(bundle);
-        toastIntent.setAction(MonthGridWidgetProvider.NAV_CLICK_CURR);
-        PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent toastPendingIntent = getPendingIntent(context, appWidgetId, month, year, 0);
         rvWidgetMain.setPendingIntentTemplate(R.id.id_widget_gridview, toastPendingIntent);
 
         return rvWidgetMain;
@@ -85,64 +69,93 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-        if (intent.getAction().equals(TOAST_ACTION)) {
-            Log.d("widget", "start activity");
-        }
-        else if(intent.getAction().equals(EventsListWidgetProvider.DATA_UPDATED)){
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-            int month = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
-            int year = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, labsCalendarUtils.getCurrentYear());
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            RemoteViews remoteViews = updateAppWidget(context, appWidgetId, month, year);
-            int appWidgetIds[] = appWidgetManager.getAppWidgetIds(
-                    new ComponentName(context, MonthGridWidgetProvider.class));
-            appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
-           // appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.id_widget_gridview);
-
+        if(intent.getAction().equals(EventsListWidgetProvider.DATA_UPDATED)){
+            UpdateDataToWidget(context, intent);
         }
         else if(intent.getAction().equals(NAV_CLICK_CURR)){
             Log.d("widget", "start activity");
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-            int month = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
-            int year = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, labsCalendarUtils.getCurrentYear());
-
-            Intent svcIntent = new Intent(context, DayOnMonthHomeActivity.class);
-            svcIntent.putExtra(EventsListWidgetProvider.CUR_MONTH, month);
-            svcIntent.putExtra(EventsListWidgetProvider.CUR_YEAR, year);
-            svcIntent.setAction(EventsListWidgetProvider.START_ACTIVITY);
-            svcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(svcIntent);
+            startActivityOnClick(context, intent);
         }
         else if(intent.getAction().equals(NAV_CLICK_NEXT)){
             Log.d("widget", "refresh next month");
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-            int month = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
-            int year = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, labsCalendarUtils.getCurrentYear());
-
-            Intent svcIntent = new Intent(context, MonthsEventsFetchService.class);
-            svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            svcIntent.putExtra(EventsListWidgetProvider.CUR_MONTH, month);
-            svcIntent.putExtra(EventsListWidgetProvider.CUR_YEAR, year);
-            svcIntent.setAction(EventsListWidgetProvider.MONTH_GRID_GET_DATES);
-            context.startService(svcIntent);
+            startServiceToUpdateWidget(context, intent, true);
         }
         else if(intent.getAction().equals(NAV_CLICK_PREV)){
             Log.d("widget", "refresh prev month");
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-            int month = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
-            int year = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, labsCalendarUtils.getCurrentYear());
-
-            Intent svcIntent = new Intent(context, MonthsEventsFetchService.class);
-            svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            svcIntent.putExtra(EventsListWidgetProvider.CUR_MONTH, month);
-            svcIntent.putExtra(EventsListWidgetProvider.CUR_YEAR, year);
-            svcIntent.setAction(EventsListWidgetProvider.MONTH_GRID_GET_DATES);
-            context.startService(svcIntent);
+            startServiceToUpdateWidget(context, intent, true);
         }
         super.onReceive(context, intent);
     }
+
+    public Bundle getBundle(int appWidgetId, int month, int year){
+        Bundle bundle = new Bundle();
+        bundle.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        bundle.putInt(EventsListWidgetProvider.CUR_MONTH, month);
+        bundle.putInt(EventsListWidgetProvider.CUR_YEAR, year);
+        return bundle;
+    }
+
+    public void startServiceToUpdateWidget(Context context, Intent intent, boolean addMonYr){
+        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID);
+        int month = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
+        int year = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, labsCalendarUtils.getCurrentYear());
+        startServiceToUpdate(context, appWidgetId, month, year, addMonYr);
+    }
+
+    public void startServiceToUpdate(Context context, int appWidgetId, int month, int year, boolean addMonYr){
+        Intent svcIntent = new Intent(context, MonthsEventsFetchService.class);
+        svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        if(addMonYr) {
+            svcIntent.putExtra(EventsListWidgetProvider.CUR_MONTH, month);
+            svcIntent.putExtra(EventsListWidgetProvider.CUR_YEAR, year);
+        }
+        svcIntent.setAction(EventsListWidgetProvider.MONTH_GRID_GET_DATES);
+        context.startService(svcIntent);
+    }
+
+    public void startActivityOnClick(Context context, Intent intent){
+        int month = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
+        int year = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, labsCalendarUtils.getCurrentYear());
+
+        Intent svcIntent = new Intent(context, DayOnMonthHomeActivity.class);
+        svcIntent.putExtra(EventsListWidgetProvider.CUR_MONTH, month);
+        svcIntent.putExtra(EventsListWidgetProvider.CUR_YEAR, year);
+        svcIntent.setAction(EventsListWidgetProvider.START_ACTIVITY);
+        svcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(svcIntent);
+    }
+
+    public void UpdateDataToWidget(Context context, Intent intent){
+        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        int month = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
+        int year = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, labsCalendarUtils.getCurrentYear());
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        RemoteViews remoteViews = updateAppWidget(context, appWidgetId, month, year);
+        int appWidgetIds[] = appWidgetManager.getAppWidgetIds(new ComponentName(context, MonthGridWidgetProvider.class));
+        appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
+    }
+
+    public PendingIntent getPendingIntent(Context context, int appWidgetId, int month, int year, int action){
+        Intent monIntent = new Intent(context, EventsListWidgetProvider.class);
+        monIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        monIntent.putExtra(EventsListWidgetProvider.CUR_MONTH,  month);
+        monIntent.putExtra(EventsListWidgetProvider.CUR_YEAR, year);
+
+        switch(action)
+        {
+            case 0:
+                monIntent.setAction(MonthGridWidgetProvider.NAV_CLICK_CURR);
+                break;
+            case 1:
+                monIntent.setAction(MonthGridWidgetProvider.NAV_CLICK_PREV);
+                break;
+            case 2:
+                monIntent.setAction(MonthGridWidgetProvider.NAV_CLICK_NEXT);
+                break;
+        }
+        return PendingIntent.getBroadcast(context, 0, monIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
 }

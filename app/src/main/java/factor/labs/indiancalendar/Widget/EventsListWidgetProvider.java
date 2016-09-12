@@ -20,8 +20,8 @@ import factor.labs.indiancalendar.R;
  */
 public class EventsListWidgetProvider extends AppWidgetProvider {
 
-    public static final String TOAST_ACTION = "com.example.android.stackwidget.TOAST_ACTION";
-    public static final String EXTRA_ITEM = "com.example.android.stackwidget.EXTRA_ITEM";
+    public static final String TOAST_ACTION = "com.factor.TOAST_ACTION";
+    public static final String EXTRA_ITEM = "com.factor.EXTRA_ITEM";
     public static final String DATA_UPDATED = "com.factor.DATA_UPDATED";
     public static final String NEXT_CLICK = "com.factor.NEXT_CLICK";
     public static final String PREV_CLICK = "com.factor.PREV_CLICK";
@@ -34,97 +34,34 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
     public static final String MONTH_GRID_GET_DATES = "com.factor.MONTH_GRID_GET_DATES";
 
     @Override
-    public void onDeleted(Context context, int[] appWidgetIds) {
-        super.onDeleted(context, appWidgetIds);
-    }
+    public void onDeleted(Context context, int[] appWidgetIds) { super.onDeleted(context, appWidgetIds); }
 
     @Override
-    public void onDisabled(Context context) {
-        super.onDisabled(context);
-    }
+    public void onDisabled(Context context) { super.onDisabled(context); }
 
     @Override
-    public void onEnabled(Context context) {
-        super.onEnabled(context);
-    }
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-        if (intent.getAction().equals(TOAST_ACTION)) {
-            Log.d("widget", "start activity");
-        }
-        else if(intent.getAction().equals(DATA_UPDATED)){
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-            int month = intent.getIntExtra(CUR_MONTH, labsCalendarUtils.getCurrentMonth());
-            int year = intent.getIntExtra(CUR_YEAR, labsCalendarUtils.getCurrentYear());
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            RemoteViews remoteViews = updateAppWidget(context, appWidgetId, month, year);
-            appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
-        }
-        else if(intent.getAction().equals(CURRENT_CLICK)){
-            Log.d("widget", "start activity");
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-            int month = intent.getIntExtra(CUR_MONTH, labsCalendarUtils.getCurrentMonth());
-            int year = intent.getIntExtra(CUR_YEAR, labsCalendarUtils.getCurrentYear());
-
-            Intent svcIntent = new Intent(context, DayOnMonthHomeActivity.class);
-            svcIntent.putExtra(CUR_MONTH, month);
-            svcIntent.putExtra(CUR_YEAR, year);
-            svcIntent.setAction(START_ACTIVITY);
-            svcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(svcIntent);
-        }
-        else if(intent.getAction().equals(NEXT_CLICK)){
-            Log.d("widget", "refresh next month");
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-            int month = intent.getIntExtra(CUR_MONTH, labsCalendarUtils.getCurrentMonth());
-            int year = intent.getIntExtra(CUR_YEAR, labsCalendarUtils.getCurrentYear());
-
-            Intent svcIntent = new Intent(context, MonthsEventsFetchService.class);
-            svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            svcIntent.putExtra(CUR_MONTH, month);
-            svcIntent.putExtra(CUR_YEAR, year);
-            svcIntent.setAction(GET_EVENTS);
-            context.startService(svcIntent);
-        }
-        else if(intent.getAction().equals(PREV_CLICK)){
-            Log.d("widget", "refresh prev month");
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-            int month = intent.getIntExtra(CUR_MONTH, labsCalendarUtils.getCurrentMonth());
-            int year = intent.getIntExtra(CUR_YEAR, labsCalendarUtils.getCurrentYear());
-
-            Intent svcIntent = new Intent(context, MonthsEventsFetchService.class);
-            svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-            svcIntent.putExtra(CUR_MONTH, month);
-            svcIntent.putExtra(CUR_YEAR, year);
-            svcIntent.setAction(GET_EVENTS);
-            context.startService(svcIntent);
-        }
-        super.onReceive(context, intent);
-    }
+    public void onEnabled(Context context) { super.onEnabled(context); }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         /* Start the service */
         for(int n : appWidgetIds){
-            Intent svcIntent = new Intent(context, MonthsEventsFetchService.class);
-            svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, n);
-            svcIntent.setAction(GET_EVENTS);
-            context.startService(svcIntent);
+            startServiceToUpdate(context, n,
+                    labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
-    public RemoteViews updateAppWidget(Context context, int appWidgetId, int month, int year){
+    public Bundle getBundle(int appWidgetId, int month, int year){
         Bundle bundle = new Bundle();
         bundle.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         bundle.putInt(CUR_MONTH, month);
         bundle.putInt(CUR_YEAR, year);
+        return bundle;
+    }
+
+    public RemoteViews updateAppWidget(Context context, int appWidgetId, int month, int year){
+        Bundle bundle = getBundle(appWidgetId, month, year);
 
         // Here we setup the intent which points to the StackViewService which will
         // provide the views for this collection.
@@ -142,48 +79,107 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
         // of the collection view.
         rv.setEmptyView(R.id.id_list_events_month, R.id.empty_view);
 
-        Intent nextMonIntent = new Intent(context, EventsListWidgetProvider.class);
-        nextMonIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
         CalendarMonthYearClass obj = new CalendarMonthYearClass(month, year);
+
         CalendarMonthYearClass retObj = labsCalendarUtils.addMonthYear(obj, 1);
-        nextMonIntent.putExtra(CUR_MONTH,  retObj.getMonth());
-        nextMonIntent.putExtra(CUR_YEAR, retObj.getYear());
-        nextMonIntent.setAction(NEXT_CLICK);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, nextMonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        rv.setOnClickPendingIntent(R.id.id_wbtn_next, pendingIntent);
+        PendingIntent nextPendingIntent = getPendingIntent(context, appWidgetId, retObj.getMonth(), retObj.getYear(), 2);
+        rv.setOnClickPendingIntent(R.id.id_wbtn_next, nextPendingIntent);
 
-        Intent prevMonIntent = new Intent(context, EventsListWidgetProvider.class);
-        prevMonIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        CalendarMonthYearClass obj1 = new CalendarMonthYearClass(month, year);
-        CalendarMonthYearClass retObj1 = labsCalendarUtils.subtractMonthYear(obj1, 1);
-        prevMonIntent.putExtra(CUR_MONTH,  retObj1.getMonth());
-        prevMonIntent.putExtra(CUR_YEAR, retObj1.getYear());
-        prevMonIntent.setAction(PREV_CLICK);
-        PendingIntent pendingIntent1 = PendingIntent.getBroadcast(context, 0, prevMonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        rv.setOnClickPendingIntent(R.id.id_wbtn_prev, pendingIntent1);
+        retObj = labsCalendarUtils.subtractMonthYear(obj, 1);
+        PendingIntent prevPendingIntent = getPendingIntent(context, appWidgetId, retObj.getMonth(), retObj.getYear(), 1);
+        rv.setOnClickPendingIntent(R.id.id_wbtn_prev, prevPendingIntent);
 
-
-        Intent curMonIntent = new Intent(context, EventsListWidgetProvider.class);
-        curMonIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        curMonIntent.putExtra(CUR_MONTH,  month);
-        curMonIntent.putExtra(CUR_YEAR, year);
-        curMonIntent.setAction(CURRENT_CLICK);
-        PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, 0, curMonIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        rv.setOnClickPendingIntent(R.id.id_wtxt_month_name, pendingIntent2);
+        PendingIntent currPendingIntent = getPendingIntent(context, appWidgetId, month, year, 0);
+        rv.setOnClickPendingIntent(R.id.id_wtxt_month_name, currPendingIntent);
 
         // Here we setup the a pending intent template. Individuals items of a collection
         // cannot setup their own pending intents, instead, the collection as a whole can
         // setup a pending intent template, and the individual items can set a fillInIntent
         // to create unique before on an item to item basis.
-        Intent toastIntent = new Intent(context, EventsListWidgetProvider.class);
-        toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        toastIntent.putExtra(CUR_MONTH, month);
-        toastIntent.putExtra(CUR_YEAR, year);
-        toastIntent.setAction(CURRENT_CLICK);
-        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-        PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent toastPendingIntent = getPendingIntent(context, appWidgetId, month, year, 0);
         rv.setPendingIntentTemplate(R.id.id_list_events_month, toastPendingIntent);
 
         return rv;
     }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+
+        if(intent.getAction().equals(DATA_UPDATED)){
+            UpdateDataToWidget(context, intent);
+        }
+        else if(intent.getAction().equals(CURRENT_CLICK)){
+            startActivityOnClick(context, intent);
+        }
+        else if(intent.getAction().equals(NEXT_CLICK)){
+            startServiceToUpdateWidget(context, intent, true);
+        }
+        else if(intent.getAction().equals(PREV_CLICK)){
+            startServiceToUpdateWidget(context, intent, true);
+        }
+        super.onReceive(context, intent);
+    }
+
+    public void startServiceToUpdateWidget(Context context, Intent intent, boolean addMonYr){
+        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                AppWidgetManager.INVALID_APPWIDGET_ID);
+        int month = intent.getIntExtra(CUR_MONTH, labsCalendarUtils.getCurrentMonth());
+        int year = intent.getIntExtra(CUR_YEAR, labsCalendarUtils.getCurrentYear());
+        startServiceToUpdate(context, appWidgetId, month, year, addMonYr);
+    }
+
+    public void startServiceToUpdate(Context context, int appWidgetId, int month, int year, boolean addMonYr){
+        Intent svcIntent = new Intent(context, MonthsEventsFetchService.class);
+        svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        if(addMonYr) {
+            svcIntent.putExtra(CUR_MONTH, month);
+            svcIntent.putExtra(CUR_YEAR, year);
+        }
+        svcIntent.setAction(GET_EVENTS);
+        context.startService(svcIntent);
+    }
+
+    public void startActivityOnClick(Context context, Intent intent){
+        int month = intent.getIntExtra(CUR_MONTH, labsCalendarUtils.getCurrentMonth());
+        int year = intent.getIntExtra(CUR_YEAR, labsCalendarUtils.getCurrentYear());
+
+        Intent svcIntent = new Intent(context, DayOnMonthHomeActivity.class);
+        svcIntent.putExtra(CUR_MONTH, month);
+        svcIntent.putExtra(CUR_YEAR, year);
+        svcIntent.setAction(START_ACTIVITY);
+        svcIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(svcIntent);
+    }
+
+    public void UpdateDataToWidget(Context context, Intent intent){
+        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+        int month = intent.getIntExtra(CUR_MONTH, labsCalendarUtils.getCurrentMonth());
+        int year = intent.getIntExtra(CUR_YEAR, labsCalendarUtils.getCurrentYear());
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        RemoteViews remoteViews = updateAppWidget(context, appWidgetId, month, year);
+        appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+    }
+
+    public PendingIntent getPendingIntent(Context context, int appWidgetId, int month, int year, int action){
+        Intent monIntent = new Intent(context, EventsListWidgetProvider.class);
+        monIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        monIntent.putExtra(CUR_MONTH,  month);
+        monIntent.putExtra(CUR_YEAR, year);
+
+        switch(action)
+        {
+            case 0:
+                monIntent.setAction(CURRENT_CLICK);
+                break;
+            case 1:
+                monIntent.setAction(PREV_CLICK);
+                break;
+            case 2:
+                monIntent.setAction(NEXT_CLICK);
+                break;
+        }
+        return PendingIntent.getBroadcast(context, 0, monIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
 }

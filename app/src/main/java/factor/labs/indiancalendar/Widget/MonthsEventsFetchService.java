@@ -37,20 +37,18 @@ public class MonthsEventsFetchService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        int currentMonth = labsCalendarUtils.getCurrentMonth();
+        int currentYear = labsCalendarUtils.getCurrentYear();
+
         if(intent.getAction().equals(EventsListWidgetProvider.GET_EVENTS)){
-            appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-            int currentMonth = labsCalendarUtils.getCurrentMonth();
-            int currentYear = labsCalendarUtils.getCurrentYear();
+            appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
             month = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, currentMonth);
             year = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, currentYear);
+
             fetchDataFromDb(month, year);
         }
         else if(intent.getAction().equals(EventsListWidgetProvider.MONTH_GRID_GET_DATES)){
-            appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-            int currentMonth = labsCalendarUtils.getCurrentMonth();
-            int currentYear = labsCalendarUtils.getCurrentYear();
+            appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
             month = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, currentMonth);
             year = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, currentYear);
 
