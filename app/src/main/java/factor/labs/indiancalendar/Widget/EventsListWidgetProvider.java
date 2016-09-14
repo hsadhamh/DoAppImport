@@ -107,17 +107,19 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         Log.d("eve-widget-debug", "On Receive : " + ((intent != null)? intent.getAction() : ""));
-        if(intent.getAction().equals(DATA_UPDATED)){
-            UpdateDataToWidget(context, intent);
-        }
-        else if(intent.getAction().equals(CURRENT_CLICK)){
-            startActivityOnClick(context, intent);
-        }
-        else if(intent.getAction().equals(NEXT_CLICK)){
-            startServiceToUpdateWidget(context, intent, true);
-        }
-        else if(intent.getAction().equals(PREV_CLICK)){
-            startServiceToUpdateWidget(context, intent, true);
+        if (intent != null) {
+            if(intent.getAction().equals(DATA_UPDATED)){
+                UpdateDataToWidget(context, intent);
+            }
+            else if(intent.getAction().equals(CURRENT_CLICK)){
+                startActivityOnClick(context, intent);
+            }
+            else if(intent.getAction().equals(NEXT_CLICK)){
+                startServiceToUpdateWidget(context, intent, true);
+            }
+            else if(intent.getAction().equals(PREV_CLICK)){
+                startServiceToUpdateWidget(context, intent, true);
+            }
         }
     }
 
