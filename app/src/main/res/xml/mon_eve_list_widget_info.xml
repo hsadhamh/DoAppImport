@@ -2,7 +2,7 @@
 <appwidget-provider
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/month_events_widget_layout"
-    android:minHeight="256dip"
+    android:minHeight="150dip"
     android:minWidth="288dp"
     android:previewImage="@drawable/widget_snip"
     android:resizeMode="vertical|horizontal"
