@@ -119,8 +119,7 @@ public class labsCalendarUtils {
     public static int getWeekIndexForDate(int nDate, int nMonth, int nYear){
         Calendar oCalendar = GregorianCalendar.getInstance(Locale.getDefault());
         oCalendar.set(nYear, nMonth - 1, nDate);
-        int nWeekIndex = oCalendar.get(oCalendar.DAY_OF_WEEK);
-        return nWeekIndex;
+        return oCalendar.get(oCalendar.DAY_OF_WEEK);
     }
 
     public static String getWeekNameForDate(int nDate, int nMonth, int nYear){

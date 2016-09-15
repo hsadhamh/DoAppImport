@@ -33,6 +33,10 @@
         </activity>
 
         <activity
+            android:name=".DayOnActivities.LongWeekendActivity"
+            android:label="@string/app_name" />
+
+        <activity
             android:name=".DayOnActivities.DayOnYearViewActivity"
             android:label="@string/app_name" />
 

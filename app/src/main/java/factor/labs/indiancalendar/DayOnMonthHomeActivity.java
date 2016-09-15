@@ -70,10 +70,10 @@ import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListDate;
 import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListEmpty;
 import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListHeader;
 import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListItem;
-import factor.labs.indiancalendar.DayOnActivities.CalendarReligiousViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnPreferenceActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnScheduleViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnYearViewActivity;
+import factor.labs.indiancalendar.DayOnActivities.LongWeekendActivity;
 import factor.labs.indiancalendar.Widget.EventsListWidgetProvider;
 
 /**
@@ -1055,7 +1055,8 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     }
 
     void ShowReligiousEvents(){
-        Intent myIntent = new Intent(DayOnMonthHomeActivity.this, CalendarReligiousViewActivity.class);
+        //Intent myIntent = new Intent(DayOnMonthHomeActivity.this, CalendarReligiousViewActivity.class);
+        Intent myIntent = new Intent(DayOnMonthHomeActivity.this, LongWeekendActivity.class);
         myIntent.putExtra("key", "test"); //Optional parameters
         DayOnMonthHomeActivity.this.startActivity(myIntent);
     }

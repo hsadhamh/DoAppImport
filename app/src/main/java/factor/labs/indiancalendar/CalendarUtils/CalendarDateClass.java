@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
-import factor.labs.indiancalendar.CalendarEventHandlers.CalendarEventInfoClass;
 
 /**
  * Created by hassanhussain on 7/20/2015.
@@ -35,9 +34,10 @@ public class CalendarDateClass {
 
     public CalendarDateClass(int nDate, int nMonth, int nYear, int nPrevNextMonthDate){
         mnDate = nDate;
-        mnMonth=nMonth;
+        mnMonth = nMonth;
         mnYear = nYear;
         msDate = ""+mnDate;
+        mnWeekNumber = labsCalendarUtils.getWeekIndexForDate(mnDate, mnMonth, mnYear);
         mnIsPrevNextMonthDate = nPrevNextMonthDate;
     }
 
@@ -77,7 +77,7 @@ public class CalendarDateClass {
 
     public int getWeekNameNumber()
     {
-        return mnWeekName;
+        return mnWeekNumber;
     }
     public boolean isCurrentMonthDate() {
         return mnIsPrevNextMonthDate == CalendarConstants.CALENDAR_CURRENT_MONTH_DATE;
