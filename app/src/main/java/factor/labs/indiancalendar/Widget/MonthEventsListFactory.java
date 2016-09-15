@@ -71,7 +71,7 @@ public class MonthEventsListFactory implements RemoteViewsFactory {
         // We construct a remote views item based on our widget item xml file, and set the
         // text based on the position.
         CalendarEventMaster master = mWidgetItems.get(position);
-        RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.layout_widget_list_event);
+        RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_event);
         rv.setTextViewText(R.id.calendar_schedule_event_name, master.getEventName());
         rv.setTextViewText(R.id.calendar_schedule_event_desc, master.getDisplayName());
         rv.setTextViewText(R.id.calendar_schedule_date_set, "" + master.getDate());

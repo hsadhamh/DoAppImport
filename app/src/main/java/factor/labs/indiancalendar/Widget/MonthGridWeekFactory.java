@@ -67,7 +67,14 @@ public class MonthGridWeekFactory implements RemoteViewsService.RemoteViewsFacto
             if((date.getEventsForDay().size() > 0) && date.isCurrentMonthDate())
                 // RGB(250, 128, 114)
                 rv.setTextColor(R.id.calendar_week_name_display1, Color.rgb(255, 64, 133));
-
+            /*
+            if(date.getDate() == labsCalendarUtils.getTodaysDate() &&
+                    date.getMonth() == labsCalendarUtils.getCurrentMonth() &&
+                    date.getYear() == labsCalendarUtils.getCurrentYear() && date.isCurrentMonthDate())
+            {
+                rv.setInt(R.id.calendar_week_name_display1, "setTextStyle", 1);
+            }
+            */
 
             rv.setTextViewText(R.id.calendar_week_name_display1, "" + date.getDate());
             if (date.isNextMonthDate() || date.isPreviousMonthDate())

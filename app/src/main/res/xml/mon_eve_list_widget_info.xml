@@ -2,8 +2,9 @@
 <appwidget-provider
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/month_events_widget_layout"
-    android:minHeight="100dip"
-    android:minWidth="200dip"
+    android:minHeight="256dip"
+    android:minWidth="288dp"
     android:previewImage="@drawable/widget_snip"
     android:resizeMode="vertical|horizontal"
-    android:updatePeriodMillis="1800000" />
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen|keyguard" />
