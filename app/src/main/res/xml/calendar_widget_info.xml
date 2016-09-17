@@ -4,5 +4,6 @@
         android:minWidth="294dp"
         android:minHeight="220dp"
         android:updatePeriodMillis="1800000"
+        android:previewImage="@drawable/widget_snip_monthview"
         android:widgetCategory="home_screen|keyguard" />
 

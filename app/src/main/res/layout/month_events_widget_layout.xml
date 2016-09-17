@@ -1,59 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:background="@color/primary"
-        android:id="@+id/id_header_container">
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:text="&lt;"
-            android:background="@color/primary"
-            android:textColor="@color/bg_white"
-            android:id="@+id/id_wbtn_prev" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="December 2018"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="@dimen/widget_width_4x3"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="66"
+        >
+        <RelativeLayout
+            android:id="@+id/id_header_container"
+            android:layout_width="match_parent"
+            android:background="@color/primary"
+            android:layout_height="0dp"
+            android:padding="@dimen/widget_padding"
             android:layout_gravity="center"
             android:gravity="center"
-            android:id="@+id/id_wtxt_month_name"
-            android:textColor="@color/bg_white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_weight="8">
 
-        <Button
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:text="&gt;"
-            android:background="@color/primary"
-            android:textColor="@color/bg_white"
-            android:id="@+id/id_wbtn_next" />
+            <TextView
+                android:id="@+id/id_wtxt_month_name"
+                style="@style/Text_MonthYear_4x3"
+                android:text="December 2018"
+                android:focusable="true" />
+
+            <ImageButton
+                android:id="@+id/id_wbtn_prev"
+                style="@style/Img_Arrow_4x3"
+                android:layout_alignParentLeft="true"
+                android:contentDescription="Previous month"
+                android:focusable="true"
+                android:paddingRight="30dp"
+                android:src="@drawable/selector_prev" />
+
+            <ImageButton
+                android:id="@+id/id_wbtn_next"
+                style="@style/Img_Arrow_4x3"
+                android:layout_alignParentRight="true"
+                android:contentDescription="Next month"
+                android:focusable="true"
+                android:paddingLeft="30dp"
+                android:src="@drawable/selector_next" />
+        </RelativeLayout>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="58"
+        android:background="@color/white">
+        <ListView
+            android:id="@+id/id_list_events_month"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/primary"
+            android:dividerHeight="4px"/>
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_weight="58"
+            android:text="No Events"
+            android:textColor="@color/primary"
+            android:textSize="20sp"
+            android:visibility="gone" />
+    </LinearLayout>
 
     </LinearLayout>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:id="@+id/id_list_events_month"
-        android:padding="5dp" />
 
-    <TextView
-        android:id="@+id/empty_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp"
-        android:gravity="center"
-        android:text="No Events"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        android:visibility="gone" />
-
-</LinearLayout>
