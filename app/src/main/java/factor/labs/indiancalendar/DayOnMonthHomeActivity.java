@@ -199,7 +199,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             }
         });
         // Load ads into Banner Ads
-        //mAds.loadAd(mAdRequest);
+        mAds.loadAd(mAdRequest);
     }
 
     @Override
