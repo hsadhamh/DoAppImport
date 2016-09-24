@@ -46,7 +46,7 @@ public class MonthEventsListFactory implements RemoteViewsFactory {
         // The empty view is set in the StackWidgetProvider and should be a sibling of the
         // collection view.
         try {
-            if(!MonthsEventsFetchService.listItemList.isEmpty()) {
+            if(MonthsEventsFetchService.listItemList != null && !MonthsEventsFetchService.listItemList.isEmpty()) {
                 mWidgetItems.clear();
                 mWidgetItems.addAll(MonthsEventsFetchService.listItemList);
             }
@@ -62,6 +62,8 @@ public class MonthEventsListFactory implements RemoteViewsFactory {
     }
 
     public int getCount() {
+        if(mWidgetItems == null)
+            return 0;
         return mWidgetItems.size();
     }
 

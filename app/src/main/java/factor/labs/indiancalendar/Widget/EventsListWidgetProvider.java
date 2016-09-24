@@ -41,15 +41,23 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
     public void onDisabled(Context context) { super.onDisabled(context); }
 
     @Override
-    public void onEnabled(Context context) { super.onEnabled(context); }
+    public void onEnabled(Context context) {
+        super.onEnabled(context);
+        Log.d("eve-widget-debug", "On enabled");
+        AppWidgetManager appWidgetMgr = AppWidgetManager.getInstance(context);
+        int[] widgets = appWidgetMgr.getAppWidgetIds(new ComponentName(context, EventsListWidgetProvider.class));
+        for(int widget : widgets ){
+            startServiceToUpdate(context, widget, labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
+        }
+    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.d("eve-widget-debug", "On Update");
         /* Start the service */
-        for(int n : appWidgetIds){
+        /*for(int n : appWidgetIds){
             startServiceToUpdate(context, n, labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
-        }
+        }*/
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 

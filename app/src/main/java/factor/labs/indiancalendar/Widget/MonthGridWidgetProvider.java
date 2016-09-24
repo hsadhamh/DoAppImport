@@ -27,12 +27,24 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
     public static String NAV_CLICK_CURR = "factor.labs.indiancalendar.ACTION_CURRENT_MONTH";
 
     @Override
+    public void onEnabled(Context context) {
+        super.onEnabled(context);
+        Log.d("grid-widget-debug", "On enabled");
+        AppWidgetManager appWidgetMgr = AppWidgetManager.getInstance(context);
+        int[] widgets = appWidgetMgr.getAppWidgetIds(new ComponentName(context, MonthGridWidgetProvider.class));
+        for(int widget : widgets ){
+            startServiceToUpdate(context, widget,
+                    labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
+        }
+    }
+
+    @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.d("grid-widget-debug", "On Update");
         /* Start the service */
-        for(int n : appWidgetIds){
+        /*for(int n : appWidgetIds){
             startServiceToUpdate(context, n, labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
-        }
+        }*/
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
