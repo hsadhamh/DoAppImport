@@ -2,7 +2,6 @@ package factor.labs.indiancalendar.CalendarAdapters;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -11,17 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
-import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
 import factor.labs.indiancalendar.CalendarInterfaces.CalendarDateClickListenerInterface;
 import factor.labs.indiancalendar.CalendarUtils.CalendarDateClass;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
@@ -85,16 +79,16 @@ public class DayonMonthDateAdapter extends BaseAdapter {
             CalendarDateClass oDate = mListDatesForGrid.get(position);
             CalendarDateHolder oHolder;
             if (convertView == null) {
-                Log.d(sTag, "Create view for position ["+ position +"].");
+                //Log.d(sTag, "Create view for position ["+ position +"].");
                 if (oDate.isCurrentMonthDate()) {
-                    Log.d(sTag, "Create current month view for position ["+ position +"].");
+                    //Log.d(sTag, "Create current month view for position ["+ position +"].");
                     convertView = mInflater.inflate(R.layout.layout_calendar_current_month_date1, parent, false);
                     oHolder = new CalendarDateHolder();
                     oHolder.oTextView = (TextView) convertView.findViewById(R.id.calendar_current_month_date);
                     oHolder.oVw = (View)convertView.findViewById(R.id.calendar_current_date_events_notify);
 
                 } else {
-                    Log.d(sTag, "Create non-current month view for position ["+ position +"].");
+                    //Log.d(sTag, "Create non-current month view for position ["+ position +"].");
                     convertView = mInflater.inflate(R.layout.layout_calendar_previous_month_date1, parent, false);
                     oHolder = new CalendarDateHolder();
                     oHolder.oTextView = (TextView) convertView.findViewById(R.id.calendar_prevnext_month_date);
@@ -109,7 +103,7 @@ public class DayonMonthDateAdapter extends BaseAdapter {
                 oHolder.oTextView.setTextColor(ContextCompat.getColor(mContext, R.color.icons));
 
             convertView.setOnClickListener(new onDateClickListener());
-            Log.d(sTag, "Created date for position [" + position + "].");
+            //Log.d(sTag, "Created date for position [" + position + "].");
             oHolder.oTextView.setTag(oDate);
 
             if(oDate.getDate() == labsCalendarUtils.getTodaysDate() &&
@@ -142,7 +136,7 @@ public class DayonMonthDateAdapter extends BaseAdapter {
                         ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 lp.gravity = Gravity.CENTER | Gravity.TOP;
                 iv.setLayoutParams(lp);
-                Log.d(sTag, "Load event notify");
+                //Log.d(sTag, "Load event notify");
                 ((LinearLayout) oHolder.oVw).removeAllViews();
                 ((LinearLayout) oHolder.oVw).addView(iv);
             }
@@ -162,7 +156,7 @@ public class DayonMonthDateAdapter extends BaseAdapter {
             LinearLayout b = (LinearLayout) v;
             CalendarDateHolder oHolder = (CalendarDateHolder)b.getTag();
             CalendarDateClass oDate = (CalendarDateClass) oHolder.oTextView.getTag();
-            Log.d(sTag, "Clicked date : " + oDate.getFullDateString());
+            //Log.d(sTag, "Clicked date : " + oDate.getFullDateString());
             moClickCallback.doProcessClickEventForDate(oDate);
         }
     }

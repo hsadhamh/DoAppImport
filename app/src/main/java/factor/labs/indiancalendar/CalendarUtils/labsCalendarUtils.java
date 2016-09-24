@@ -2,7 +2,6 @@ package factor.labs.indiancalendar.CalendarUtils;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -102,17 +101,17 @@ public class labsCalendarUtils {
     public static int getIndexForShortName(String sName)
     {
         int n = -1;
-        Log.d("HolidayReligiousEvents", "month : " + sName);
+        //Log.d("HolidayReligiousEvents", "month : " + sName);
         for(String s : arrayShortNamesOfMonth)
         {
             ++n;
             if(s.equalsIgnoreCase(sName))
             {
-                Log.d("HolidayReligiousEvents", "month : o " + n);
+                //Log.d("HolidayReligiousEvents", "month : o " + n);
                 return n;
             }
         }
-        Log.d("HolidayReligiousEvents", "month : " + n);
+        //Log.d("HolidayReligiousEvents", "month : " + n);
         return -1;
     }
 

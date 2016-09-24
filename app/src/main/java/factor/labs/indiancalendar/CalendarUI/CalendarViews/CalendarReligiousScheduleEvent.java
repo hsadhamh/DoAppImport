@@ -106,7 +106,7 @@ public class CalendarReligiousScheduleEvent extends Fragment implements Calendar
             oMonthYear.setMonth(mnMonth);
             oMonthYear.setYear(mnYear);
 
-            Log.d(sTag, "month : " + oMonthYear.getMonth() + " year : " + oMonthYear.getYear());
+            //Log.d(sTag, "month : " + oMonthYear.getMonth() + " year : " + oMonthYear.getYear());
 
             onAddLoadMoreEvents(CalendarConstants.CALENDAR_SCHEDULE_LOAD_UP);
             //  get all events for 6 months before current
@@ -135,7 +135,7 @@ public class CalendarReligiousScheduleEvent extends Fragment implements Calendar
         {
             for (int nIter = nOffset; nIter > 0; nIter--) {
                 CalendarMonthYearClass oSubtractMonth = labsCalendarUtils.subtractMonthYear(oMonthYear, nIter);
-                Log.d(sTag, "month : " + oSubtractMonth.getMonth() + " year : " + oSubtractMonth.getYear());
+                //Log.d(sTag, "month : " + oSubtractMonth.getMonth() + " year : " + oSubtractMonth.getYear());
 
                 //  get events for month.
                 onProcessMonthEvents(oSubtractMonth);
@@ -154,7 +154,7 @@ public class CalendarReligiousScheduleEvent extends Fragment implements Calendar
         {
             for (int nIter = 1; nIter <= nOffset; nIter++) {
                 CalendarMonthYearClass oAddMonth = labsCalendarUtils.addMonthYear(oMonthYear, nIter);
-                Log.d(sTag, "month : " + oAddMonth.getMonth() + " year : " + oAddMonth.getYear());
+                //Log.d(sTag, "month : " + oAddMonth.getMonth() + " year : " + oAddMonth.getYear());
 
                 //  get events for month.
                 onProcessMonthEvents(oAddMonth);
@@ -174,7 +174,7 @@ public class CalendarReligiousScheduleEvent extends Fragment implements Calendar
             CalendarListObjectClass oLoadEvent = new CalendarListObjectClass();
             oLoadEvent.setType(nDirection);
             oLoadEvent.setGenericObject(null);
-            Log.d(sTag, "Type : " + nDirection);
+            //Log.d(sTag, "Type : " + nDirection);
             mListOfSchedule.add(oLoadEvent);
         }
         catch(Exception exec)
@@ -196,7 +196,7 @@ public class CalendarReligiousScheduleEvent extends Fragment implements Calendar
             CalendarListObjectClass oBeforeObject = new CalendarListObjectClass();
             oBeforeObject.setType(CalendarConstants.CALENDAR_SCHEDULE_MONTH_TYPE);
             oBeforeObject.setGenericObject(oMonthYear);
-            Log.d(sTag, "Type : " + 256);
+            //Log.d(sTag, "Type : " + 256);
 
             mListOfSchedule.add(oBeforeObject);
 
@@ -207,7 +207,7 @@ public class CalendarReligiousScheduleEvent extends Fragment implements Calendar
                 CalendarListObjectClass oEmptyObject = new CalendarListObjectClass();
                 oEmptyObject.setType(CalendarConstants.CALENDAR_SCHEDULE_EMPTY_EVENT);
                 oEmptyObject.setGenericObject(null);
-                Log.d(sTag, "Type : " + 1024);
+                //Log.d(sTag, "Type : " + 1024);
 
                 mListOfSchedule.add(oEmptyObject);
             } else {
@@ -240,7 +240,7 @@ public class CalendarReligiousScheduleEvent extends Fragment implements Calendar
                 for (CalendarEventDateClass oDate : oListDateEvents) {
                     CalendarListObjectClass oDateObject = new CalendarListObjectClass();
                     oDateObject.setType(CalendarConstants.CALENDAR_SCHEDULE_DAY_TYPE);
-                    Log.d(sTag, "Type : " + 512);
+                    //Log.d(sTag, "Type : " + 512);
                     //Log.d(sTag, "Events sum : " + oDate.getEvents().size());
                     oDateObject.setGenericObject(oDate);
                     mListOfSchedule.add(oDateObject);
@@ -262,7 +262,7 @@ public class CalendarReligiousScheduleEvent extends Fragment implements Calendar
 
             int nLastIndex = 1;
             if(nDirection == CalendarConstants.CALENDAR_SCHEDULE_LOAD_UP) {
-                Log.d(sTag, "Load Events at top.");
+                //Log.d(sTag, "Load Events at top.");
                 oldValues.remove(0);
                 CalendarListObjectClass obj = oldValues.get(0);
                 CalendarMonthYearClass oLastObject = (CalendarMonthYearClass) obj.getGenericObject();
@@ -272,18 +272,18 @@ public class CalendarReligiousScheduleEvent extends Fragment implements Calendar
                 onGetBeforeMonthEvents(oLastObject, CalendarConstants.CALENDAR_SCHEDULE_MONTH_EVENTS_LOAD_THRESHOLD);
 
                 nLastIndex = mListOfSchedule.size() - 1;
-                Log.d(sTag, "Index ["+ nLastIndex +"].");
+                //Log.d(sTag, "Index ["+ nLastIndex +"].");
                 mListOfSchedule.addAll(oldValues);
             }
             else if(nDirection == CalendarConstants.CALENDAR_SCHEDULE_LOAD_DOWN)
             {
-                Log.d(sTag, "Load Events at bottom.");
+                //Log.d(sTag, "Load Events at bottom.");
                 int nLastindex = oldValues.size()-1;
                 oldValues.remove(nLastindex);
                 CalendarListObjectClass obj = oldValues.get(nLastindex - 1);
                 int nMonth, nYear;
 
-                Log.d(sTag, "Index ["+ nLastIndex +"].");
+                //Log.d(sTag, "Index ["+ nLastIndex +"].");
 
                 if(obj.getGenericObject() == null)
                 {
@@ -311,7 +311,7 @@ public class CalendarReligiousScheduleEvent extends Fragment implements Calendar
             moAdapter.notifyDataSetChanged();
             moListSchedule.setSelection(nLastIndex);
             oldValues.clear();
-            Log.d(sTag, "Events Loaded ...!!");
+            //Log.d(sTag, "Events Loaded ...!!");
         }
         catch(Exception exec)
         {
@@ -335,9 +335,9 @@ public class CalendarReligiousScheduleEvent extends Fragment implements Calendar
 
         @Override
         protected Void doInBackground(Void... params) {
-            Log.d(sTag, "prepare views for list.");
+            //Log.d(sTag, "prepare views for list.");
             onPrepareEventsForView();
-            Log.d(sTag, "Set Events for list");
+            //Log.d(sTag, "Set Events for list");
             return null;
         }
 
@@ -348,7 +348,7 @@ public class CalendarReligiousScheduleEvent extends Fragment implements Calendar
             moProgressView.setVisibility(View.GONE);
             moListSchedule.setVisibility(View.VISIBLE);
 
-            Log.d(sTag, "Set to current month index [" + mnCurrentMonthIndex + "].");
+            //Log.d(sTag, "Set to current month index [" + mnCurrentMonthIndex + "].");
             moListSchedule.setSelection(mnCurrentMonthIndex);
             moListSchedule.setSmoothScrollbarEnabled(true);
         }

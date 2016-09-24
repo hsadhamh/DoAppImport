@@ -123,7 +123,7 @@ public class CalendarScheduleReligiousAdapter extends BaseAdapter {
             CalendarListObjectClass oInfo = (CalendarListObjectClass)getItem(position);
             int nType = getItemViewType(position);
 
-            Log.d(sTag, "Type of view : " + nType + " position : " + position);
+            //Log.d(sTag, "Type of view : " + nType + " position : " + position);
 
             if (nType == HEADER_VIEW) {
                 CalendarScheduleMonthHolder oHolder;
@@ -137,7 +137,7 @@ public class CalendarScheduleReligiousAdapter extends BaseAdapter {
                 CalendarMonthYearClass oMonYr = (CalendarMonthYearClass) oInfo.getGenericObject();
 
                 String sMonthName = labsCalendarUtils.getMonthName(oMonYr.getMonth()) + "  " + oMonYr.getYear();
-                Log.d(sTag, "Month Name : " + sMonthName + " position : " + position);
+                //Log.d(sTag, "Month Name : " + sMonthName + " position : " + position);
                 oHolder.otxt.setText(sMonthName);
                 return convertView;
 
@@ -161,19 +161,19 @@ public class CalendarScheduleReligiousAdapter extends BaseAdapter {
                 for (CalendarEventMaster oEvent : oDate.getoEvents()) {
                     ((LinearLayout) oHolder.v).addView(getEventView(parent, oEvent));
                 }
-                Log.d(sTag, "Created view for events.");
+                //Log.d(sTag, "Created view for events.");
                 return convertView;
             }
             else if(nType == NO_EVENT)
             {
-                Log.d(sTag, "Created view for X: NO (I meant zero) :D events.");
+                //Log.d(sTag, "Created view for X: NO (I meant zero) :D events.");
                 if(convertView == null)
                     convertView = mInflater.inflate(R.layout.layout_calendar_schedule_event_empty, parent, false);
                 return convertView;
             }
             else if(nType == LOAD_MORE)
             {
-                Log.d(sTag, "Created view for load more events.");
+                //Log.d(sTag, "Created view for load more events.");
                 CalendarScheduleLoadHolder oHolder;
                 if(convertView == null) {
                     convertView = mInflater.inflate(R.layout.layout_calendar_schedule_load_more, parent, false);
@@ -205,7 +205,7 @@ public class CalendarScheduleReligiousAdapter extends BaseAdapter {
     public View getEventView(ViewGroup parent, CalendarEventMaster oEvent) {
         sTag = "CalendarScheduleEventsAdapter.getEventView";
         try {
-            Log.d(sTag, "Create view for events for a day.");
+            //Log.d(sTag, "Create view for events for a day.");
             View v = mInflater.inflate(R.layout.layout_calendar_schedule_religious_event, parent, false);
             CalendarScheduleEventHolder oHolder = new CalendarScheduleEventHolder();
             oHolder.otxt = (TextView) v.findViewById(R.id.calendar_schedule_event_name);
@@ -230,7 +230,7 @@ public class CalendarScheduleReligiousAdapter extends BaseAdapter {
             oHolder.otxt1.setText(oEvent.getDisplayName());
             oHolder.otxt1.setFocusable(false);
             v.setTag(oHolder);
-            Log.d(sTag, "Created view for events [" + sEvName + "] for a day.");
+            //Log.d(sTag, "Created view for events [" + sEvName + "] for a day.");
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

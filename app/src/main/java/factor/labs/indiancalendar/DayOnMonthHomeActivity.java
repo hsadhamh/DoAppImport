@@ -537,7 +537,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         try {
             CalendarWeekNameDisplayAdapter oAdapter = new CalendarWeekNameDisplayAdapter(getApplicationContext());
             moGridForWeekName.setAdapter(oAdapter);
-            Log.d(sTag, "week names set.");
+            //Log.d(sTag, "week names set.");
         }
         catch(Exception exec)
         { Log.e(sTag, "Exception caught : " + exec.getMessage()); }
@@ -559,12 +559,12 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
                     mnSelectedOffsetList = 0;
                     if (mnSelectedPage == 0) {
-                        Log.d(sTag, "Month view adapter : swiped right!!");
+                        ///Log.d(sTag, "Month view adapter : swiped right!!");
                         addPreviousMonthOnRightSwipe();
                         updateListForMonth();
 
                     } else if (mnSelectedPage == 2) {
-                        Log.d(sTag, "Month view adapter : swiped left!!");
+                        //Log.d(sTag, "Month view adapter : swiped left!!");
                         addNextMonthOnLeftSwipe();
                         updateListForMonth();
                     }
@@ -658,7 +658,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             int mon = ((DayOnMonthGridFragment)moListMonthFragments.get(1)).getMonth();
             int yr = ((DayOnMonthGridFragment)moListMonthFragments.get(1)).getYear();
 
-            Log.d(sTag, "Selected Date [" + nSelectedDate + "] month [" + mon + "] year [" + yr + "].");
+            //Log.d(sTag, "Selected Date [" + nSelectedDate + "] month [" + mon + "] year [" + yr + "].");
 
             if (mon == 1) {
                 mon = 12;
@@ -666,7 +666,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             } else {
                 mon--;
             }
-            Log.d(sTag, "Creating new view for Date [" + nSelectedDate + "] month [" + mon + "] year [" + yr + "].");
+            //Log.d(sTag, "Creating new view for Date [" + nSelectedDate + "] month [" + mon + "] year [" + yr + "].");
 
             DayOnMonthGridFragment newMonthView = DayOnMonthGridFragment.init(mon, yr, this);
             newMonthView.setSelectedDate(nSelectedDate);
@@ -695,14 +695,14 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             int mon = ((DayOnMonthGridFragment)moListMonthFragments.get(1)).getMonth();
             int yr = ((DayOnMonthGridFragment)moListMonthFragments.get(1)).getYear();
 
-            Log.d(sTag, "Selected Date [" + nSelectedDate + "] month [" + mon + "] year [" + yr + "].");
+            //Log.d(sTag, "Selected Date [" + nSelectedDate + "] month [" + mon + "] year [" + yr + "].");
             if (mon == 12) {
                 mon = 1;
                 yr++;
             } else
                 mon++;
 
-            Log.d(sTag, "Creating new view for Date [" + nSelectedDate + "] month [" + mon + "] year [" + yr + "].");
+            //Log.d(sTag, "Creating new view for Date [" + nSelectedDate + "] month [" + mon + "] year [" + yr + "].");
             DayOnMonthGridFragment newMonthView = DayOnMonthGridFragment.init(mon, yr, this);
             newMonthView.setSelectedDate(nSelectedDate);
             moListMonthFragments.set(2, newMonthView);
@@ -722,7 +722,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             //  set changes to adapter and notify the changes
             moPageAdapter.setTriViews(moListMonthFragments);
             moPageAdapter.notifyDataSetChanged();
-            Log.d(sTag, "Month view update..!!");
+            //Log.d(sTag, "Month view update..!!");
             //  set center screen for view.
             mnSelectedPage = 1;
             moPager.setCurrentItem(mnSelectedPage, false);
@@ -896,7 +896,7 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
 
     public void ShowPopupMenu() {
         sTag = "CalendarMainActivity.onShowPopupMenu";
-        Log.d(sTag, "Prefs selected..");
+        //Log.d(sTag, "Prefs selected..");
         new MaterialDialog.Builder(DayOnMonthHomeActivity.this)
                 .title("Filter Options")
                 .items(R.array.event_category)
@@ -952,25 +952,25 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             }
             int nSeq = 0;
             while(moQueForLoadEvents.size() > 0){
-                Log.d("bugit", "size : " + moQueForLoadEvents.size());
+                //Log.d("bugit", "size : " + moQueForLoadEvents.size());
                 //  if -1, we need get all events and add to list.
                 //  if 0, we need to get all events, add it up and update offset for all grid.
                 //  if 1, we need to get all events and add it down, update offset for all grid.
                 DayOnLoadMoreEventsObject oMon = moQueForLoadEvents.remove();
 
-                Log.d("bugit", "size after : " + moQueForLoadEvents.size());
+                //Log.d("bugit", "size after : " + moQueForLoadEvents.size());
 
                 if(oMon.UpOrDown == 0 && params[0].equals(1)) {
-                    Log.d("bugit", " Month up ");
+                    //Log.d("bugit", " Month up ");
                     UpdateMapListAndHeaderAtTop();
                     nSeq = 0;
                 }
                 else if(oMon.UpOrDown == 1 && params[0].equals(1)) {
-                    Log.d("bugit", " Month down ");
+                    //Log.d("bugit", " Month down ");
                     UpdateMapListAndHeaderAtBottom();
                     nSeq = 2;
                 }
-                Log.d("bugit", "size after : " + moQueForLoadEvents.size());
+                //Log.d("bugit", "size after : " + moQueForLoadEvents.size());
                 moListHeaders.put(nSeq, oMon.dayonObj.getMonthClass().getHeaderItem());
                 moListDayEvents.put(nSeq, oMon.dayonObj.getMonthClass().getEventsAndViewsForMonth());
             }

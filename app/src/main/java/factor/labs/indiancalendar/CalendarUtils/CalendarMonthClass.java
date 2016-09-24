@@ -41,7 +41,7 @@ public class CalendarMonthClass {
         sTag = "CalendarMonthClass()";
         mnMonth = nMonth;
         mnYear = nYear;
-        Log.d(sTag, "Month : " + mnMonth + " Year : " +mnYear);
+        //Log.d(sTag, "Month : " + mnMonth + " Year : " +mnYear);
         bEventsLoaded = false;
         mContext = null;
     }
@@ -65,10 +65,10 @@ public class CalendarMonthClass {
             int nMonth = mnMonth, nYear = mnYear, nPrevYear = nYear;
             int nNextYear = nYear, nPrevMonth = nMonth - 1, nNextMonth = nMonth + 1;
 
-            Log.d(sTag, "Current month [" + mnMonth + "] Current year [" +
+            /*Log.d(sTag, "Current month [" + mnMonth + "] Current year [" +
                     mnYear + "] Next Month [" + nNextMonth + "] Next Year [" + nNextYear + "] Previous Month [" +
                     nPrevMonth + "] Previous year [" + nPrevYear + "].");
-
+*/
             if (nMonth == 1) {
                 nPrevMonth = 12;
                 nPrevYear--;
@@ -78,26 +78,26 @@ public class CalendarMonthClass {
                 nNextYear++;
             }
 
-            Log.d(sTag, "After : Current month [" + mnMonth + "] Current year [" +
+            /*Log.d(sTag, "After : Current month [" + mnMonth + "] Current year [" +
                     mnYear + "] Next Month [" + nNextMonth + "] Next Year [" + nNextYear + "] Previous Month [" +
-                    nPrevMonth + "] Previous year [" + nPrevYear + "].");
+                    nPrevMonth + "] Previous year [" + nPrevYear + "].");*/
 
             int nPrevMonthDays = labsCalendarUtils.getNumberOfDatesForMonth(nPrevMonth, nPrevYear);
             int nDaysOfCurrentMonth = labsCalendarUtils.getNumberOfDatesForMonth(nMonth, nYear);
             int nNextMonthDays = labsCalendarUtils.getNumberOfDatesForMonth(nNextMonth, nNextYear);
 
-            Log.d(sTag, "Number of days for previous month [" + nPrevMonthDays + "].");
-            Log.d(sTag, "Number of days for current month [" + nDaysOfCurrentMonth + "].");
-            Log.d(sTag, "Number of days for next month [" + nNextMonthDays + "].");
+            //Log.d(sTag, "Number of days for previous month [" + nPrevMonthDays + "].");
+            //Log.d(sTag, "Number of days for current month [" + nDaysOfCurrentMonth + "].");
+            //Log.d(sTag, "Number of days for next month [" + nNextMonthDays + "].");
 
             GregorianCalendar oGregCalendar = new GregorianCalendar(nYear, nMonth - 1, 1);
 
             int nPrevNoMonthDays = oGregCalendar.get(Calendar.DAY_OF_WEEK) - 1;
-            Log.d(sTag, "Previous month days [" + nPrevNoMonthDays + "].");
+            //Log.d(sTag, "Previous month days [" + nPrevNoMonthDays + "].");
             nNextMonthDays = ((nPrevNoMonthDays + nDaysOfCurrentMonth) % 7);
-            Log.d(sTag, "Next month days [" + nNextMonthDays + "].");
+            //Log.d(sTag, "Next month days [" + nNextMonthDays + "].");
 
-            Log.d(sTag, "total month days [" + mnTotalDaysInMonthGrid + "].");
+            //Log.d(sTag, "total month days [" + mnTotalDaysInMonthGrid + "].");
             // Previous month days.
             for (int iter = nPrevMonthDays - nPrevNoMonthDays + 1; iter <= nPrevMonthDays; iter++) {
                 CalendarDateClass oDateObject = new CalendarDateClass(iter, nPrevMonth, nPrevYear, CalendarConstants.CALENDAR_PREVIOUS_MONTH_DATE);
@@ -162,7 +162,7 @@ public class CalendarMonthClass {
                         }
                     }
                     if(!found) {
-                        Log.d(sTag, "Set grid dates for month [" + mnMonth + "] date [" + oEventDate.getDate() + "].");
+                        //Log.d(sTag, "Set grid dates for month [" + mnMonth + "] date [" + oEventDate.getDate() + "].");
                         oDate.addEventsForDay(oEventDate);
                         if(oEventDate.isHolidayEvent()) oDate.setHolidayFlag();
                         if(oEventDate.isReligionEvent()) oDate.setReligiousFlag();
@@ -194,7 +194,7 @@ public class CalendarMonthClass {
                     }
 
                     if(!found) {
-                        Log.d(sTag, "Set grid dates for month [" + mnMonth + "] date [" + oEventDate.getDate() + "].");
+                        //Log.d(sTag, "Set grid dates for month [" + mnMonth + "] date [" + oEventDate.getDate() + "].");
                         oDate.addEventsForDay(oEventDate);
                         if(oEventDate.isHolidayEvent()) oDate.setHolidayFlag();
                         if(oEventDate.isReligionEvent()) oDate.setReligiousFlag();
@@ -286,7 +286,7 @@ public class CalendarMonthClass {
             {
                 if(oDate.mnDate == date && oDate.getMonth() == nMonth)
                 {
-                    Log.d(sTag, "Date ["+date+"] ["+ nMonth +"] macthed object returned.");
+                    //Log.d(sTag, "Date ["+date+"] ["+ nMonth +"] macthed object returned.");
                     return oDate;
                 }
             }

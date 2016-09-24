@@ -37,7 +37,7 @@ public class CalendarJsonParser {
             String sShortMonthName = labsCalendarUtils.getMonthShortName(nMonth); //  get from UTILS.
 
             String sJsonMonthFile = sMonthName + "_" + nYear + ".json";
-            Log.d(sTag, "Read file name ["+sJsonMonthFile+"].");
+            //Log.d(sTag, "Read file name ["+sJsonMonthFile+"].");
 
             String sJSONString = readFile(sJsonMonthFile, oAssets);
 
@@ -101,7 +101,7 @@ public class CalendarJsonParser {
             oListOfEventsForYear.clear();
 
             String sJsonMonthFile = "holidays_" + nYear + ".json";
-            Log.d(sTag, "Read file name ["+sJsonMonthFile+"].");
+            //Log.d(sTag, "Read file name ["+sJsonMonthFile+"].");
 
             String sJSONString = readFile(sJsonMonthFile, oAssets);
 
@@ -135,7 +135,7 @@ public class CalendarJsonParser {
         try
         {
             String sJsonMonthFile = "holidays_" + nYear + ".json";
-            Log.d(sTag, "Read file name ["+sJsonMonthFile+"].");
+            //Log.d(sTag, "Read file name ["+sJsonMonthFile+"].");
 
             String sJSONString = readFile(sJsonMonthFile, oAssets);
 

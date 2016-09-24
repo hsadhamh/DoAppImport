@@ -44,20 +44,15 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
     public void onEnabled(Context context) {
         super.onEnabled(context);
         Log.d("eve-widget-debug", "On enabled");
-        AppWidgetManager appWidgetMgr = AppWidgetManager.getInstance(context);
-        int[] widgets = appWidgetMgr.getAppWidgetIds(new ComponentName(context, EventsListWidgetProvider.class));
-        for(int widget : widgets ){
-            startServiceToUpdate(context, widget, labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
-        }
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.d("eve-widget-debug", "On Update");
         /* Start the service */
-        /*for(int n : appWidgetIds){
+        for(int n : appWidgetIds){
             startServiceToUpdate(context, n, labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
-        }*/
+        }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
@@ -127,6 +122,11 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
             }
             else if(intent.getAction().equals(PREV_CLICK)){
                 startServiceToUpdateWidget(context, intent, true);
+            }
+            else if(intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE")) {
+                AppWidgetManager appWidgetMgr = AppWidgetManager.getInstance(context);
+                int[] widgets = appWidgetMgr.getAppWidgetIds(new ComponentName(context, EventsListWidgetProvider.class));
+                onUpdate(context, appWidgetMgr, widgets);
             }
         }
     }

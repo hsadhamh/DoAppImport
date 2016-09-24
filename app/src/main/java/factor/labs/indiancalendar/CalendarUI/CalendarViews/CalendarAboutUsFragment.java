@@ -2,7 +2,6 @@ package factor.labs.indiancalendar.CalendarUI.CalendarViews;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,7 @@ public class CalendarAboutUsFragment extends Fragment {
         sTag = "CalendarAboutUsFragment.onCreateView";
         super.onCreate(savedInstanceState);
         moAboutUsLayout = inflater.inflate(R.layout.layout_calendar_about_us, container, false);
-        Log.d(sTag, "Created about us fragment.");
+        //Log.d(sTag, "Created about us fragment.");
         return moAboutUsLayout;
 
     }

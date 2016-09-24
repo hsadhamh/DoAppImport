@@ -30,21 +30,21 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
     public void onEnabled(Context context) {
         super.onEnabled(context);
         Log.d("grid-widget-debug", "On enabled");
-        AppWidgetManager appWidgetMgr = AppWidgetManager.getInstance(context);
+        /*AppWidgetManager appWidgetMgr = AppWidgetManager.getInstance(context);
         int[] widgets = appWidgetMgr.getAppWidgetIds(new ComponentName(context, MonthGridWidgetProvider.class));
         for(int widget : widgets ){
             startServiceToUpdate(context, widget,
                     labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
-        }
+        }*/
     }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.d("grid-widget-debug", "On Update");
         /* Start the service */
-        /*for(int n : appWidgetIds){
+        for(int n : appWidgetIds){
             startServiceToUpdate(context, n, labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
-        }*/
+        }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
@@ -81,17 +81,20 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         Log.d("grid-widget-debug", "On Receive : " + ((intent != null)? intent.getAction() : ""));
-        if(intent.getAction().equals(EventsListWidgetProvider.DATA_UPDATED)){
-            UpdateDataToWidget(context, intent);
-        }
-        else if(intent.getAction().equals(NAV_CLICK_CURR)){
-            startActivityOnClick(context, intent);
-        }
-        else if(intent.getAction().equals(NAV_CLICK_NEXT)){
-            startServiceToUpdateWidget(context, intent, true);
-        }
-        else if(intent.getAction().equals(NAV_CLICK_PREV)){
-            startServiceToUpdateWidget(context, intent, true);
+        if(intent != null){
+            if (intent.getAction().equals(EventsListWidgetProvider.DATA_UPDATED)) {
+                UpdateDataToWidget(context, intent);
+            } else if (intent.getAction().equals(NAV_CLICK_CURR)) {
+                startActivityOnClick(context, intent);
+            } else if (intent.getAction().equals(NAV_CLICK_NEXT)) {
+                startServiceToUpdateWidget(context, intent, true);
+            } else if (intent.getAction().equals(NAV_CLICK_PREV)) {
+                startServiceToUpdateWidget(context, intent, true);
+            } else if(intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE")) {
+                AppWidgetManager appWidgetMgr = AppWidgetManager.getInstance(context);
+                int[] widgets = appWidgetMgr.getAppWidgetIds(new ComponentName(context, MonthGridWidgetProvider.class));
+                onUpdate(context, appWidgetMgr, widgets);
+            }
         }
     }
 

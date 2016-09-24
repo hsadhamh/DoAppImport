@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
-import factor.labs.indiancalendar.CalendarEventHandlers.CalendarEventInfoClass;
 
 /**
  * Created by hassanhussain on 7/20/2015.
@@ -100,7 +99,7 @@ public class CalendarDateClass {
         stag = "CalendarDateClass.setEventsForDay";
 
         try {
-            Log.d(stag, "Copying events starts !!");
+            //Log.d(stag, "Copying events starts !!");
             if (oLisEvents != null) {
                 if (mListOfEvents.size() > 0) mListOfEvents.clear();
 
@@ -110,7 +109,7 @@ public class CalendarDateClass {
 
                 for (CalendarEventMaster oClass : oLisEvents)
                     mListOfEvents.add(oClass);
-                Log.d(stag, "Copying events starts : done.");
+                //Log.d(stag, "Copying events starts : done.");
             }
         }
         catch(Exception exec)

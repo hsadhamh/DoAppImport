@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import factor.labs.indiancalendar.CalendarJSONLib.CalendarJsonParser;
-import factor.labs.indiancalendar.CalendarUtils.CalendarDateClass;
 
 /**
  * Created by hassanhussain on 7/29/2015.
@@ -32,7 +31,7 @@ public class CalendarEventsPrimaryHandler {
 
             for (CalendarEventYearClass oYr : mListEventsForYear) {
                 if (oYr.Year == yr) {
-                    Log.d(sTag, "Got events in cache for year ["+ yr +"]");
+                    //Log.d(sTag, "Got events in cache for year ["+ yr +"]");
                     oRetYr = oYr;
                     break;
                 }
@@ -45,7 +44,7 @@ public class CalendarEventsPrimaryHandler {
                 if (oListOfEventsForSingleYear != null) {
                     if (oListOfEventsForSingleYear instanceof CalendarEventYearClass) {
                         oRetYr = (CalendarEventYearClass) oListOfEventsForSingleYear;
-                        Log.d(sTag, "Got and Added events for year [" + yr + "]");
+                        //Log.d(sTag, "Got and Added events for year [" + yr + "]");
                         mListEventsForYear.add(oRetYr);
                     }
                 }
@@ -69,10 +68,10 @@ public class CalendarEventsPrimaryHandler {
                 return oListDateEvents;
             }
 
-            Log.d(sTag, "Get events object for month ["+ nMonth +"]");
+            //Log.d(sTag, "Get events object for month ["+ nMonth +"]");
             for (CalendarEventMonthClass oMonth : oFoundYear.months) {
                 if (nMonth == oMonth.month) {
-                    Log.d(sTag, "Found events object for month ["+ nMonth +"]");
+                    //Log.d(sTag, "Found events object for month ["+ nMonth +"]");
                     oListDateEvents = new ArrayList<>(oMonth.days);
                     break;
                 }

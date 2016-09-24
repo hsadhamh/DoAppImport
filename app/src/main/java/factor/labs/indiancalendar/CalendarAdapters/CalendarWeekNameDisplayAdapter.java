@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
@@ -64,7 +63,7 @@ public class CalendarWeekNameDisplayAdapter extends BaseAdapter {
             String strWeekName = sWeekName+"  ";
             holderView.oTextView.setText(strWeekName);
 
-            Log.d(sTag, "Created view for week name : " + sWeekName);
+            //Log.d(sTag, "Created view for week name : " + sWeekName);
 
             return convertView;
         }
