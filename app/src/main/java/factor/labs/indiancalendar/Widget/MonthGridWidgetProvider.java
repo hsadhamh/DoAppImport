@@ -94,6 +94,7 @@ public class MonthGridWidgetProvider extends AppWidgetProvider {
                 AppWidgetManager appWidgetMgr = AppWidgetManager.getInstance(context);
                 int[] widgets = appWidgetMgr.getAppWidgetIds(new ComponentName(context, MonthGridWidgetProvider.class));
                 onUpdate(context, appWidgetMgr, widgets);
+                appWidgetMgr.notifyAppWidgetViewDataChanged(widgets,  R.id.id_widget_gridview);
             }
         }
     }

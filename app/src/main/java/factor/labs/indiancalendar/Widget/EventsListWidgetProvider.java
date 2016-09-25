@@ -127,6 +127,7 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
                 AppWidgetManager appWidgetMgr = AppWidgetManager.getInstance(context);
                 int[] widgets = appWidgetMgr.getAppWidgetIds(new ComponentName(context, EventsListWidgetProvider.class));
                 onUpdate(context, appWidgetMgr, widgets);
+                appWidgetMgr.notifyAppWidgetViewDataChanged(widgets,  R.id.id_list_events_month);
             }
         }
     }

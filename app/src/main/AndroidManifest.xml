@@ -11,8 +11,10 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
+        android:name=".DayOnApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_icon_app"
         android:label="@string/app_name"
@@ -52,11 +54,6 @@
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
 
-        <receiver
-            android:name=".CalendarServices.DayOnBroadCastReceiver"
-            android:enabled="true"
-            android:exported="true" />
-
         <receiver android:name=".Widget.MonthGridWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -68,6 +65,9 @@
         <receiver android:name=".Widget.EventsListWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.factor.NEXT_CLICK"/>
+                <action android:name="com.factor.PREV_CLICK"/>
+                <action android:name="com.factor.CURRENT_CLICK"/>
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -83,6 +83,14 @@
         <service android:name=".Widget.MonthDateEventsFetchService" />
         <service android:name=".Widget.MonthsEventsFetchService" />
         <service android:name=".CalendarServices.DayOnAndroidService" android:enabled="true" android:exported="true" />
+
+        <receiver android:name=".CalendarServices.DayOnBroadCastReceiver" android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

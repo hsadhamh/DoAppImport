@@ -16,7 +16,7 @@ import factor.labs.indiancalendar.R;
  * Created by hassanhussain on 7/19/2015.
  */
 public class labsCalendarUtils {
-
+    private static Object mLock = new Object();
     private static CalendarEventsPrimaryHandler eventHandler = null;
 
     private static CalendarSQLiteCRUD sqliteCRUD = null;
@@ -41,18 +41,22 @@ public class labsCalendarUtils {
     }
 
     public static void initDatabase(Context oCon){
-        if(sqliteCRUD == null)
-            sqliteCRUD = new CalendarSQLiteCRUD(oCon);
-        Typefaces.getRobotoRegular(oCon);
-        Typefaces.getRobotoMedium(oCon);
+        synchronized (mLock) {
+            if (sqliteCRUD == null)
+                sqliteCRUD = new CalendarSQLiteCRUD(oCon);
+            Typefaces.getRobotoRegular(oCon);
+            Typefaces.getRobotoMedium(oCon);
+        }
     }
 
-    public static CalendarSQLiteCRUD getCalendarDBHandler() { return sqliteCRUD; }
+    public static CalendarSQLiteCRUD getCalendarDBHandler() { synchronized (mLock) { return sqliteCRUD; } }
 
     public static CalendarSQLiteCRUD getCalendarDBHandler(Context con) {
-        if(sqliteCRUD == null)
-            sqliteCRUD = new CalendarSQLiteCRUD(con);
-        return sqliteCRUD;
+        synchronized (mLock) {
+            if (sqliteCRUD == null)
+                sqliteCRUD = new CalendarSQLiteCRUD(con);
+            return sqliteCRUD;
+        }
 
     }
 

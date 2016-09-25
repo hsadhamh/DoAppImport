@@ -3,25 +3,15 @@ package factor.labs.indiancalendar.CalendarServices;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
-
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.apache.http.Header;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
 
 public class DayOnBroadCastReceiver extends BroadcastReceiver {
-
+    public static boolean onBootCompleted = false;
     public DayOnBroadCastReceiver() {}
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
+        onBootCompleted = true;
+        /*
         Toast.makeText(context, "Sync message received", Toast.LENGTH_SHORT).show();
         boolean bSyncData = intent.getBooleanExtra("SyncData", false);
         if(bSyncData) {
@@ -75,6 +65,6 @@ public class DayOnBroadCastReceiver extends BroadcastReceiver {
                 }
             });
         }
-    }
+*/    }
 }
 
