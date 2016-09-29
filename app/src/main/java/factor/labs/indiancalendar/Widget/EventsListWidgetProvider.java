@@ -49,11 +49,14 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.d("eve-widget-debug", "On Update");
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
         /* Start the service */
         for(int n : appWidgetIds){
             startServiceToUpdate(context, n, labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear(), false);
+            //updateAppWidget(context, n, labsCalendarUtils.getCurrentMonth(), labsCalendarUtils.getCurrentYear());
         }
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
+
+
     }
 
     public Bundle getBundle(int appWidgetId, int month, int year){
@@ -123,12 +126,12 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
             else if(intent.getAction().equals(PREV_CLICK)){
                 startServiceToUpdateWidget(context, intent, true);
             }
-            else if(intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE")) {
+            /*else if(intent.getAction().equals("android.appwidget.action.APPWIDGET_UPDATE")) {
                 AppWidgetManager appWidgetMgr = AppWidgetManager.getInstance(context);
                 int[] widgets = appWidgetMgr.getAppWidgetIds(new ComponentName(context, EventsListWidgetProvider.class));
                 onUpdate(context, appWidgetMgr, widgets);
                 appWidgetMgr.notifyAppWidgetViewDataChanged(widgets,  R.id.id_list_events_month);
-            }
+            }*/
         }
     }
 
@@ -138,6 +141,7 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
         int month = intent.getIntExtra(CUR_MONTH, labsCalendarUtils.getCurrentMonth());
         int year = intent.getIntExtra(CUR_YEAR, labsCalendarUtils.getCurrentYear());
         startServiceToUpdate(context, appWidgetId, month, year, addMonYr);
+        //updateAppWidget(context, appWidgetId, month, year);
     }
 
     public void startServiceToUpdate(Context context, int appWidgetId, int month, int year, boolean addMonYr){
@@ -149,6 +153,7 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
         }
         svcIntent.setAction(GET_EVENTS);
         context.startService(svcIntent);
+
     }
 
     public void startActivityOnClick(Context context, Intent intent){

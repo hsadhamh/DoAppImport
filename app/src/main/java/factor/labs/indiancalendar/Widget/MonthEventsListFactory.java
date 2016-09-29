@@ -116,4 +116,12 @@ public class MonthEventsListFactory implements RemoteViewsFactory {
         // in its current state while work is being done here, so you don't need to worry about
         // locking up the widget.
     }
+
+    /*public void loadEvents(){
+        List<CalendarEventMaster> list = MonthsEventsFetchService.fetchDataFromDb(mContext, mMonth, mYear);
+        if(list != null && !list.isEmpty()) {
+            mWidgetItems.clear();
+            mWidgetItems.addAll(list);
+        }
+    }*/
 }

@@ -1033,18 +1033,23 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
         protected Void doInBackground(Void... params) {
             try {
                 Thread.sleep(300);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                doUpdateListAdapters();
+            } catch(Exception ex){
+                ex.printStackTrace();
             }
-            doUpdateListAdapters();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            mDialog.dismiss();
-            updateListForMonth();
-            doSetListAdapter(true);
+            try {
+                mDialog.dismiss();
+                updateListForMonth();
+                doSetListAdapter(true);
+            }
+            catch(Exception ex){
+                ex.printStackTrace();
+            }
         }
     }
 

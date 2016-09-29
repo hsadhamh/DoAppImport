@@ -17,7 +17,7 @@ import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
 public class MonthsEventsFetchService extends IntentService {
 
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-    public static ArrayList<CalendarEventMaster> listItemList;
+    public static ArrayList<CalendarEventMaster> listItemList = new ArrayList<>();
     int month, year;
 
     /**
@@ -49,8 +49,8 @@ public class MonthsEventsFetchService extends IntentService {
     }
 
     private void fetchDataFromDb(int mon, int yr) {
-        listItemList = new ArrayList<>();
         try {
+            listItemList.clear();
             List<CalendarEventMaster> listEvents = labsCalendarUtils
                             .getCalendarDBHandler(getApplicationContext())
                             .getHolidayReligiousEventsForMonth(mon, yr);

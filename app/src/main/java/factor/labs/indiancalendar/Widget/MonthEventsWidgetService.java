@@ -9,6 +9,8 @@ import android.widget.RemoteViewsService;
 public class MonthEventsWidgetService extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return (new MonthEventsListFactory(this.getApplicationContext(), intent));
+        MonthEventsListFactory lstFactory = new MonthEventsListFactory(this.getApplicationContext(), intent);
+        //lstFactory.loadEvents();
+        return lstFactory;
     }
 }
