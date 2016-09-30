@@ -53,7 +53,7 @@ public class MonthsEventsFetchService extends IntentService {
             List<CalendarEventMaster> listEvents = labsCalendarUtils
                             .getCalendarDBHandler(getApplicationContext())
                             .getHolidayReligiousEventsForMonth(mon, yr);
-            if(listEvents == null || listEvents.size() == 0) {
+            if(listEvents == null) {
                 Log.d("eve-widget-debug", "Total number of events returned for month [" + mon + "] Year [" + yr + "] is zero.");
             }
             else {

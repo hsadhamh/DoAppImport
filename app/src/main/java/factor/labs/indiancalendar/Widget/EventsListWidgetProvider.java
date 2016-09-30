@@ -175,8 +175,7 @@ public class EventsListWidgetProvider extends AppWidgetProvider {
         monIntent.putExtra(CUR_MONTH,  month);
         monIntent.putExtra(CUR_YEAR, year);
 
-        switch(action)
-        {
+        switch(action) {
             case 0:
                 monIntent.setAction(CURRENT_CLICK);
                 break;
