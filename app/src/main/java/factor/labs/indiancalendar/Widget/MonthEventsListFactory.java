@@ -39,14 +39,10 @@ public class MonthEventsListFactory implements RemoteViewsFactory {
         mAppWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         mMonth = intent.getIntExtra(EventsListWidgetProvider.CUR_MONTH, labsCalendarUtils.getCurrentMonth());
         mYear = intent.getIntExtra(EventsListWidgetProvider.CUR_YEAR, labsCalendarUtils.getCurrentYear());
-
-        onCreate();
     }
 
+    @Override
     public void onCreate() {
-        // We sleep for 3 seconds here to show how the empty view appears in the interim.
-        // The empty view is set in the StackWidgetProvider and should be a sibling of the
-        // collection view.
         try {
             if(MonthsEventsFetchService.listItemList != null && !MonthsEventsFetchService.listItemList.isEmpty()) {
                 mWidgetItems.clear();

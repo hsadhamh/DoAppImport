@@ -50,15 +50,16 @@ public class MonthsEventsFetchService extends IntentService {
 
     private void fetchDataFromDb(int mon, int yr) {
         try {
-            listItemList.clear();
             List<CalendarEventMaster> listEvents = labsCalendarUtils
                             .getCalendarDBHandler(getApplicationContext())
                             .getHolidayReligiousEventsForMonth(mon, yr);
             if(listEvents == null || listEvents.size() == 0) {
-                Log.w(this.getClass().toString(), "Total number of events returned for month [" + mon + "] Year [" + yr + "] is zero.");
+                Log.d("eve-widget-debug", "Total number of events returned for month [" + mon + "] Year [" + yr + "] is zero.");
             }
-            else
+            else {
+                listItemList.clear();
                 listItemList.addAll(listEvents);
+            }
         }catch(Exception exec) {
             Log.e(this.getClass().toString(), "Exception caught : " + exec.getMessage());
         }
