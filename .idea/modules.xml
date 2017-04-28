@@ -3,9 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Calendar.iml" filepath="$PROJECT_DIR$/Calendar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DayOnVault.iml" filepath="$PROJECT_DIR$/DayOnVault.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/day-on-app.iml" filepath="$PROJECT_DIR$/day-on-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/indian-calendar.iml" filepath="$PROJECT_DIR$/indian-calendar.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libdatabasegen/libdatabasegen.iml" filepath="$PROJECT_DIR$/libdatabasegen/libdatabasegen.iml" />
     </modules>
   </component>
 </project>
