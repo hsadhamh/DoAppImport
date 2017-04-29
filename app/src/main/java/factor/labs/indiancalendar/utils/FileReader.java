@@ -10,9 +10,10 @@ import java.io.InputStream;
  * Created by hassanhussain on 4/28/2017.
  */
 
-public class FileParser {
+public class FileReader {
 
     public static String FILE_DATA = "EventsUTF";
+    public static String FILE_DATA_ENCRYPTED = "data.bin";
 
     public static String readData(Context context, String file) {
         try {
@@ -22,7 +23,7 @@ public class FileParser {
                 byte buffer[] = new byte[size];
                 is.read(buffer);
                 is.close();
-                return new String(buffer);
+                return new String(buffer, "UTF-8");
             }
         } catch (Exception e) {
             Logger.e(e, "Failed to read data from assets [%s].", file);
