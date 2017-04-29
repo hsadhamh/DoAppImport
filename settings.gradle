@@ -1,1 +1,1 @@
-include ':app', ':libdatabasegen'
+include ':app'

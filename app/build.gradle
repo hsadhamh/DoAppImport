@@ -18,6 +18,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    greendao {
+        targetGenDir 'src/main/java'
+    }
 }
 
 dependencies {
@@ -44,4 +48,5 @@ dependencies {
     }
     /*  Adding DayOn Libs  */
     compile 'org.greenrobot:greendao:3.2.2' // add library
+    compile 'net.zetetic:android-database-sqlcipher:3.5.6'
 }
