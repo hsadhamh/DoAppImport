@@ -1,4 +1,4 @@
-package factor.labs.indiancalendar.database;
+package factor.labs.indiancalendar.utils.database;
 
 import org.greenrobot.greendao.annotation.*;
 

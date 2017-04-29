@@ -1,0 +1,33 @@
+package factor.labs.indiancalendar.utils;
+
+import android.content.Context;
+
+import com.orhanobut.logger.Logger;
+
+import java.io.InputStream;
+
+/**
+ * Created by hassanhussain on 4/28/2017.
+ */
+
+public class FileParser {
+
+    public static String FILE_DATA = "EventsUTF";
+
+    public static String readData(Context context, String file) {
+        try {
+            InputStream is = context.getAssets().open(file);
+            int size = is.available();
+            if(size > 0) {
+                byte buffer[] = new byte[size];
+                is.read(buffer);
+                is.close();
+                return new String(buffer);
+            }
+        } catch (Exception e) {
+            Logger.e(e, "Failed to read data from assets [%s].", file);
+        }
+        return "" ;
+    }
+
+}

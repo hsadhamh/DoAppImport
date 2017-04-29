@@ -1,4 +1,4 @@
-package factor.labs.indiancalendar.database;
+package factor.labs.indiancalendar.utils.database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;

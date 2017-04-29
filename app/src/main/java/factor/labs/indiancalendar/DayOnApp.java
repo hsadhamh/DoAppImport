@@ -3,11 +3,14 @@ package factor.labs.indiancalendar;
 import android.app.Application;
 import android.content.Context;
 
+import com.orhanobut.logger.LogLevel;
+import com.orhanobut.logger.Logger;
+
 import org.greenrobot.greendao.database.Database;
 
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
-import factor.labs.indiancalendar.database.DaoMaster;
-import factor.labs.indiancalendar.database.DaoSession;
+import factor.labs.indiancalendar.utils.database.DaoMaster;
+import factor.labs.indiancalendar.utils.database.DaoSession;
 
 /**
  * Created by hassanhussain on 9/24/2016.
@@ -27,6 +30,7 @@ public class DayOnApp extends Application {
         initDatabase();
 
         initDatabaseV2();
+        initLogger();
     }
 
     public void onTerminate() {
@@ -47,5 +51,10 @@ public class DayOnApp extends Application {
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, ENCRYPTED ? "notes-db-encrypted" : "notes-db");
         Database db = ENCRYPTED ? helper.getEncryptedWritableDb("super-secret") : helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
+    }
+
+    private void initLogger(){
+        Logger.init("debug-lab")             // default shown
+                .logLevel(LogLevel.FULL);        // default LogLevel.FULL
     }
 }
