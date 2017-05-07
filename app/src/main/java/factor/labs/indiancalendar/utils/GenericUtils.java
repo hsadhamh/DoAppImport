@@ -24,21 +24,7 @@ public class GenericUtils {
             public void doOnBackground() {
                 updateProgress(0);
 
-                if(bReCreatedDB){
-                    //  TODO: Re-Create DBs.
-                }
-
-
-                /*
-                * TODO:
-                *   1) Read JSON file
-                *   2) Decrypt JSON data
-                *   3) Deserialize JSON data
-                *   4) Create DB session & Start insertion
-                *   5) Once complete, close connection.
-                */
-
-
+                if(bReCreatedDB){ } //  TODO: Re-Create DBs.
                 try {
                     String sJsonData = FileReader.readData(context, FileReader.FILE_DATA_ENCRYPTED);
                     String sJsonDecrypted = Defense.getInstance().decryptData(sJsonData);

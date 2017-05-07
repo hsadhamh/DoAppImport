@@ -59,7 +59,6 @@ public class DayOnApp extends Application {
         mDaoSession = new DaoMaster(db).newSession();
 
         if(CheckIfDBNeedInitialize()) {
-            //  TODO: Run init code as ASYNC task.
             GenericUtils.startAsyncDbSynchronization(false, getApplicationContext());
         }
     }
