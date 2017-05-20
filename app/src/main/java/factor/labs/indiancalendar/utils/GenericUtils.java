@@ -16,7 +16,6 @@ import factor.labs.indiancalendar.utils.json.EventList;
  */
 
 public class GenericUtils {
-
     public static void startAsyncDbSynchronization(final boolean bReCreatedDB, final Context context){
 
         AsyncJob.OnBackgroundJob job = new AsyncJob.OnBackgroundJob() {

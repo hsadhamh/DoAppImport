@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -52,7 +53,6 @@ import factor.labs.indiancalendar.CalendarObjects.CalendarEventDateListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarMonthYearClass;
-import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.MaterialDialog;
 import factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.HeaderListView;
 import factor.labs.indiancalendar.CalendarUI.CalendarHeaderList.SectionAdapter;
 import factor.labs.indiancalendar.CalendarUI.CalendarRateUsLib.RateThisApp;
@@ -457,10 +457,11 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
                         ShowReligiousEvents();
                         return true;
 
+                    /*
                     case R.id.id_cal_menu_settings:
                         showPreferenceDialogs();
                         return true;
-
+                    */
                     case R.id.id_cal_menu_rate_app:
                         RateThisApp.showRateDialog(DayOnMonthHomeActivity.this);
                         return true;

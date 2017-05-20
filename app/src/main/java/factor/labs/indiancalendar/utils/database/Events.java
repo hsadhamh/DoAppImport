@@ -24,10 +24,10 @@ public class Events {
     private Long flags;
     private String tags;
 
-    // KEEP FIELDS - put your custom fields here
+    @Transient
     private Long start_date;
+    @Transient
     private Long end_date;
-    // KEEP FIELDS END
 
     @Generated(hash = 2113269558)
     public Events() {

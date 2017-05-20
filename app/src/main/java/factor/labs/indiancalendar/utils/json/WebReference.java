@@ -3,7 +3,6 @@ package factor.labs.indiancalendar.utils.json;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.parser.json.events.EventProperty.Religion;
 
 public class WebReference {
 	public static enum WebRefType{

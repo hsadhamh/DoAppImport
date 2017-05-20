@@ -8,11 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import factor.labs.indiancalendar.CalendarAdapters.DayOnViewPagerAdapter;
-import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.core.MaterialDialog;
 import factor.labs.indiancalendar.CalendarUI.CalendarViews.DayOnYearGridFragment;
 import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
 import factor.labs.indiancalendar.R;

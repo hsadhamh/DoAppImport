@@ -30,12 +30,12 @@
 
     <group android:id="@+id/group_general" android:checkableBehavior="single">
 
-        <item
+        <!--<item
             android:id="@+id/id_cal_menu_settings"
             android:checked="false"
             android:icon="@drawable/ic_setting_light"
             android:title="Preferences"
-            android:visible="false"/>
+            android:visible="false"/>-->
 
         <item
             android:id="@+id/id_cal_menu_rate_app"

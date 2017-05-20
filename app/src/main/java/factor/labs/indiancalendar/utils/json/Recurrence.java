@@ -3,7 +3,6 @@ package factor.labs.indiancalendar.utils.json;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.parser.json.events.EventCategory.Category;
 
 public class Recurrence {
 	public static enum RecurType{

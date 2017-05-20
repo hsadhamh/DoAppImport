@@ -3,12 +3,13 @@ package factor.labs.indiancalendar.DayOnActivities;
 /**
  * Created by hassanhussain on 10/25/2015.
  */
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import factor.labs.indiancalendar.CalendarInterfaces.IDayOnPrefCallBack;
-import factor.labs.indiancalendar.CalendarUI.CalendarDialogUI.common.prefs.CheckBoxPreference;
 import factor.labs.indiancalendar.CalendarUI.DayOnDatePicker.time.RadialPickerLayout;
 import factor.labs.indiancalendar.CalendarUI.DayOnDatePicker.time.TimePickerDialog;
 import factor.labs.indiancalendar.CalendarUtils.CalendarConstants;
