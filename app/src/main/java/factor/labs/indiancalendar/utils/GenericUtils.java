@@ -3,6 +3,7 @@ package factor.labs.indiancalendar.utils;
 import android.content.Context;
 
 import com.arasthel.asyncjob.AsyncJob;
+import com.github.hussainderry.securepreferences.SecurePreferences;
 import com.orhanobut.logger.Logger;
 
 import factor.labs.indiancalendar.DayOnApp;
@@ -78,6 +79,9 @@ public class GenericUtils {
                         }
                         else if(action > 99) {
                             //  TODO: close dialog
+                            SecurePreferences.Editor editPrefs = DayOnApp.getPreferences().edit();
+                            editPrefs.putBoolean("DbInitSuccess", true);
+                            editPrefs.apply();
                         }
                     }
                 });

@@ -24,16 +24,17 @@ public class DayOnApp extends Application {
     /** A flag to show how easily you can switch from standard SQLite to the encrypted SQLCipher. */
     public static final boolean ENCRYPTED = false;
     private static DaoSession mDaoSession;
-    private SecurePreferences mPreferences;
+    private static SecurePreferences mPreferences;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initDatabase();
-
-        initDatabaseV2();
         initLogger();
+        initDatabase();
         initPreferences();
+        initDatabaseV2();
+
+
     }
 
     public void onTerminate() {
@@ -45,6 +46,7 @@ public class DayOnApp extends Application {
     private void initDatabase(){ labsCalendarUtils.initDatabase(getApplicationContext()); }
 
     public static DaoSession getDaoSession() { return mDaoSession; }
+    public static SecurePreferences getPreferences(){ return mPreferences; }
 
     private void initDatabaseV2(){
         //
