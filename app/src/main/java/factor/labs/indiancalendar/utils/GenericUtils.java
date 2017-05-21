@@ -1,5 +1,6 @@
 package factor.labs.indiancalendar.utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.arasthel.asyncjob.AsyncJob;
@@ -17,7 +18,10 @@ import factor.labs.indiancalendar.utils.json.EventList;
  */
 
 public class GenericUtils {
+    private static ProgressDialog progress;
     public static void startAsyncDbSynchronization(final boolean bReCreatedDB, final Context context){
+
+
 
         AsyncJob.OnBackgroundJob job = new AsyncJob.OnBackgroundJob() {
             @Override
@@ -68,17 +72,25 @@ public class GenericUtils {
 
             public void updateProgress(final int action) {
                 // This toast should show a difference of 1000ms between calls
+
                 AsyncJob.doOnMainThread(new AsyncJob.OnMainThreadJob() {
                     @Override
                     public void doInUIThread() {
                         if(action == 0) {
                             //  TODO: show dialog
+                            progress = new ProgressDialog(context);
+                            progress.setTitle("Loading");
+                            progress.setMessage("Initialising Database..");
                         }
                         else if(action > 0 && action < 99) {
                             //  TODO: update progress
+                            progress.setMessage("Almost done..");
                         }
                         else if(action > 99) {
                             //  TODO: close dialog
+                            if (progress != null && progress.isShowing()) {
+                                progress.dismiss();
+                            }
                             SecurePreferences.Editor editPrefs = DayOnApp.getPreferences().edit();
                             editPrefs.putBoolean("DbInitSuccess", true);
                             editPrefs.apply();
