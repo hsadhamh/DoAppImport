@@ -1,4 +1,4 @@
-package factor.labs.indiancalendar.utils;
+package factor.labs.indiancalendar.utils.serializer;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParseException;

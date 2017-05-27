@@ -8,7 +8,6 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import factor.labs.indiancalendar.CalendarDbHelper.CalendarSQLiteCRUD;
-import factor.labs.indiancalendar.CalendarEventHandlers.CalendarEventsPrimaryHandler;
 import factor.labs.indiancalendar.CalendarObjects.CalendarMonthYearClass;
 import factor.labs.indiancalendar.R;
 
@@ -17,7 +16,6 @@ import factor.labs.indiancalendar.R;
  */
 public class labsCalendarUtils {
     private static Object mLock = new Object();
-    private static CalendarEventsPrimaryHandler eventHandler = null;
 
     private static CalendarSQLiteCRUD sqliteCRUD = null;
 

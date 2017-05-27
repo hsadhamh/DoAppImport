@@ -10,8 +10,11 @@ import com.orhanobut.logger.Logger;
 import factor.labs.indiancalendar.DayOnApp;
 import factor.labs.indiancalendar.utils.database.Events;
 import factor.labs.indiancalendar.utils.database.EventsDao;
+import factor.labs.indiancalendar.utils.file.FileReader;
 import factor.labs.indiancalendar.utils.json.Event;
 import factor.labs.indiancalendar.utils.json.EventList;
+import factor.labs.indiancalendar.utils.security.Defense;
+import factor.labs.indiancalendar.utils.serializer.JsonSerializer;
 
 /**
  * Created by hassanhussain on 4/29/2017.
@@ -20,8 +23,6 @@ import factor.labs.indiancalendar.utils.json.EventList;
 public class GenericUtils {
     private static ProgressDialog progress;
     public static void startAsyncDbSynchronization(final boolean bReCreatedDB, final Context context){
-
-
 
         AsyncJob.OnBackgroundJob job = new AsyncJob.OnBackgroundJob() {
             @Override
@@ -55,6 +56,12 @@ public class GenericUtils {
                         eventInfo.setSub_category(event.getSub_category());
                         eventInfo.setTags("");
 
+                        Logger.d("Start ["+ event.getStart_date().longValue() +
+                                "] and end date [" + event.getEnd_date().longValue() + "]");
+
+                        eventInfo.setStart_date(event.getStart_date().longValue());
+                        eventInfo.setEnd_date(event.getEnd_date().longValue());
+
                         newEvent.insert(eventInfo);
                         Logger.d("Inserted information [%s].", eventInfo.getName());
                         Logger.d(eventInfo);
@@ -70,7 +77,7 @@ public class GenericUtils {
                 updateProgress(100);
             }
 
-            public void updateProgress(final int action) {
+            void updateProgress(final int action) {
                 // This toast should show a difference of 1000ms between calls
 
                 AsyncJob.doOnMainThread(new AsyncJob.OnMainThreadJob() {
@@ -79,8 +86,8 @@ public class GenericUtils {
                         if(action == 0) {
                             //  TODO: show dialog
                             progress = new ProgressDialog(context);
-                            progress.setTitle("Loading");
-                            progress.setMessage("Initialising Database..");
+                            progress.setTitle(Constants.msgLoading);
+                            progress.setMessage(Constants.msgInitDatabase);
                         }
                         else if(action > 0 && action < 99) {
                             //  TODO: update progress

@@ -31,6 +31,8 @@ public class EventsDao extends AbstractDao<Events, Long> {
         public final static Property Locations = new Property(6, String.class, "locations", false, "LOCATIONS");
         public final static Property Flags = new Property(7, Long.class, "flags", false, "FLAGS");
         public final static Property Tags = new Property(8, String.class, "tags", false, "TAGS");
+        public final static Property Start_date = new Property(9, Long.class, "start_date", false, "START_DATE");
+        public final static Property End_date = new Property(10, Long.class, "end_date", false, "END_DATE");
     }
 
 
@@ -54,7 +56,9 @@ public class EventsDao extends AbstractDao<Events, Long> {
                 "\"SUB_CATEGORY\" INTEGER," + // 5: sub_category
                 "\"LOCATIONS\" TEXT," + // 6: locations
                 "\"FLAGS\" INTEGER," + // 7: flags
-                "\"TAGS\" TEXT);"); // 8: tags
+                "\"TAGS\" TEXT," + // 8: tags
+                "\"START_DATE\" INTEGER," + // 9: start_date
+                "\"END_DATE\" INTEGER);"); // 10: end_date
     }
 
     /** Drops the underlying database table. */
@@ -111,6 +115,16 @@ public class EventsDao extends AbstractDao<Events, Long> {
         if (tags != null) {
             stmt.bindString(9, tags);
         }
+ 
+        Long start_date = entity.getStart_date();
+        if (start_date != null) {
+            stmt.bindLong(10, start_date);
+        }
+ 
+        Long end_date = entity.getEnd_date();
+        if (end_date != null) {
+            stmt.bindLong(11, end_date);
+        }
     }
 
     @Override
@@ -161,6 +175,16 @@ public class EventsDao extends AbstractDao<Events, Long> {
         if (tags != null) {
             stmt.bindString(9, tags);
         }
+ 
+        Long start_date = entity.getStart_date();
+        if (start_date != null) {
+            stmt.bindLong(10, start_date);
+        }
+ 
+        Long end_date = entity.getEnd_date();
+        if (end_date != null) {
+            stmt.bindLong(11, end_date);
+        }
     }
 
     @Override
@@ -179,7 +203,9 @@ public class EventsDao extends AbstractDao<Events, Long> {
             cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5), // sub_category
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // locations
             cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7), // flags
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8) // tags
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // tags
+            cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9), // start_date
+            cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10) // end_date
         );
         return entity;
     }
@@ -195,6 +221,8 @@ public class EventsDao extends AbstractDao<Events, Long> {
         entity.setLocations(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setFlags(cursor.isNull(offset + 7) ? null : cursor.getLong(offset + 7));
         entity.setTags(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setStart_date(cursor.isNull(offset + 9) ? null : cursor.getLong(offset + 9));
+        entity.setEnd_date(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
      }
     
     @Override

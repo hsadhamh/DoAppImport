@@ -23,11 +23,11 @@ public class Events {
     private String locations;
     private Long flags;
     private String tags;
-
-    @Transient
     private Long start_date;
-    @Transient
     private Long end_date;
+
+    // KEEP FIELDS - put your custom fields here
+    // KEEP FIELDS END
 
     @Generated(hash = 2113269558)
     public Events() {
@@ -37,8 +37,8 @@ public class Events {
         this.id = id;
     }
 
-    @Generated(hash = 756876280)
-    public Events(Long id, String GUID, String name, String property, Long category, Long sub_category, String locations, Long flags, String tags) {
+    @Generated(hash = 636635504)
+    public Events(Long id, String GUID, String name, String property, Long category, Long sub_category, String locations, Long flags, String tags, Long start_date, Long end_date) {
         this.id = id;
         this.GUID = GUID;
         this.name = name;
@@ -48,6 +48,8 @@ public class Events {
         this.locations = locations;
         this.flags = flags;
         this.tags = tags;
+        this.start_date = start_date;
+        this.end_date = end_date;
     }
 
     public Long getId() {
@@ -120,6 +122,22 @@ public class Events {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public Long getStart_date() {
+        return start_date;
+    }
+
+    public void setStart_date(Long start_date) {
+        this.start_date = start_date;
+    }
+
+    public Long getEnd_date() {
+        return end_date;
+    }
+
+    public void setEnd_date(Long end_date) {
+        this.end_date = end_date;
     }
 
     // KEEP METHODS - put your custom methods here

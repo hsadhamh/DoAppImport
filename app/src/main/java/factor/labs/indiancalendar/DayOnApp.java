@@ -10,7 +10,6 @@ import com.orhanobut.logger.Logger;
 
 import org.greenrobot.greendao.database.Database;
 
-import factor.labs.indiancalendar.CalendarUtils.labsCalendarUtils;
 import factor.labs.indiancalendar.utils.GenericUtils;
 import factor.labs.indiancalendar.utils.database.DaoMaster;
 import factor.labs.indiancalendar.utils.database.DaoSession;
@@ -33,17 +32,13 @@ public class DayOnApp extends Application {
         initDatabase();
         initPreferences();
         initDatabaseV2();
-
-
     }
 
     public void onTerminate() {
         super.onTerminate();
-        if(labsCalendarUtils.getCalendarDBHandler() != null)
-            labsCalendarUtils.getCalendarDBHandler().close();
     }
 
-    private void initDatabase(){ labsCalendarUtils.initDatabase(getApplicationContext()); }
+    private void initDatabase(){ }
 
     public static DaoSession getDaoSession() { return mDaoSession; }
     public static SecurePreferences getPreferences(){ return mPreferences; }
