@@ -8,6 +8,8 @@ import com.github.hussainderry.securepreferences.model.SecurityConfig;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import org.greenrobot.greendao.database.Database;
 
 import factor.labs.indiancalendar.utils.GenericUtils;
@@ -29,9 +31,10 @@ public class DayOnApp extends Application {
     public void onCreate() {
         super.onCreate();
         initLogger();
-        initDatabase();
+        //initDatabase();
         initPreferences();
         initDatabaseV2();
+        JodaTimeAndroid.init(this);
     }
 
     public void onTerminate() {
@@ -77,7 +80,7 @@ public class DayOnApp extends Application {
         if(!mPreferences.getBoolean("DbInitSuccess", false))
             return true;
 
-        if(!(mDaoSession.getEventsDao().count() >= 0))
+        if(!(mDaoSession.getEventsDao().count() <= 0))
             return true;
         //  By default no sync required.
         return false;

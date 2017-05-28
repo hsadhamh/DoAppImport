@@ -12,7 +12,7 @@ import java.io.InputStream;
 
 public class FileReader {
 
-    public static String FILE_DATA = "EventsUTF";
+    public static String FILE_DATA = "data_old.bin";
     public static String FILE_DATA_ENCRYPTED = "data.bin";
 
     public static String readData(Context context, String file) {

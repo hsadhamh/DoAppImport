@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
 import factor.labs.indiancalendar.CalendarInterfaces.IDayOnEventInfoClick;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEmptyEventListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventAdListItem;
@@ -35,6 +34,10 @@ import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListEmpty;
 import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListHeader;
 import factor.labs.indiancalendar.CalendarViewHolders.DayOnEventListItem;
 import factor.labs.indiancalendar.R;
+import factor.labs.indiancalendar.utils.database.Events;
+import factor.labs.indiancalendar.utils.json.EventCategory;
+import factor.labs.indiancalendar.utils.json.EventProperty;
+import factor.labs.indiancalendar.utils.serializer.JsonSerializer;
 
 /**
  * Created by hassanhussain on 10/13/2015.
@@ -187,7 +190,7 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
                     CalendarEventListItem obj3 = (CalendarEventListItem) getRowItem(section, row);
                     if(obj3 != null) {
                         DayOnEventListItem holder4 = (DayOnEventListItem) convertView.getTag();
-                        holder4.txtEventName.setText(obj3.oEventInfo.getEventName());
+                        holder4.txtEventName.setText(obj3.oEventInfo.getName());
                         holder4.txtEventTime.setText("Full Day");
 
                         holder4.txtEventLocation.setVisibility(View.VISIBLE);
@@ -196,19 +199,23 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
                         holder4.txtEventName.setAlpha(1.0f);
 
                         holder4.layoutLocationHolder.setVisibility(View.VISIBLE);
-                        if (obj3.oEventInfo.getDisplayName().length() == 0)
+                        if (obj3.oEventInfo.getName().length() == 0)
                             holder4.layoutLocationHolder.setVisibility(View.GONE);
                         else
-                            holder4.txtEventLocation.setText(obj3.oEventInfo.getDisplayName());
+                            holder4.txtEventLocation.setText(obj3.oEventInfo.getName());
 
 
-                        if (obj3.oEventInfo.isHolidayEvent()) {
+                        if ((obj3.oEventInfo.getCategory()
+                                & EventCategory.Category.HOLIDAY.getValue()) != 0 ) {
                             holder4.txtEventName.setTextColor(ContextCompat.getColor(mContext, R.color.event_ring_holiday));
                             holder4.img.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.shape_rectangle_event_notify));
                             holder4.img.setAlpha(.75f);
                             holder4.txtEventName.setAlpha(.8f);
-                        } else if (obj3.oEventInfo.isReligionEvent()) {
-                            int nReligionID = obj3.oEventInfo.getReligionID();
+                        } else if ((obj3.oEventInfo.getCategory()
+                                & EventCategory.Category.RELIGIOUS.getValue()) != 0 ) {
+                            EventProperty oProps =
+                                    (EventProperty) JsonSerializer.getInstance().UnserializeToObject(obj3.oEventInfo.getProperty(), EventProperty.class);
+                            int nReligionID = oProps.getReligion().getValue();
                             if (nReligionID != 0) {
                                 holder4.txtEventName.setTextColor(ContextCompat.getColor(mContext, R.color.c_event_religious));
                                 Drawable d = ContextCompat.getDrawable(mContext, labsCalendarUtils.getIconFormReligion(nReligionID));
@@ -224,7 +231,7 @@ public class CalendarHeaderListAdapter extends SectionAdapter {
                         public void onClick(View v) {
                             Object obj = v.getTag();
                             if(obj instanceof DayOnEventListItem){
-                                CalendarEventMaster oEve = ((CalendarEventListItem)((DayOnEventListItem)obj).hidden.getTag()).oEventInfo;
+                                Events oEve = ((CalendarEventListItem)((DayOnEventListItem)obj).hidden.getTag()).oEventInfo;
                                 if(mCallback != null)
                                     mCallback.ShowInfoDialog(oEve);
                             }

@@ -3,17 +3,20 @@ package factor.labs.indiancalendar.CalendarUtils;
 import android.content.Context;
 import android.util.Log;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Vector;
 
-import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEmptyEventListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventDateListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventListItem;
 import factor.labs.indiancalendar.CalendarObjects.CalendarEventMonthListItem;
+import factor.labs.indiancalendar.utils.database.DatabaseHelper;
+import factor.labs.indiancalendar.utils.database.Events;
+import factor.labs.indiancalendar.utils.date.DateTime;
+import factor.labs.indiancalendar.utils.json.EventCategory;
 
 /**
  * Created by hassanhussain on 7/20/2015.
@@ -30,10 +33,29 @@ public class CalendarMonthClass {
 
     List<CalendarDateClass> mListOfDatesInMonthGrid = new Vector<CalendarDateClass>();
 
-    List<CalendarEventMaster> mListOfEventsForMonth = new ArrayList<>();
+    List<Events> mListOfEventsForMonth = new ArrayList<>();
     List<Object> moListEventViewsToDisplay = new ArrayList<>();
 
-    public void setmContext(Context mContext) { this.mContext = mContext; }
+    public long getMonthStartTimeStamp() {
+        return mMonthStartTimeStamp;
+    }
+
+    public void setMonthStartTimeStamp(long mMonthStartTimeStamp) {
+        this.mMonthStartTimeStamp = mMonthStartTimeStamp;
+    }
+
+    public long getMonthEndTimeStamp() {
+        return mMonthEndTimeStamp;
+    }
+
+    public void setMonthEndTimeStamp(long mMonthEndTimeStamp) {
+        this.mMonthEndTimeStamp = mMonthEndTimeStamp;
+    }
+
+    long mMonthStartTimeStamp = 0;
+    long mMonthEndTimeStamp = 0;
+
+    public void setContext(Context mContext) { this.mContext = mContext; }
 
     Context mContext;
 
@@ -49,14 +71,6 @@ public class CalendarMonthClass {
     public int getMonth(){ return mnMonth; }
     public int getYear(){ return mnYear; }
 
-    public boolean hasLoadEventDone() { return bEventsLoaded; }
-
-    public int getListOffset(){ return mnOffsetInList; }
-    public void setListOffset(int n){ mnOffsetInList = n; }
-
-    public int getListSize(){ return mnSizeInList; }
-    public void setListSize(int n){ mnSizeInList = n; }
-
     public void prepareCalendarMonthDates(){
         sTag = "CalendarMonthClass.prepareCalendarMonthDates";
         try {
@@ -65,10 +79,10 @@ public class CalendarMonthClass {
             int nMonth = mnMonth, nYear = mnYear, nPrevYear = nYear;
             int nNextYear = nYear, nPrevMonth = nMonth - 1, nNextMonth = nMonth + 1;
 
-            /*Log.d(sTag, "Current month [" + mnMonth + "] Current year [" +
+            Logger.d("Current month [" + mnMonth + "] Current year [" +
                     mnYear + "] Next Month [" + nNextMonth + "] Next Year [" + nNextYear + "] Previous Month [" +
                     nPrevMonth + "] Previous year [" + nPrevYear + "].");
-*/
+
             if (nMonth == 1) {
                 nPrevMonth = 12;
                 nPrevYear--;
@@ -78,26 +92,14 @@ public class CalendarMonthClass {
                 nNextYear++;
             }
 
-            /*Log.d(sTag, "After : Current month [" + mnMonth + "] Current year [" +
+            Logger.d("After : Current month [" + mnMonth + "] Current year [" +
                     mnYear + "] Next Month [" + nNextMonth + "] Next Year [" + nNextYear + "] Previous Month [" +
-                    nPrevMonth + "] Previous year [" + nPrevYear + "].");*/
+                    nPrevMonth + "] Previous year [" + nPrevYear + "].");
 
-            int nPrevMonthDays = labsCalendarUtils.getNumberOfDatesForMonth(nPrevMonth, nPrevYear);
-            int nDaysOfCurrentMonth = labsCalendarUtils.getNumberOfDatesForMonth(nMonth, nYear);
-            int nNextMonthDays = labsCalendarUtils.getNumberOfDatesForMonth(nNextMonth, nNextYear);
+            int nPrevMonthDays = DateTime.getNumberOfDaysForMonth(nPrevMonth, nPrevYear);
+            int nDaysOfCurrentMonth = DateTime.getNumberOfDaysForMonth(nMonth, nYear);
+            int nPrevNoMonthDays = DateTime.getDaysInCurrForPrevMonth(nMonth, nYear);
 
-            //Log.d(sTag, "Number of days for previous month [" + nPrevMonthDays + "].");
-            //Log.d(sTag, "Number of days for current month [" + nDaysOfCurrentMonth + "].");
-            //Log.d(sTag, "Number of days for next month [" + nNextMonthDays + "].");
-
-            GregorianCalendar oGregCalendar = new GregorianCalendar(nYear, nMonth - 1, 1);
-
-            int nPrevNoMonthDays = oGregCalendar.get(Calendar.DAY_OF_WEEK) - 1;
-            //Log.d(sTag, "Previous month days [" + nPrevNoMonthDays + "].");
-            nNextMonthDays = ((nPrevNoMonthDays + nDaysOfCurrentMonth) % 7);
-            //Log.d(sTag, "Next month days [" + nNextMonthDays + "].");
-
-            //Log.d(sTag, "total month days [" + mnTotalDaysInMonthGrid + "].");
             // Previous month days.
             for (int iter = nPrevMonthDays - nPrevNoMonthDays + 1; iter <= nPrevMonthDays; iter++) {
                 CalendarDateClass oDateObject = new CalendarDateClass(iter, nPrevMonth, nPrevYear, CalendarConstants.CALENDAR_PREVIOUS_MONTH_DATE);
@@ -111,6 +113,12 @@ public class CalendarMonthClass {
                         mnYear == labsCalendarUtils.getCurrentYear())
                     oDateObject.setSelected(true);
                 mListOfDatesInMonthGrid.add(oDateObject);
+
+                if(iter == 1) {
+                    this.mMonthStartTimeStamp = oDateObject.getDateStartTimeStamp();
+                }else if(iter == nDaysOfCurrentMonth){
+                    this.mMonthEndTimeStamp = oDateObject.getDateEndTimeStamp();
+                }
             }
             // next month days.
             for (int iter = 1; iter <= (42 - (nPrevNoMonthDays + nDaysOfCurrentMonth)); iter++) {
@@ -128,11 +136,8 @@ public class CalendarMonthClass {
     {
         sTag = "CalendarMonthClass.onPrepareListOfEventsForMonth";
         try {
-            List<CalendarEventMaster> listEvents = null;
-            if(mContext == null)
-                listEvents = labsCalendarUtils.getCalendarDBHandler().getHolidayReligiousEventsForMonth(mnMonth, mnYear);
-            else
-                listEvents = labsCalendarUtils.getCalendarDBHandler(mContext).getHolidayReligiousEventsForMonth(mnMonth, mnYear);
+            List<Events> listEvents =
+                DatabaseHelper.getEventsForGivenTimeFrame(this.mMonthStartTimeStamp, this.mMonthEndTimeStamp);
             if(listEvents == null || listEvents.size() == 0) {
                 Log.w(sTag, "Total number of events returned for month [" + mnMonth + "] Year [" + mnYear + "] is zero.");
             }
@@ -146,17 +151,16 @@ public class CalendarMonthClass {
         return true;
     }
 
-    public List<CalendarEventMaster> getEventsForMonth(){
+    public List<Events> getEventsForMonth(){
         if(!bEventsLoaded) {
             bEventsLoaded = onPrepareListOfEventsForMonth();
 
-            for (CalendarEventMaster oEventDate : mListOfEventsForMonth) {
-                CalendarDateClass oDate = getDateObject(oEventDate.getDate(), mnMonth);
+            for (Events oEventDate : mListOfEventsForMonth) {
+                CalendarDateClass oDate = getDateObject(oEventDate.getStart_date());
                 if (oDate != null) {
                     boolean found = false;
-                    for(CalendarEventMaster event : oDate.getEventsForDay())
-                    {
-                        if(event.getEventID() == oEventDate.getEventID()) {
+                    for(Events event : oDate.getEventsForDay()){
+                        if(event.getGUID().equals(oEventDate.getGUID())) {
                             found = true;
                             break;
                         }
@@ -164,8 +168,13 @@ public class CalendarMonthClass {
                     if(!found) {
                         //Log.d(sTag, "Set grid dates for month [" + mnMonth + "] date [" + oEventDate.getDate() + "].");
                         oDate.addEventsForDay(oEventDate);
-                        if(oEventDate.isHolidayEvent()) oDate.setHolidayFlag();
-                        if(oEventDate.isReligionEvent()) oDate.setReligiousFlag();
+                        if((oEventDate.getCategory()
+                                & EventCategory.Category.HOLIDAY.getValue()) != 0)
+                            oDate.setHolidayFlag();
+
+                        if((oEventDate.getCategory()
+                                & EventCategory.Category.RELIGIOUS.getValue()) != 0)
+                            oDate.setReligiousFlag();
                     }
                 }
             }
@@ -182,12 +191,12 @@ public class CalendarMonthClass {
         if(!bEventsLoaded) {
             bEventsLoaded = onPrepareListOfEventsForMonth();
             //  Load views for ListView.
-            for (CalendarEventMaster oEventDate : mListOfEventsForMonth) {
-                CalendarDateClass oDate = getDateObject(oEventDate.getDate(), mnMonth);
+            for (Events oEventDate : mListOfEventsForMonth) {
+                CalendarDateClass oDate = getDateObject(oEventDate.getStart_date());
                 if (oDate != null) {
                     boolean found = false;
-                    for(CalendarEventMaster event : oDate.getEventsForDay()) {
-                        if(event.getEventID() == oEventDate.getEventID()) {
+                    for(Events event : oDate.getEventsForDay()) {
+                        if(event.getGUID().equals(oEventDate.getGUID())) {
                             found = true;
                             break;
                         }
@@ -196,8 +205,14 @@ public class CalendarMonthClass {
                     if(!found) {
                         //Log.d(sTag, "Set grid dates for month [" + mnMonth + "] date [" + oEventDate.getDate() + "].");
                         oDate.addEventsForDay(oEventDate);
-                        if(oEventDate.isHolidayEvent()) oDate.setHolidayFlag();
-                        if(oEventDate.isReligionEvent()) oDate.setReligiousFlag();
+
+                        if((oEventDate.getCategory()
+                                & EventCategory.Category.HOLIDAY.getValue()) != 0)
+                            oDate.setHolidayFlag();
+
+                        if((oEventDate.getCategory()
+                                & EventCategory.Category.RELIGIOUS.getValue()) != 0)
+                            oDate.setReligiousFlag();
                     }
                 }
             }
@@ -221,12 +236,12 @@ public class CalendarMonthClass {
 
                 tempList.add(new CalendarEventDateListItem(oDate.getDate(), oDate.getMonth(), oDate.getYear(), tempList.size()));
                 oDate.setListOffset(tempList.size());
-                List<CalendarEventMaster> listEvents = oDate.getEventsForDay();
+                List<Events> listEvents = oDate.getEventsForDay();
 
                 int nEventsFound = 0;
                 if (listEvents != null){
                     oDate.getEventsForDayInDisplay().clear();
-                    for (CalendarEventMaster oEvent : listEvents) {
+                    for (Events oEvent : listEvents) {
 
                         /*if(start == tempList.size()) {
                             tempList.add(new
@@ -236,11 +251,13 @@ public class CalendarMonthClass {
                         }*/
 
                         CalendarEventListItem oE = new CalendarEventListItem(oEvent, tempList.size());
-                        if(nShowPref == 1 && oEvent.isReligionEvent()){
+                        if(nShowPref == 1 && (oEvent.getCategory()
+                                & EventCategory.Category.RELIGIOUS.getValue()) != 0){
                             tempList.add(oE);
                             oDate.getEventsForDayInDisplay().add(oEvent);
                         } // religious
-                        else if(nShowPref == 2 && oEvent.isHolidayEvent()){
+                        else if(nShowPref == 2 &&(oEvent.getCategory()
+                                & EventCategory.Category.HOLIDAY.getValue()) != 0){
                             tempList.add(oE);
                             oDate.getEventsForDayInDisplay().add(oEvent);
                         } // holidays
@@ -277,19 +294,17 @@ public class CalendarMonthClass {
         return mListOfDatesInMonthGrid;
     }
 
-    public CalendarDateClass getDateObject(int date, int nMonth)
+    public CalendarDateClass getDateObject(long lStartTime)
     {
         sTag = "CalendarMonthClass.getDateObject";
         try
         {
             for(CalendarDateClass oDate : mListOfDatesInMonthGrid)
-            {
-                if(oDate.mnDate == date && oDate.getMonth() == nMonth)
+                if(lStartTime >= oDate.getDateStartTimeStamp() && lStartTime <= oDate.getDateEndTimeStamp())
                 {
-                    //Log.d(sTag, "Date ["+date+"] ["+ nMonth +"] macthed object returned.");
+                    Logger.d("Date ["+ oDate.getDate() +"] ["+ oDate.getMonth() +"] macthed object returned.");
                     return oDate;
                 }
-            }
         }
         catch(Exception exec)
         {

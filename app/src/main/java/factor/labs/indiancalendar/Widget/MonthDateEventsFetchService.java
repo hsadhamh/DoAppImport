@@ -41,7 +41,7 @@ public class MonthDateEventsFetchService extends IntentService {
     private void fetchDateForMonth(int mon, int yr) {
         try {
             monthClass = new CalendarMonthClass(mon, yr);
-            monthClass.setmContext(getApplicationContext());
+            monthClass.setContext(getApplicationContext());
             monthClass.prepareCalendarMonthDates();
             monthClass.getEventsForMonth();
         }catch(Exception exec) {

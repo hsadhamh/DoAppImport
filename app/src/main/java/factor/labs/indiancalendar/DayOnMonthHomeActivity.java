@@ -31,6 +31,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,7 +44,6 @@ import java.util.Queue;
 import factor.labs.indiancalendar.CalendarAdapters.CalendarHeaderListAdapter;
 import factor.labs.indiancalendar.CalendarAdapters.CalendarWeekNameDisplayAdapter;
 import factor.labs.indiancalendar.CalendarAdapters.DayonPentaMonthAdapter;
-import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
 import factor.labs.indiancalendar.CalendarInterfaces.CalendarDateClickListenerInterface;
 import factor.labs.indiancalendar.CalendarInterfaces.DayOnHeaderClickListener;
 import factor.labs.indiancalendar.CalendarInterfaces.IDayOnEventInfoClick;
@@ -75,6 +75,10 @@ import factor.labs.indiancalendar.DayOnActivities.DayOnPreferenceActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnScheduleViewActivity;
 import factor.labs.indiancalendar.DayOnActivities.DayOnYearViewActivity;
 import factor.labs.indiancalendar.Widget.EventsListWidgetProvider;
+import factor.labs.indiancalendar.utils.Constants;
+import factor.labs.indiancalendar.utils.database.Events;
+import factor.labs.indiancalendar.utils.json.EventProperty;
+import factor.labs.indiancalendar.utils.serializer.JsonSerializer;
 
 /**
  * Created by hassanhussain on 9/30/2015.
@@ -629,7 +633,9 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             moListDayEvents.put(nSeq, doMonGrid.getMonthClass().getEventsAndViewsForMonth());
 
             if(i==0) {
-                moCurrentDateClass = doMonGrid.getMonthClass().getDateObject(mnLastDateSelected, resObj.getMonth());
+                long lStartTimeRef = doMonGrid.getMonthClass().getMonthStartTimeStamp();
+                lStartTimeRef += ((mnLastDateSelected-1) * Constants.TIMESTAMP_FOR_DAY);
+                moCurrentDateClass = doMonGrid.getMonthClass().getDateObject(lStartTimeRef);
                 if(moCurrentDateClass != null)
                     mnSelectedOffsetList = moCurrentDateClass.getListOffset();
                 doMonGrid.setSelectedDate(mnLastDateSelected);
@@ -930,8 +936,11 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
             doFr.setSelectedDate(mnLastDateSelected);
             List<Object> listEventsView = doFr.getMonthClass().getEventsAndViewsForMonth();
             moListDayEvents.put(n, listEventsView);
-            if(n==1)
-                mnSelectedOffsetList = doFr.getMonthClass().getDateObject(mnLastDateSelected, doFr.getMonth()).getListOffset();
+            if(n==1) {
+                long lStartTimeRef = doFr.getMonthClass().getMonthStartTimeStamp();
+                lStartTimeRef += ((mnLastDateSelected-1) * Constants.TIMESTAMP_FOR_DAY);
+                mnSelectedOffsetList = doFr.getMonthClass().getDateObject(lStartTimeRef).getListOffset();
+            }
             n++;
         }
     }
@@ -1073,21 +1082,31 @@ public class DayOnMonthHomeActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void ShowInfoDialog(CalendarEventMaster oEve){
-        new MaterialDialog.Builder(DayOnMonthHomeActivity.this)
-                .title(oEve.getInfoDescription())
-                .content(oEve.getInfoWiki())
-                .positiveText("Close")
-                .autoDismiss(false)
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        doLoadAd(0);
-                        super.onPositive(dialog);
-                        dialog.dismiss();
-                    }
-                })
-                .show();
+    public void ShowInfoDialog(Events oEve){
+
+        try {
+            EventProperty oProps =
+                    (EventProperty) JsonSerializer.getInstance().UnserializeToObject(oEve.getProperty(), EventProperty.class);
+
+            new MaterialDialog.Builder(DayOnMonthHomeActivity.this)
+                    .title(oProps.getDescription())
+                    .content(oProps.getWebref().getValue())
+                    .positiveText("Close")
+                    .autoDismiss(false)
+                    .callback(new MaterialDialog.ButtonCallback() {
+                        @Override
+                        public void onPositive(MaterialDialog dialog) {
+                            doLoadAd(0);
+                            super.onPositive(dialog);
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public void showPreferenceDialogs() {

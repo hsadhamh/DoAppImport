@@ -98,6 +98,7 @@ public class GenericUtils {
                             if (progress != null && progress.isShowing()) {
                                 progress.dismiss();
                             }
+
                             SecurePreferences.Editor editPrefs = DayOnApp.getPreferences().edit();
                             editPrefs.putBoolean("DbInitSuccess", true);
                             editPrefs.apply();

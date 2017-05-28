@@ -2,10 +2,15 @@ package factor.labs.indiancalendar.CalendarUtils;
 
 import android.util.Log;
 
+import com.orhanobut.logger.Logger;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import factor.labs.indiancalendar.CalendarDbHelper.CalendarEventMaster;
+import factor.labs.indiancalendar.utils.Constants;
+import factor.labs.indiancalendar.utils.database.Events;
+import factor.labs.indiancalendar.utils.date.DateTime;
 
 /**
  * Created by hassanhussain on 7/20/2015.
@@ -17,6 +22,10 @@ public class CalendarDateClass {
     int mnMonth, mnYear;
     String msDate;
 
+
+    long mlDateStartTimeStamp = 0;
+    long mlDateEndTimeStamp = 0;
+
     int mnWeekName;
     int mnWeekNumber;
     int mnListOffset = 0;
@@ -27,8 +36,8 @@ public class CalendarDateClass {
     private boolean mbHasReligiousEvent = false;
 
     private boolean mbSelectedDate = false;
-    List<CalendarEventMaster> mListOfEvents = new ArrayList<CalendarEventMaster>();
-    List<CalendarEventMaster> mListOfEventsInDisplay = new ArrayList<CalendarEventMaster>();
+    List<Events> mListOfEvents = new ArrayList<Events>();
+    List<Events> mListOfEventsInDisplay = new ArrayList<Events>();
 
     int mnIsPrevNextMonthDate = 0; // 0 -> current month; 1-> nextMonth; -1 -> PrevMonth
 
@@ -38,6 +47,33 @@ public class CalendarDateClass {
         mnYear = nYear;
         msDate = ""+mnDate;
         mnIsPrevNextMonthDate = nPrevNextMonthDate;
+        // get start & end time information for current month.
+        if(mnIsPrevNextMonthDate == Constants.CALENDAR_CURRENT_MONTH_DATE) {
+            try {
+                mlDateEndTimeStamp =
+                        DateTime.getTimeStampGivenDateTime(DateTime.prepareDateTimeString(23, 59, 59, nDate, nMonth, nYear));
+                mlDateStartTimeStamp =
+                        DateTime.getTimeStampGivenDateTime(DateTime.prepareDateTimeString(0, 0, 0, nDate, nMonth, nYear));
+            } catch (ParseException e) {
+                Logger.e(e, "Exception while getting time stamp information.");
+            }
+        }
+    }
+
+    public long getDateStartTimeStamp() {
+        return mlDateStartTimeStamp;
+    }
+
+    public void setDateStartTimeStamp(long mlDateStartTimeStamp) {
+        this.mlDateStartTimeStamp = mlDateStartTimeStamp;
+    }
+
+    public long getDateEndTimeStamp() {
+        return mlDateEndTimeStamp;
+    }
+
+    public void setDateEndTimeStamp(long mlDateEndTimeStamp) {
+        this.mlDateEndTimeStamp = mlDateEndTimeStamp;
     }
 
     void setSelected(boolean mb) { mbSelectedDate = mb; }
@@ -94,8 +130,7 @@ public class CalendarDateClass {
         return mnIsPrevNextMonthDate == CalendarConstants.CALENDAR_NEXT_MONTH_DATE;
     }
 
-    public void setEventsForDay(List<CalendarEventMaster> oLisEvents)
-    {
+    public void setEventsForDay(List<Events> oLisEvents){
         stag = "CalendarDateClass.setEventsForDay";
 
         try {
@@ -107,7 +142,7 @@ public class CalendarDateClass {
 
                 mbEventsFound = true;
 
-                for (CalendarEventMaster oClass : oLisEvents)
+                for (Events oClass : oLisEvents)
                     mListOfEvents.add(oClass);
                 //Log.d(stag, "Copying events starts : done.");
             }
@@ -118,20 +153,12 @@ public class CalendarDateClass {
         }
     }
 
-    public void addEventsForDay(CalendarEventMaster oEvent)
-    {
+    public void addEventsForDay(Events oEvent) {
         mbEventsFound = true;
         mListOfEvents.add(oEvent);
     }
 
-    public List<CalendarEventMaster> getEventsForDay()
-    {
-        return mListOfEvents;
-    }
-
-    public List<CalendarEventMaster> getEventsForDayInDisplay()
-    {
-        return mListOfEventsInDisplay;
-    }
+    public List<Events> getEventsForDay() { return mListOfEvents; }
+    public List<Events> getEventsForDayInDisplay() { return mListOfEventsInDisplay; }
 
 }
